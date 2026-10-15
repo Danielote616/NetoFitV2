@@ -1,0 +1,214 @@
+@model List<ReservaModelo>
+@using System.Globalization
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["ClaseBody"] = "netofit-body";
+    ViewData["Title"] = "Mi perfil";
+    ViewData["CSS"] = "~/css/ReservaNetoFit.css";
+    string seccion = ViewBag.Seccion as string ?? "membresia";
+    RutinaModelo? rutina = ViewBag.Rutina as RutinaModelo;
+    EvaluacionModelo? evaluacion = ViewBag.Evaluacion as EvaluacionModelo;
+}
+<main class="contenido-principal">
+<div class="perfil-contenedor">
+    <nav class="ruta" aria-label="Ruta"><span>Inicio</span><span>›</span><span class="ruta-actual">Mi perfil</span></nav>
+    <section class="perfil-cabecera" aria-label="Datos de mi perfil">
+        <div class="perfil-avatar" aria-hidden="true">@ViewBag.InicialUsuario</div>
+        <div class="perfil-titular"><h1>@ViewBag.Usuario</h1><p>@ViewBag.SubtituloMiembro</p></div>
+        <div class="perfil-contactos"><span>♙ &nbsp;@ViewBag.Correo</span><span>⌖ &nbsp;@ViewBag.Sede</span></div>
+        <a class="perfil-editar" asp-controller="Perfil" asp-action="Editar">Editar datos</a>
+    </section>
+    <nav class="perfil-pestanas" aria-label="Secciones del perfil">
+        <a asp-controller="Perfil" asp-action="Index" asp-route-seccion="membresia"
+           class="@(seccion == "membresia" ? "perfil-pestana-activa" : "")"
+           aria-current="@(seccion == "membresia" ? "page" : null)">Membresía</a>
+        <a asp-controller="Perfil" asp-action="Index" asp-route-seccion="reservas"
+           class="@(seccion == "reservas" ? "perfil-pestana-activa" : "")"
+           aria-current="@(seccion == "reservas" ? "page" : null)">Reservas</a>
+        <a asp-controller="Perfil" asp-action="Index" asp-route-seccion="rutina"
+           class="@(seccion == "rutina" ? "perfil-pestana-activa" : "")"
+           aria-current="@(seccion == "rutina" ? "page" : null)">Mi rutina</a>
+        <a asp-controller="Perfil" asp-action="Index" asp-route-seccion="evaluaciones"
+           class="@(seccion == "evaluaciones" ? "perfil-pestana-activa" : "")"
+           aria-current="@(seccion == "evaluaciones" ? "page" : null)">Evaluaciones</a>
+    </nav>
+    @if (seccion == "membresia")
+    {
+        <section id="membresia" class="perfil-membresia" aria-label="Mi membresía">
+            <div class="perfil-membresia-cuerpo">
+                <div class="perfil-membresia-superior">
+                    <div>
+                        <p class="perfil-membresia-etiqueta">@ViewBag.EtiquetaMembresia</p>
+                        <h2>@ViewBag.Plan</h2>
+                    </div>
+                    <span class="perfil-membresia-estado">● @ViewBag.EstadoMembresia</span>
+                </div>
+                <div class="perfil-membresia-datos">
+                    <div><small>Vence el</small><strong>@ViewBag.Vence</strong></div>
+                    <div><small>Sucursal base</small><strong>@ViewBag.SucursalBase</strong></div>
+                    <div><small>Precio</small><strong>@ViewBag.Precio</strong></div>
+                </div>
+            </div>
+            <div class="perfil-membresia-acciones">
+                <a class="perfil-renovar" asp-controller="Home" asp-action="Planes">Renovar ahora</a>
+                <a asp-controller="Home" asp-action="Planes" class="perfil-cambiar-plan">Cambiar plan</a>
+            </div>
+        </section>
+    }
+    else if (seccion == "rutina")
+    {
+        <section id="rutina" class="perfil-rutina" aria-labelledby="perfil-rutina-titulo">
+            @if (rutina != null)
+            {
+                <div class="perfil-rutina-superior">
+                    <div>
+                        <p class="perfil-rutina-etiqueta">OBJETIVO</p>
+                        <h2 id="perfil-rutina-titulo">@rutina.Objetivo</h2>
+                    </div>
+                    <p class="perfil-rutina-asignada">Asignada por @rutina.Entrenador</p>
+                </div>
+                <div class="perfil-rutina-tabla-marco" role="region" aria-label="Tabla de ejercicios de mi rutina" tabindex="0">
+                    <table class="perfil-rutina-tabla">
+                        <thead>
+                            <tr>
+                                <th scope="col">EJERCICIO</th>
+                                <th scope="col">SERIES</th>
+                                <th scope="col">REPS</th>
+                                <th scope="col">PESO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (EjercicioRutinaModelo ejercicio in rutina.Ejercicios)
+                            {
+                                <tr>
+                                    <td>@ejercicio.Nombre</td>
+                                    <td>@ejercicio.Series</td>
+                                    <td>@ejercicio.Repeticiones</td>
+                                    <td>@ejercicio.Peso</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <h2 id="perfil-rutina-titulo">Todavía no tienes una rutina asignada.</h2>
+            }
+        </section>
+    }
+    else if (seccion == "evaluaciones")
+    {
+        <section id="evaluaciones" class="perfil-evaluaciones" aria-label="Mis evaluaciones físicas">
+            @if (evaluacion != null && evaluacion.Historial.Count > 0)
+            {
+                <div class="perfil-evaluaciones-indicadores">
+                    <article class="perfil-evaluaciones-indicador">
+                        <i class="bi bi-lightning-charge" aria-hidden="true"></i>
+                        <p>PESO ACTUAL</p>
+                        <strong>@evaluacion.PesoActual.ToString("0.#", CultureInfo.InvariantCulture) kg</strong>
+                        <span>@evaluacion.CambioPeso.ToString("+0.#;-0.#;0", CultureInfo.InvariantCulture) kg desde la primera evaluación</span>
+                    </article>
+                    <article class="perfil-evaluaciones-indicador">
+                        <i class="bi bi-heart-pulse" aria-hidden="true"></i>
+                        <p>IMC</p>
+                        <strong>@evaluacion.ImcActual.ToString("0.#", CultureInfo.InvariantCulture)</strong>
+                        <span>@evaluacion.CambioImc.ToString("+0.#;-0.#;0", CultureInfo.InvariantCulture) desde la primera evaluación</span>
+                    </article>
+                    <article class="perfil-evaluaciones-indicador">
+                        <i class="bi bi-droplet" aria-hidden="true"></i>
+                        <p>% GRASA</p>
+                        <strong>@evaluacion.GrasaActual.ToString("0.#", CultureInfo.InvariantCulture)%</strong>
+                        <span>@evaluacion.CambioGrasa.ToString("+0.#;-0.#;0", CultureInfo.InvariantCulture)% desde la primera evaluación</span>
+                    </article>
+                </div>
+                <article class="perfil-evaluaciones-panel">
+                    <h2>Progreso físico</h2>
+                    <p>Evolución de tus evaluaciones en @evaluacion.Anio</p>
+                    @{
+                        List<RegistroEvaluacionModelo> historial = evaluacion.Historial;
+                        List<string> puntosPesoArriba = new List<string>();
+                        List<string> puntosPesoAbajo = new List<string>();
+                        List<string> puntosGrasaArriba = new List<string>();
+                        List<string> puntosGrasaAbajo = new List<string>();
+                        int intervalos = historial.Count - 1;
+
+                        for (int indice = 0; indice < historial.Count; indice++)
+                        {
+                            decimal posicionX = intervalos == 0 ? 50m : indice * 100m / intervalos;
+                            decimal posicionPeso = 100m - historial[indice].Peso * 100m / 80m;
+                            decimal posicionGrasa = 100m - historial[indice].Grasa * 100m / 80m;
+                            string x = posicionX.ToString("0.####", CultureInfo.InvariantCulture);
+                            puntosPesoArriba.Add(x + "% " + posicionPeso.ToString("0.####", CultureInfo.InvariantCulture) + "%");
+                            puntosPesoAbajo.Insert(0, x + "% " + (posicionPeso + 0.95m).ToString("0.####", CultureInfo.InvariantCulture) + "%");
+                            puntosGrasaArriba.Add(x + "% " + posicionGrasa.ToString("0.####", CultureInfo.InvariantCulture) + "%");
+                            puntosGrasaAbajo.Insert(0, x + "% " + (posicionGrasa + 0.95m).ToString("0.####", CultureInfo.InvariantCulture) + "%");
+                        }
+
+                        string lineaPeso = string.Join(", ", puntosPesoArriba) + ", " + string.Join(", ", puntosPesoAbajo);
+                        string lineaGrasa = string.Join(", ", puntosGrasaArriba) + ", " + string.Join(", ", puntosGrasaAbajo);
+                    }
+                    <div class="perfil-evaluaciones-leyenda" aria-hidden="true">
+                        <span><b class="perfil-evaluaciones-color-peso"></b>Peso (kg)</span>
+                        <span><b class="perfil-evaluaciones-color-grasa"></b>Grasa corporal (%)</span>
+                    </div>
+                    <div class="perfil-evaluaciones-grafico" role="img" aria-label="Gráfica de evolución del peso y del porcentaje de grasa corporal desde marzo hasta agosto de @evaluacion.Anio. El peso cambia de @historial[0].Peso.ToString("0.#", CultureInfo.InvariantCulture) a @historial[historial.Count - 1].Peso.ToString("0.#", CultureInfo.InvariantCulture) kilogramos, y la grasa corporal de @historial[0].Grasa.ToString("0.#", CultureInfo.InvariantCulture) a @historial[historial.Count - 1].Grasa.ToString("0.#", CultureInfo.InvariantCulture) por ciento.">
+                        <div class="perfil-evaluaciones-eje-y" aria-hidden="true">
+                            <span>80</span><span>60</span><span>40</span><span>20</span><span>0</span>
+                        </div>
+                        <div class="perfil-evaluaciones-lienzo" aria-hidden="true">
+                            <div class="perfil-evaluaciones-guia" style="bottom:100%"></div>
+                            <div class="perfil-evaluaciones-guia" style="bottom:75%"></div>
+                            <div class="perfil-evaluaciones-guia" style="bottom:50%"></div>
+                            <div class="perfil-evaluaciones-guia" style="bottom:25%"></div>
+                            <div class="perfil-evaluaciones-guia" style="bottom:0%"></div>
+                            <div class="perfil-evaluaciones-linea perfil-evaluaciones-linea-peso" style="clip-path: polygon(@lineaPeso)"></div>
+                            <div class="perfil-evaluaciones-linea perfil-evaluaciones-linea-grasa" style="clip-path: polygon(@lineaGrasa)"></div>
+                            @for (int indice = 0; indice < historial.Count; indice++)
+                            {
+                                decimal posicionX = intervalos == 0 ? 50m : indice * 100m / intervalos;
+                                decimal posicionPeso = historial[indice].Peso * 100m / 80m;
+                                decimal posicionGrasa = historial[indice].Grasa * 100m / 80m;
+                                <span class="perfil-evaluaciones-punto perfil-evaluaciones-punto-peso"
+                                      style="left:@(posicionX.ToString("0.####", CultureInfo.InvariantCulture))%;bottom:@(posicionPeso.ToString("0.####", CultureInfo.InvariantCulture))%"></span>
+                                <span class="perfil-evaluaciones-punto perfil-evaluaciones-punto-grasa"
+                                      style="left:@(posicionX.ToString("0.####", CultureInfo.InvariantCulture))%;bottom:@(posicionGrasa.ToString("0.####", CultureInfo.InvariantCulture))%"></span>
+                            }
+                        </div>
+                    </div>
+                    <div class="perfil-evaluaciones-meses" aria-hidden="true">
+                        @foreach (RegistroEvaluacionModelo registro in evaluacion.Historial)
+                        {
+                            <span>@registro.Mes</span>
+                        }
+                    </div>
+                </article>
+            }
+            else
+            {
+                <div class="perfil-vacio"><h2>Todavía no tienes evaluaciones registradas.</h2></div>
+            }
+        </section>
+    }
+    else
+    {
+        <section id="reservas" class="perfil-listado" aria-label="Mis reservas">
+            @if (Model.Count == 0)
+            {
+                <div class="perfil-vacio"><h2>Todavía no tienes reservas.</h2><p>Selecciona una clase para reservar. Por ahora, las reservas son temporales y se guardan solo en tu sesión.</p></div>
+            }
+            else
+            {
+                @foreach (ReservaModelo reserva in Model)
+                {
+                    <article class="perfil-reserva">
+                        <div><h2>@reserva.Clase.Nombre</h2><p>@reserva.Clase.Entrenador · @reserva.Fecha.ToString("ddd dd MMM", CultureInfo.GetCultureInfo("es-SV")) · @reserva.Clase.HoraTexto</p></div>
+                        <span class="perfil-estado">● @reserva.Estado</span>
+                    </article>
+                }
+            }
+            <a class="perfil-reservar-mas" asp-controller="Clases" asp-action="Index">Reservar otra clase</a>
+        </section>
+    }
+</div>
+</main>

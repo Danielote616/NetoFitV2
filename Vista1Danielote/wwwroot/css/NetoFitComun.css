@@ -1,0 +1,232 @@
+/* Encabezado y pie de página compartidos por todos los layouts de NetoFitV2. */
+html { min-height: 100%; }
+body.nf-cuerpo {
+    margin: 0;
+    padding: 0;
+    background-color: #0d0f12;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.nf-cuerpo *, .nf-cuerpo *::before, .nf-cuerpo *::after { box-sizing: border-box; }
+.nf-cuerpo .nf-encabezado {
+    position: relative;
+    z-index: 1010;
+    flex-shrink: 0;
+    background: #202427;
+    border-top: 1px solid #555b60;
+    border-bottom: 1px solid #454a4d;
+    width: 100%;
+    min-height: 130px;
+    padding: 0 2.3%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.nf-cuerpo .nf-encabezado-interior {
+    margin: 0 auto;
+    min-height: 128px;
+    max-width: 1780px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(190px, 1fr) auto minmax(190px, 1fr);
+    align-items: center;
+    gap: 25px;
+}
+.nf-cuerpo .nf-marca, .nf-cuerpo .nf-pie-marca {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff !important;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+.nf-cuerpo .nf-marca img, .nf-cuerpo .nf-pie-marca img {
+    display: block;
+    width: 49px;
+    height: 49px;
+    background-color: #fff;
+    object-fit: contain;
+    border: none;
+    border-radius: 0;
+}
+.nf-cuerpo .nf-marca strong, .nf-cuerpo .nf-pie-marca strong {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+.nf-cuerpo .nf-navegacion, .nf-cuerpo .nf-usuario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 44px;
+}
+.nf-cuerpo .nf-usuario { justify-content: flex-end; gap: 24px; }
+.nf-cuerpo .nf-navegacion a, .nf-cuerpo .nf-perfil {
+    color: #f6f6f7 !important;
+    text-decoration: none !important;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+.nf-cuerpo .nf-navegacion a:hover, .nf-cuerpo .nf-perfil:hover { text-decoration: underline !important; }
+.nf-cuerpo .nf-unete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 115px;
+    min-height: 44px;
+    padding: 8px 24px;
+    background: #c6ff00 !important;
+    color: #000 !important;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 19px;
+    font-weight: 700;
+    border-radius: 999px;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+.nf-cuerpo .nf-unete:hover { background: #b0e600 !important; }
+.nf-cuerpo .nf-contenido-general {
+    width: 100%;
+    min-height: 0;
+    flex: 1 0 auto;
+}
+.nf-cuerpo .nf-pie-pagina {
+    display: block;
+    flex-shrink: 0;
+    width: 100%;
+    min-height: 245px;
+    margin-top: 0;
+    padding: 55px 6.9% 50px;
+    background: #202427;
+    border: 0;
+    color: #7d8c9c;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.nf-cuerpo .nf-pie-interior { max-width: 1800px; margin: 0 auto; }
+.nf-cuerpo .nf-pie-superior {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #68717a;
+}
+.nf-cuerpo .nf-pie-enlaces { display: flex; align-items: center; gap: 42px; }
+.nf-cuerpo .nf-pie-enlaces a {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #8291a1 !important;
+    font-size: 18px;
+    line-height: 1.3;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+.nf-cuerpo .nf-pie-enlaces a:hover { text-decoration: underline !important; color: #e0e5e9 !important; }
+.nf-cuerpo .nf-pie-inferior {
+    font-family: Arial, Helvetica, sans-serif;
+    padding-top: 36px;
+    color: #7c8b9a;
+    font-size: 17px;
+    line-height: 1.4;
+}
+.nf-cuerpo .nf-encabezado a:focus-visible, .nf-cuerpo .nf-pie-pagina a:focus-visible {
+    outline: 2px solid #c6ff00;
+    outline-offset: 4px;
+}
+.nf-cuerpo.nf-admin .nf-contenido-general { min-height: 0; }
+.nf-cuerpo.nf-admin .nf-encabezado-interior {
+    grid-template-columns: minmax(160px, 1fr) auto minmax(155px, 1fr);
+    gap: 16px;
+}
+.nf-cuerpo.nf-admin .nf-navegacion { gap: 22px; }
+.nf-cuerpo.nf-admin .nf-navegacion a, .nf-cuerpo.nf-admin .nf-perfil { font-size: 15px; }
+.nf-cuerpo.nf-admin .nf-usuario { gap: 14px; }
+.nf-cuerpo.nf-admin .nf-unete { min-width: 90px; font-size: 16px; padding: 7px 16px; }
+.nf-cuerpo.nf-admin .nf-pie-pagina { padding-right: calc(6.9% + 260px); }
+.nf-cuerpo.nf-admin .nf-pie-enlaces { gap: 24px; }
+.nf-cuerpo.nf-admin .nf-pie-enlaces a { font-size: 15px; }
+.nf-cuerpo.nf-admin .nf-pie-marca strong { font-size: 21px; }
+.nf-cuerpo.nf-admin .nf-pie-marca img { width: 38px; height: 38px; }
+.nf-cuerpo.nf-admin .nf-pie-inferior { font-size: 13px; }
+.nf-cuerpo.nf-admin .oferta-shell { min-height: 0; }
+.nf-cuerpo.nf-admin .admin-pagos-contenido { min-height: 0; }
+.nf-cuerpo.nf-admin .main-wrapper { min-height: 0; }
+.nf-cuerpo.nf-cliente .nf-contenido-general { background-color: #121212; }
+
+
+/* Colores originales del módulo público de Sucursales y Planes. */
+.nf-cuerpo .btn-netofit { background-color: #c6ff00; color: #121212; border: none; font-weight: 700; }
+.nf-cuerpo .btn-netofit:hover { background-color: #b0e600; color: #121212; }
+.nf-cuerpo .text-netofit { color: #c6ff00 !important; }
+.nf-cuerpo .border-netofit { border-color: #c6ff00 !important; }
+/* El contenido administrativo respeta el ancho reservado para el menú derecho. */
+.nf-cuerpo.nf-admin .oferta-principal { width: auto; margin-right: 260px; }
+.nf-cuerpo.nf-admin .main-wrapper { margin-right: 260px; padding: 2rem 2.5rem; }
+.nf-cuerpo.nf-admin .bg-card-dark { background: #121418; border: 1px solid #1e222a; border-radius: 16px; }
+.nf-cuerpo.nf-admin .admin-pagos-contenido { margin-right: 260px; padding: 40px 20px; }
+.nf-cuerpo.nf-admin .btn-netofit { border-radius: 50px; }
+.nf-cuerpo.nf-admin { overflow-x: hidden; }
+
+.nf-cuerpo.nf-pago .content-container { font-family: "Inter", Arial, Helvetica, sans-serif; }
+
+/* Los módulos públicos incorporados mantienen sus fondos originales. */
+body.nf-cuerpo.inicio-netofit .nf-contenido-general,
+body.nf-cuerpo.cuenta-netofit .nf-contenido-general {
+    background-color: #f5f7fa;
+    color: #14161c;
+}
+body.nf-cuerpo.cuenta-netofit .login-pagina {
+    --acento-suave: #dcfce7;
+    --acento-claro: #4ade80;
+    --acento: #15803d;
+    --acento-oscuro: #166534;
+}
+
+/* Ajustes de altura únicamente para el encabezado y el pie público. */
+.nf-cuerpo:not(.nf-admin) .nf-encabezado {
+    min-height: 0;
+    padding-inline: 2.3%;
+}
+.nf-cuerpo:not(.nf-admin) .nf-encabezado-interior {
+    min-height: 74px;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    gap: 25px;
+    padding-block: 10px;
+}
+.nf-cuerpo:not(.nf-admin) .nf-marca img {
+    width: 39px;
+    height: 39px;
+}
+.nf-cuerpo:not(.nf-admin) .nf-marca strong { font-size: 23px; }
+.nf-cuerpo:not(.nf-admin) .nf-marca { gap: 9px; }
+.nf-cuerpo:not(.nf-admin) .nf-navegacion { gap: clamp(12px, 1.8vw, 26px); }
+.nf-cuerpo:not(.nf-admin) .nf-navegacion { justify-content: center; }
+.nf-cuerpo:not(.nf-admin) .nf-usuario { justify-self: end; }
+.nf-cuerpo:not(.nf-admin) .nf-navegacion a,
+.nf-cuerpo:not(.nf-admin) .nf-perfil { font-size: 15px; }
+.nf-cuerpo:not(.nf-admin) .nf-usuario { gap: 13px; }
+.nf-cuerpo:not(.nf-admin) .nf-unete {
+    min-width: 91px;
+    min-height: 36px;
+    padding: 6px 17px;
+    font-size: 16px;
+}
+.nf-cuerpo:not(.nf-admin) .nf-pie-pagina {
+    min-height: 0;
+    padding: 22px 3.3% 17px;
+}
+.nf-cuerpo:not(.nf-admin) .nf-pie-superior {
+    gap: 20px;
+    padding-bottom: 15px;
+}
+.nf-cuerpo:not(.nf-admin) .nf-pie-marca img { width: 32px; height: 32px; }
+.nf-cuerpo:not(.nf-admin) .nf-pie-marca strong { font-size: 20px; }
+.nf-cuerpo:not(.nf-admin) .nf-pie-enlaces { gap: 24px; }
+.nf-cuerpo:not(.nf-admin) .nf-pie-enlaces a { font-size: 14px; }
+.nf-cuerpo:not(.nf-admin) .nf-pie-inferior {
+    padding-top: 13px;
+    font-size: 12px;
+}

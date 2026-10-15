@@ -1,0 +1,90 @@
+@model List<ClienteModelo>
+@using System.Globalization
+@{
+    Layout = "~/Views/Shared/_LayoutOfertaNetoFit.cshtml";
+    ViewData["Title"] = "Clientes y membresías";
+    ViewData["CSS"] = "~/css/ClientesNetoFit.css";
+    ViewData["AdminSeccion"] = "Clientes";
+    ViewData["ClaseBody"] = "oferta-body clientes-body";
+    string busqueda = ViewBag.Busqueda as string ?? "";
+    string estado = ViewBag.Estado as string ?? "Todos";
+    int totalClientes = ViewBag.TotalClientes;
+    var meses = new[] { "", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" };
+}
+
+<section class="clientes-seccion" aria-labelledby="clientes-titulo">
+    <div class="clientes-cabecera">
+        <div>
+            <h1 id="clientes-titulo">Clientes y membresías</h1>
+            <p>@totalClientes clientes registrados</p>
+        </div>
+        <a class="clientes-boton-nuevo" asp-controller="Clientes" asp-action="Formulario"><span aria-hidden="true">＋</span> Nuevo cliente</a>
+    </div>
+
+    <div class="clientes-barra">
+        <form class="clientes-busqueda" method="get" asp-controller="Clientes" asp-action="Index" role="search">
+            <label class="clientes-solo-lectores" for="buscar-cliente">Buscar cliente</label>
+            <input id="buscar-cliente" type="search" name="busqueda" value="@busqueda" placeholder="Buscar cliente..." />
+            <input type="hidden" name="estado" value="@estado" />
+            <button class="clientes-solo-lectores" type="submit">Buscar</button>
+        </form>
+        <nav class="clientes-filtros" aria-label="Filtrar clientes por estado">
+            <a asp-controller="Clientes" asp-action="Index" asp-route-busqueda="@busqueda" asp-route-estado="Todos" class="clientes-filtro @(estado == "Todos" ? "seleccionado" : "")" aria-current="@(estado == "Todos" ? "page" : null)">Todos</a>
+            <a asp-controller="Clientes" asp-action="Index" asp-route-busqueda="@busqueda" asp-route-estado="Activa" class="clientes-filtro @(estado == "Activa" ? "seleccionado" : "")" aria-current="@(estado == "Activa" ? "page" : null)">Activa</a>
+            <a asp-controller="Clientes" asp-action="Index" asp-route-busqueda="@busqueda" asp-route-estado="Por vencer" class="clientes-filtro @(estado == "Por vencer" ? "seleccionado" : "")" aria-current="@(estado == "Por vencer" ? "page" : null)">Por vencer</a>
+            <a asp-controller="Clientes" asp-action="Index" asp-route-busqueda="@busqueda" asp-route-estado="Vencida" class="clientes-filtro @(estado == "Vencida" ? "seleccionado" : "")" aria-current="@(estado == "Vencida" ? "page" : null)">Vencida</a>
+        </nav>
+    </div>
+
+    @if (TempData["Error"] != null) { <p style="color:#fbbf24">@TempData["Error"]</p> }
+    <div class="clientes-tabla-marco">
+        <div class="clientes-tabla-desplazamiento">
+            <table class="clientes-tabla">
+                <colgroup>
+                    <col class="clientes-col-nombre" /><col class="clientes-col-contacto" />
+                    <col class="clientes-col-plan" /><col class="clientes-col-sucursal" />
+                    <col class="clientes-col-fecha" /><col class="clientes-col-estado" />
+                    <col class="clientes-col-acciones" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">CLIENTE</th>
+                        <th scope="col">CONTACTO</th>
+                        <th scope="col">PLAN</th>
+                        <th scope="col">SUCURSAL</th>
+                        <th scope="col">VENCE</th>
+                        <th scope="col">ESTADO</th>
+                        <th scope="col">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ClienteModelo cliente in Model)
+                    {
+                        string claseEstado = cliente.Estado == "Activa" ? "clientes-activa" : cliente.Estado == "Por vencer" ? "clientes-por-vencer" : cliente.Estado == "Vencida" ? "clientes-vencida" : "";
+                        <tr>
+                            <td>
+                                <div class="clientes-persona">
+                                    <span class="clientes-avatar" aria-hidden="true">@cliente.Iniciales</span>
+                                    <strong>@cliente.Nombre</strong>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="clientes-contacto"><span>@cliente.Correo</span><span>@cliente.Telefono</span></div>
+                            </td>
+                            <td>@cliente.Plan</td>
+                            <td class="clientes-texto-sutil">@cliente.Sucursal</td>
+                            <td>@if (cliente.FechaVencimiento == DateTime.MinValue) { <span class="clientes-fecha">No aplica</span> } else { <time class="clientes-fecha" datetime="@cliente.FechaVencimiento.ToString("yyyy-MM-dd")">@cliente.FechaVencimiento.Day.ToString("00") @meses[cliente.FechaVencimiento.Month] @cliente.FechaVencimiento.Year</time> }</td>
+                            <td><span class="clientes-estado @claseEstado"><span class="clientes-punto" aria-hidden="true"></span>@cliente.Estado</span></td>
+                            <td class="clientes-celda-accion"><a asp-controller="Clientes" asp-action="Detalle" asp-route-id="@cliente.Id" class="clientes-boton-detalle" aria-label="Ver detalle de @cliente.Nombre">Ver<br />detalle</a> <a asp-controller="Clientes" asp-action="Formulario" asp-route-id="@cliente.Id" class="clientes-boton-detalle" style="margin-top:4px;">Editar</a> <form asp-controller="Clientes" asp-action="Eliminar" method="post"><input type="hidden" name="id" value="@cliente.Id" /><button type="submit" class="clientes-boton-detalle" onclick="return confirm('¿Eliminar cliente?')">Eliminar</button></form></td>
+                        </tr>
+                    }
+                    @if (Model.Count == 0)
+                    {
+                        <tr><td colspan="7" class="clientes-vacio">No se encontraron clientes con los filtros seleccionados.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p class="clientes-nota">Listado de clientes registrados en SQL Server.</p>
+</section>

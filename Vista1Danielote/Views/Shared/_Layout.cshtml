@@ -1,0 +1,100 @@
+@using Microsoft.AspNetCore.Http
+@{
+    int? rol = Context.Session.GetInt32("Rol");
+    string cuerpo = ViewData["ClaseBody"]?.ToString() ?? "";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NetoFitV2</title>
+    @if (ViewData["UsarBootstrap"]?.ToString() == "Si")
+    {
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    @if (ViewData["FuenteInter"]?.ToString() == "Si")
+    {
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    }
+    @if (ViewData["CSSBase"] != null)
+    {
+        <link rel="stylesheet" href="@ViewData["CSSBase"]" asp-append-version="true" />
+    }
+    @if (ViewData["CSS"] != null)
+    {
+        <link rel="stylesheet" href="@ViewData["CSS"]" asp-append-version="true" />
+    }
+    <link rel="stylesheet" href="~/css/NetoFitComun.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ModoClaroNetoFit.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AccesibilidadNetoFit.css" asp-append-version="true" />
+    <script src="~/js/AccesibilidadNetoFit.js" asp-append-version="true"></script>
+</head>
+<body class="nf-cuerpo @cuerpo">
+    <header class="nf-encabezado">
+        <div class="nf-encabezado-interior">
+            <a asp-controller="Home" asp-action="Index" class="nf-marca" aria-label="NetoFitV2, ir al inicio">
+                <img src="~/Imagenes/Logo.png" asp-append-version="true" alt="Logo NetoFitV2" />
+                <strong>NetoFitV2</strong>
+            </a>
+            <nav class="nf-navegacion" aria-label="Navegación principal">
+                <a asp-controller="Home" asp-action="Index">Inicio</a>
+                <a asp-controller="Home" asp-action="Sucursales">Sucursales</a>
+                <a asp-controller="Home" asp-action="Planes">Planes</a>
+                <a asp-controller="Clases" asp-action="Index">Clases</a>
+            </nav>
+            <div class="nf-a11y-bar" id="nf-accesibilidad" role="group" aria-label="Controles de accesibilidad">
+                <div class="nf-a11y-controles">
+                    <button type="button" class="nf-a11y-opcion nf-a11y-texto" data-nf-a11y="aumentar" aria-label="Aumentar tamaño del texto" title="Aumentar texto">A+</button>
+                    <button type="button" class="nf-a11y-opcion nf-a11y-texto" data-nf-a11y="reducir" aria-label="Reducir tamaño del texto" title="Reducir texto">A−</button>
+                    <button type="button" class="nf-a11y-opcion" data-nf-a11y="oscuro" aria-pressed="false"><i class="bi bi-moon-stars" aria-hidden="true"></i> Modo oscuro</button>
+                    <button type="button" class="nf-a11y-opcion" data-nf-a11y="contraste" aria-pressed="false"><i class="bi bi-circle-half" aria-hidden="true"></i> Alto contraste</button>
+                </div>
+                <span class="nf-a11y-estado" id="nf-accesibilidad-estado" role="status" aria-live="polite">Texto: 100 %</span>
+            </div>
+            <div class="nf-usuario">
+                @if (rol == 2)
+                {
+                    <a asp-controller="Perfil" asp-action="Index" class="nf-perfil">Mi perfil</a>
+                    <a asp-controller="Account" asp-action="Logout" class="nf-unete">Cerrar sesión</a>
+                }
+                else if (rol == 1)
+                {
+                    <a asp-controller="Admin" asp-action="Dashboard" class="nf-perfil">Mi panel</a>
+                    <a asp-controller="Account" asp-action="Logout" class="nf-unete">Cerrar sesión</a>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="nf-perfil">Iniciar sesión</a>
+                    <a asp-controller="Account" asp-action="Registro" class="nf-unete">Únete</a>
+                }
+            </div>
+        </div>
+    </header>
+    <div class="nf-contenido-general">
+        @RenderBody()
+    </div>
+    <footer class="nf-pie-pagina">
+        <div class="nf-pie-interior">
+            <div class="nf-pie-superior">
+                <div class="nf-pie-marca">
+                    <img src="~/Imagenes/Logo.png" asp-append-version="true" alt="Logo NetoFitV2" />
+                    <strong>NetoFitV2</strong>
+                </div>
+                <nav class="nf-pie-enlaces" aria-label="Navegación del pie">
+                    <a asp-controller="Home" asp-action="Sucursales">Sucursales</a>
+                    <a asp-controller="Home" asp-action="Planes">Planes</a>
+                    <a asp-controller="Clases" asp-action="Index">Clases</a>
+                </nav>
+            </div>
+            <div class="nf-pie-inferior">© 2026 NetoFitV2 · El Salvador. Todos los derechos reservados.</div>
+        </div>
+    </footer>
+    @if (ViewData["UsarBootstrap"]?.ToString() == "Si")
+    {
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    }
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

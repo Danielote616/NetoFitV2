@@ -1,0 +1,58 @@
+@model Vista1Danielote.Models.SeguimientoFormularioModelo
+@{
+    Layout = "~/Views/Shared/_LayoutAdminCabecera.cshtml";
+    ViewData["Title"] = Model.Id == 0 ? "Agregar " + Model.Seccion : "Editar " + Model.Seccion;
+    ViewData["Subtitulo"] = "Seguimiento";
+    var opciones = (Dictionary<string, List<(int Id, string Nombre)>>)ViewBag.Opciones;
+}
+<div class="container py-4"><div class="bg-dark border border-secondary rounded-4 p-4 text-light">
+    <h1 class="fw-bold fs-3 mb-4">@(Model.Id == 0 ? "Agregar" : "Editar") @Model.Seccion</h1>
+    <form asp-action="Formulario" method="post">
+        <input asp-for="Id" type="hidden" /><input asp-for="Seccion" type="hidden" /><div asp-validation-summary="All" class="text-warning"></div>
+        <div class="row g-3">
+            @if (Model.Seccion == "Evaluaciones" || Model.Seccion == "Rutinas" || Model.Seccion == "Asistencias")
+            {
+                <div class="col-md-6"><label asp-for="IdCliente" class="form-label">Cliente</label><select asp-for="IdCliente" class="form-select bg-dark text-light border-secondary" required><option value="0">Selecciona un cliente</option>@foreach (var x in opciones["Clientes"]) { <option value="@x.Id">@x.Nombre</option> }</select></div>
+            }
+            @if (Model.Seccion == "Evaluaciones" || Model.Seccion == "Rutinas")
+            {
+                <div class="col-md-6"><label asp-for="IdEntrenador" class="form-label">Entrenador (opcional)</label><select asp-for="IdEntrenador" class="form-select bg-dark text-light border-secondary"><option value="0">Sin entrenador</option>@foreach (var x in opciones["Entrenadores"]) { <option value="@x.Id">@x.Nombre</option> }</select></div>
+            }
+            @if (Model.Seccion == "Evaluaciones" || Model.Seccion == "Rutinas" || Model.Seccion == "Asistencias")
+            {
+                <div class="col-md-6"><label asp-for="Fecha" class="form-label">Fecha</label><input asp-for="Fecha" type="date" class="form-control bg-dark text-light border-secondary" required /></div>
+            }
+            @if (Model.Seccion == "Evaluaciones")
+            {
+                <div class="col-md-4"><label asp-for="Peso" class="form-label">Peso (kg)</label><input asp-for="Peso" type="number" step="0.01" min="0.1" class="form-control bg-dark text-light border-secondary" required /></div>
+                <div class="col-md-4"><label asp-for="Imc" class="form-label">IMC</label><input asp-for="Imc" type="number" step="0.01" min="0.1" class="form-control bg-dark text-light border-secondary" required /></div>
+                <div class="col-md-4"><label asp-for="PorcentajeGrasa" class="form-label">Grasa (%)</label><input asp-for="PorcentajeGrasa" type="number" step="0.01" min="0" max="100" class="form-control bg-dark text-light border-secondary" required /></div>
+            }
+            @if (Model.Seccion == "Rutinas")
+            {
+                <div class="col-12"><label asp-for="Objetivo" class="form-label">Objetivo de la rutina</label><input asp-for="Objetivo" class="form-control bg-dark text-light border-secondary" required /></div>
+            }
+            @if (Model.Seccion == "Ejercicios")
+            {
+                <div class="col-12"><label asp-for="Nombre" class="form-label">Nombre del ejercicio</label><input asp-for="Nombre" class="form-control bg-dark text-light border-secondary" required /></div>
+                <div class="col-md-6"><label asp-for="Grupo" class="form-label">Grupo</label><input asp-for="Grupo" class="form-control bg-dark text-light border-secondary" /></div>
+                <div class="col-md-6"><label asp-for="GrupoMuscular" class="form-label">Grupo muscular</label><input asp-for="GrupoMuscular" class="form-control bg-dark text-light border-secondary" /></div>
+            }
+            @if (Model.Seccion == "Detalles")
+            {
+                <div class="col-md-6"><label asp-for="IdRutina" class="form-label">Rutina</label><select asp-for="IdRutina" class="form-select bg-dark text-light border-secondary" required><option value="0">Seleccionar rutina</option>@foreach (var x in opciones["Rutinas"]) { <option value="@x.Id">@x.Nombre</option> }</select></div>
+                <div class="col-md-6"><label asp-for="IdEjercicio" class="form-label">Ejercicio</label><select asp-for="IdEjercicio" class="form-select bg-dark text-light border-secondary" required><option value="0">Seleccionar ejercicio</option>@foreach (var x in opciones["Ejercicios"]) { <option value="@x.Id">@x.Nombre</option> }</select></div>
+                <div class="col-md-4"><label asp-for="Series" class="form-label">Series</label><input asp-for="Series" type="number" min="1" class="form-control bg-dark text-light border-secondary" required /></div>
+                <div class="col-md-4"><label asp-for="Repeticiones" class="form-label">Repeticiones</label><input asp-for="Repeticiones" class="form-control bg-dark text-light border-secondary" required /></div>
+                <div class="col-md-4"><label asp-for="Peso" class="form-label">Peso (kg)</label><input asp-for="Peso" type="number" min="0" step="0.01" class="form-control bg-dark text-light border-secondary" /></div>
+            }
+            @if (Model.Seccion == "Asistencias")
+            {
+                <div class="col-md-6"><label asp-for="IdReserva" class="form-label">Reserva (opcional)</label><select asp-for="IdReserva" class="form-select bg-dark text-light border-secondary"><option value="">Sin reserva</option>@foreach (var x in opciones["Reservas"]) { <option value="@x.Id">@x.Nombre</option> }</select></div>
+                <div class="col-md-6"><label asp-for="HoraEntrada" class="form-label">Hora de entrada</label><input asp-for="HoraEntrada" type="time" class="form-control bg-dark text-light border-secondary" required /></div>
+                <div class="col-md-6"><label asp-for="HoraSalida" class="form-label">Hora de salida (opcional)</label><input asp-for="HoraSalida" type="time" class="form-control bg-dark text-light border-secondary" /></div>
+            }
+        </div>
+        <div class="d-flex gap-3 mt-4"><button type="submit" class="btn btn-netofit px-4">Guardar cambios</button><a asp-action="Index" asp-route-seccion="@Model.Seccion" class="btn btn-outline-secondary">Cancelar</a></div>
+    </form>
+</div></div>

@@ -1,0 +1,172 @@
+/* Controles de accesibilidad en el encabezado público y la barra administrativa. */
+.nf-cuerpo .nf-a11y-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+    width: auto;
+    min-width: 0;
+    padding: 0;
+    font: 12px/1.3 Arial, Helvetica, sans-serif;
+    background: transparent;
+}
+.nf-cuerpo .nf-a11y-controles {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.nf-cuerpo .nf-a11y-opcion {
+    appearance: none;
+    background: #343c43;
+    color: #f8fafc;
+    border: 1px solid #64717c;
+    border-radius: 7px;
+    min-height: 32px;
+    padding: 6px 9px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.nf-cuerpo .nf-a11y-opcion:hover { background: #4b5964; color: #fff; }
+.nf-cuerpo .nf-a11y-opcion[aria-pressed="true"] { background: #c6ff00; color: #10130c; border-color: #c6ff00; }
+.nf-cuerpo .nf-a11y-opcion:disabled { opacity: .55; cursor: not-allowed; }
+.nf-cuerpo .nf-a11y-texto { min-width: 33px; font-weight: 800; font-size: 12px; }
+.nf-cuerpo .nf-a11y-opcion:focus-visible { outline: 3px solid #facc15 !important; outline-offset: 2px; }
+/* El estado sigue anunciado a lectores de pantalla, pero no ocupa espacio visual. */
+.nf-cuerpo .nf-a11y-estado {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.nf-cuerpo.nf-admin .sidebar-admin .nf-a11y-bar {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding: 7px 0 10px;
+    border-bottom: 1px solid #454b55;
+}
+.nf-cuerpo.nf-admin .sidebar-admin .nf-a11y-controles {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+.nf-cuerpo.nf-admin .sidebar-admin .nf-a11y-opcion {
+    white-space: normal;
+    padding: 7px 4px;
+}
+/* Separación entre el menú principal, los controles y el perfil en escritorio. */
+.nf-cuerpo:not(.nf-admin) .nf-a11y-bar {
+    border-left: 1px solid #64717c;
+    padding-left: 20px;
+    margin-left: 12px;
+}
+.nf-cuerpo:not(.nf-admin) .nf-usuario { margin-left: 24px; }
+
+/* Modo oscuro. Actúa en el contenido, sin sustituir la navegación existente. */
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo,
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general,
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(.contenido-principal, .main-wrapper, .oferta-shell, .oferta-principal, .oferta-contenido, .admin-dashboard-integrado, .admin-pagos-contenido, .nf-cliente-contenido) {
+    background-color: #10151c !important; color: #e9eff5 !important; color-scheme: dark;
+}
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(
+    section, article, .card, .card-body, .card-header, .bg-white, .bg-light, .bg-dark,
+    .perfil-cabecera, .perfil-reserva, .perfil-rutina, .perfil-evaluaciones, .perfil-membresia,
+    .perfil-membresia-acciones, .perfil-vacio, .perfil-reservar-mas,
+    .reserva-panel, .reserva-dato, .reserva-entrenador, .tarjeta, .tarjeta-plan, .tarjeta-sucursal,
+    .oferta-header, .oferta-tabla-marco, .clientes-tabla-marco, .clientes-ficha,
+    .oferta-formulario-marco, .pago-card, .summary-box, .confirm-card, .admin-card,
+    .promo-card, .admin-card, .panel-tabla, .tarjeta-stat, .login-caja,
+    .perfil-eval-metrica, .perfil-eval-grafica
+) { background-color: #1e2630 !important; color: #f5f8fb !important; border-color: #526273 !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(h1,h2,h3,h4,h5,h6,p,small,strong,span,label,th,td,li,dt,dd) { color: #f0f4f8 !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(input,select,textarea,.form-control,.form-select,.form-input) { background: #171f28 !important; color: #fff !important; border-color: #667585 !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(table,.table-dark,.table-dark > :not(caption) > * > *) { background-color: #1e2630 !important; color: #f0f4f8 !important; border-color: #526273 !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(.btn-netofit,.btn-pagar,.reserva-confirmar:not(.reserva-confirmar-inactivo),.oferta-boton-agregar,.clientes-boton-nuevo,.btn-nueva-promo) { background-color: #c6ff00 !important; color: #10130c !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(.btn-netofit,.btn-pagar,.reserva-confirmar:not(.reserva-confirmar-inactivo),.oferta-boton-agregar,.clientes-boton-nuevo,.btn-nueva-promo) :is(span,strong) { color: #10130c !important; }
+
+/* Correcciones de legibilidad: fondos oscuros y colores de botones/insignias. */
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero .hero-overlay {
+    background: linear-gradient(90deg, rgba(3, 8, 13, .93) 0%, rgba(3, 8, 13, .83) 55%, rgba(3, 8, 13, .70) 100%) !important;
+}
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero .hero-descripcion,
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero .hero-titulo { color: #fff !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(
+    .badge-lima, .badge-popular, .badge-activa, .perfil-estado, .perfil-membresia-estado,
+    .reserva-etiqueta, .clientes-activa, .etiqueta-ciudad
+) { background-color: #c6ff00 !important; color: #10200a !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(
+    .badge-lima, .badge-popular, .badge-activa, .perfil-estado, .perfil-membresia-estado,
+    .reserva-etiqueta, .clientes-activa, .etiqueta-ciudad
+) :is(span,strong,i,small) { color: #10200a !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(
+    .boton-lima, .boton-blanco, .btn-netofit, .btn-pagar, .reserva-confirmar:not(.reserva-confirmar-inactivo),
+    .perfil-renovar, .oferta-boton-agregar, .clientes-boton-nuevo, .btn-nueva-promo,
+    .hero-buscador .boton-blanco
+) { background: #c6ff00 !important; color: #10130c !important; border-color: #c6ff00 !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(
+    .boton-lima, .boton-blanco, .btn-netofit, .btn-pagar, .perfil-renovar,
+    .oferta-boton-agregar, .clientes-boton-nuevo, .btn-nueva-promo
+) :is(span,strong,small,i) { color: #10130c !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(
+    .tarjeta-texto, .tarjeta-plan, .tarjeta-sucursal, .seccion-sucursales, .seccion-planes,
+    .hero-buscador, .perfil-eval-metrica, .perfil-eval-grafica, .perfil-rutina-tabla-marco
+) { color: #f1f5f9 !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(
+    .tarjeta-texto, .tarjeta-plan, .tarjeta-sucursal, .perfil-eval-metrica, .perfil-eval-grafica
+) { background-color: #1e2630 !important; border-color: #526273 !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(
+    .hero-buscador .buscador-input, .buscador-input, input, select, textarea
+) { background-color: #171f28 !important; color: #fff !important; border-color: #728396 !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(input,textarea)::placeholder { color: #d3deeb !important; opacity: 1; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general a:not(.boton-lima):not(.boton-blanco):not(.btn-netofit):not(.btn-pagar):not(.reserva-confirmar) { color: #cde4ff !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero :is(.boton-gris, .boton-gris:visited) { background-color: #334155 !important; color: #fff !important; }
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero :is(.badge-lima,.badge-lima span) { color: #10130c !important; }
+/* Alto contraste: prioridad sobre el modo oscuro, con texto blanco y acciones amarillas. */
+html.nf-ac-contraste body.nf-cuerpo,
+html.nf-ac-contraste body.nf-cuerpo .nf-contenido-general,
+html.nf-ac-contraste body.nf-cuerpo .nf-contenido-general *:not(svg):not(path):not(img):not(video):not(canvas),
+html.nf-ac-contraste body.nf-cuerpo :is(.nf-encabezado, .nf-pie-pagina, .sidebar-admin),
+html.nf-ac-contraste body.nf-cuerpo :is(.nf-encabezado, .nf-pie-pagina, .sidebar-admin) *:not(svg):not(path):not(img),
+html.nf-ac-contraste body.nf-cuerpo .nf-a11y-widget,
+html.nf-ac-contraste body.nf-cuerpo .nf-a11y-widget * {
+    background: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+html.nf-ac-contraste body.nf-cuerpo :is(a,button,input[type="submit"],input[type="button"]),
+html.nf-ac-contraste body.nf-cuerpo .nf-contenido-general :is(a,button,input[type="submit"],input[type="button"]),
+html.nf-ac-contraste body.nf-cuerpo .nf-a11y-widget button {
+    color: #ffe85a !important;
+    border-color: #ffe85a !important;
+    text-decoration: underline !important;
+}
+html.nf-ac-contraste body.nf-cuerpo .nf-contenido-general :is(input,select,textarea) { color: #fff !important; border: 2px solid #fff !important; }
+html.nf-ac-contraste body.nf-cuerpo :is(input,select,textarea)::placeholder { color: #d5d5d5 !important; opacity: 1 !important; }
+html.nf-ac-contraste body.nf-cuerpo :is(a,button,input,select,textarea):focus-visible { outline: 3px solid #ffe85a !important; outline-offset: 3px !important; }
+html.nf-ac-contraste body.nf-cuerpo .nf-a11y-opcion[aria-pressed="true"] { border: 3px solid #ffe85a !important; }
+html.nf-ac-contraste body.nf-cuerpo .nf-a11y-abrir { border: 2px solid #ffe85a !important; }
+
+html.nf-ac-contraste body.nf-cuerpo .nf-a11y-opcion[aria-pressed="true"] { background: #ffe85a !important; color: #000 !important; border-color: #ffe85a !important; }
+html.nf-ac-contraste body.nf-cuerpo .nf-contenido-general .hero .hero-overlay { background: rgba(0,0,0,.9) !important; }
+
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(.texto-lima, .text-netofit, .perfil-membresia-superior h2) {
+    color: #c6ff00 !important;
+}
+html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero-buscador {
+    background-color: #1e2630 !important;
+    border: 1px solid #728396 !important;
+}

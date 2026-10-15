@@ -1,0 +1,111 @@
+@model Vista1Danielote.Models.OfertaDeportivaViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutOfertaNetoFit.cshtml";
+    ViewData["Title"] = "Entrenadores, clases y horarios";
+    ViewData["CSS"] = "~/css/OfertaNetoFit.css";
+}
+
+<section class="oferta-seccion" aria-labelledby="oferta-titulo">
+    <div class="oferta-cabecera-seccion">
+        <div>
+            <h1 id="oferta-titulo">Entrenadores, clases y horarios</h1>
+            <p>Administra la oferta deportiva de la cadena</p>
+        </div>
+        <a class="oferta-boton-agregar" asp-controller="OfertaDeportiva" asp-action="Formulario" asp-route-seccion="@Model.Seccion"><span aria-hidden="true">＋</span> Agregar</a>
+    </div>
+
+    <nav class="oferta-pestanas" aria-label="Secciones de la oferta deportiva">
+        <a asp-controller="OfertaDeportiva" asp-action="Index" asp-route-seccion="Entrenadores" class="oferta-pestana @(Model.Seccion == "Entrenadores" ? "seleccionada" : "")" aria-current="@(Model.Seccion == "Entrenadores" ? "page" : null)"><span aria-hidden="true">♙</span> Entrenadores</a>
+        <a asp-controller="OfertaDeportiva" asp-action="Index" asp-route-seccion="Clases" class="oferta-pestana @(Model.Seccion == "Clases" ? "seleccionada" : "")" aria-current="@(Model.Seccion == "Clases" ? "page" : null)"><span aria-hidden="true">♧</span> Clases</a>
+        <a asp-controller="OfertaDeportiva" asp-action="Index" asp-route-seccion="Horarios" class="oferta-pestana @(Model.Seccion == "Horarios" ? "seleccionada" : "")" aria-current="@(Model.Seccion == "Horarios" ? "page" : null)"><span aria-hidden="true">▦</span> Horarios</a>
+    </nav>
+
+    @if (TempData["Error"] != null) { <p style="color:#fbbf24">@TempData["Error"]</p> }
+    <div class="oferta-tabla-marco">
+        <div class="oferta-tabla-scroll">
+            @if (Model.Seccion == "Entrenadores")
+            {
+                <table class="oferta-tabla">
+                    <thead>
+                        <tr>
+                            <th scope="col">ENTRENADOR</th>
+                            <th scope="col">ESPECIALIDAD</th>
+                            <th scope="col">SUCURSAL</th>
+                            <th scope="col">HORARIOS</th>
+                            <th scope="col" class="oferta-columna-accion">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var entrenador in Model.Entrenadores)
+                        {
+                            <tr>
+                                <td><div class="oferta-persona"><span class="oferta-avatar @entrenador.ColorAvatar">@entrenador.Iniciales</span><strong>@entrenador.Nombre</strong></div></td>
+                                <td>@entrenador.Especialidad</td>
+                                <td class="oferta-texto-secundario">@entrenador.Sucursal</td>
+                                <td>@entrenador.ClasesPorSemana</td>
+                                <td class="oferta-columna-accion"><a class="oferta-accion-editar" asp-controller="OfertaDeportiva" asp-action="Formulario" asp-route-seccion="Entrenadores" asp-route-id="@entrenador.Id" aria-label="Editar a @entrenador.Nombre" title="Editar entrenador">✎</a><form asp-controller="OfertaDeportiva" asp-action="Eliminar" method="post" style="display:inline; margin-left:8px;"><input type="hidden" name="id" value="@entrenador.Id" /><input type="hidden" name="seccion" value="Entrenadores" /><button type="submit" class="oferta-accion-editar" onclick="return confirm('¿Eliminar registro?')" aria-label="Eliminar registro">×</button></form></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else if (Model.Seccion == "Clases")
+            {
+                <table class="oferta-tabla">
+                    <thead>
+                        <tr>
+                            <th scope="col">CLASE</th>
+                            <th scope="col">TIPO</th>
+                            <th scope="col">ENTRENADOR</th>
+                            <th scope="col">SUCURSAL</th>
+                            <th scope="col">DURACIÓN</th>
+                            <th scope="col" class="oferta-columna-accion">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var clase in Model.Clases)
+                        {
+                            <tr>
+                                <td><strong>@clase.Nombre</strong></td>
+                                <td>@clase.Tipo</td>
+                                <td>@clase.Entrenador</td>
+                                <td class="oferta-texto-secundario">@clase.Sucursal</td>
+                                <td>@clase.DuracionMinutos min</td>
+                                <td class="oferta-columna-accion"><a class="oferta-accion-editar" asp-controller="OfertaDeportiva" asp-action="Formulario" asp-route-seccion="Clases" asp-route-id="@clase.Id" aria-label="Editar clase @clase.Nombre" title="Editar clase">✎</a><form asp-controller="OfertaDeportiva" asp-action="Eliminar" method="post" style="display:inline; margin-left:8px;"><input type="hidden" name="id" value="@clase.Id" /><input type="hidden" name="seccion" value="Clases" /><button type="submit" class="oferta-accion-editar" onclick="return confirm('¿Eliminar registro?')" aria-label="Eliminar registro">×</button></form></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <table class="oferta-tabla">
+                    <thead>
+                        <tr>
+                            <th scope="col">CLASE</th>
+                            <th scope="col">FECHA</th>
+                            <th scope="col">HORARIO</th>
+                            <th scope="col">SUCURSAL</th>
+                            <th scope="col">CUPOS</th>
+                            <th scope="col" class="oferta-columna-accion">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var horario in Model.Horarios)
+                        {
+                            <tr>
+                                <td><strong>@horario.Clase</strong></td>
+                                <td>@horario.Dia</td>
+                                <td>@horario.HoraInicio - @horario.HoraFin</td>
+                                <td class="oferta-texto-secundario">@horario.Sucursal</td>
+                                <td>@horario.Cupos</td>
+                                <td class="oferta-columna-accion"><a class="oferta-accion-editar" asp-controller="OfertaDeportiva" asp-action="Formulario" asp-route-seccion="Horarios" asp-route-id="@horario.Id" aria-label="Editar horario de @horario.Clase" title="Editar horario">✎</a><form asp-controller="OfertaDeportiva" asp-action="Eliminar" method="post" style="display:inline; margin-left:8px;"><input type="hidden" name="id" value="@horario.Id" /><input type="hidden" name="seccion" value="Horarios" /><button type="submit" class="oferta-accion-editar" onclick="return confirm('¿Eliminar registro?')" aria-label="Eliminar registro">×</button></form></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+    <p class="oferta-nota">Información actualizada desde SQL Server.</p>
+</section>

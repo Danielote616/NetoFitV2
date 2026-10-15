@@ -1,0 +1,121 @@
+body {
+    --netofit-admin-sidebar-width: 260px;
+}
+.sidebar-admin,
+.sidebar-admin * {
+    box-sizing: border-box;
+}
+.sidebar-admin {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    width: var(--netofit-admin-sidebar-width);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px;
+    background: #121418;
+    border-left: 1px solid #22262d;
+    color: #e0e0e0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 14px;
+    overflow-y: auto;
+}
+.sidebar-admin-marca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 8px;
+    margin-bottom: 28px;
+    min-height: 38px;
+}
+.sidebar-admin-logo {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    display: block;
+    object-fit: contain;
+    background: #ffffff;
+}
+.sidebar-admin-marca strong {
+    color: #ffffff;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+.sidebar-admin-titulo {
+    padding: 0 8px;
+    margin-bottom: 14px;
+    color: #8a8f99;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.sidebar-admin-enlaces {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 4px;
+    padding: 0;
+}
+.sidebar-admin .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 14px;
+    border: 0;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-decoration: none;
+    text-align: left;
+    color: #8a8f99;
+    background: transparent;
+    white-space: nowrap;
+}
+.sidebar-admin .sidebar-item .bi {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 18px;
+    width: 18px;
+    font-size: 17px;
+    line-height: 1;
+}
+.sidebar-admin a.sidebar-item:hover {
+    color: #ffffff;
+    background: #1a1d24;
+}
+.sidebar-admin a.sidebar-item.active,
+.sidebar-admin a.sidebar-item.active:hover {
+    color: #000000 !important;
+    background: #c6ff00;
+    font-weight: 700;
+}
+.sidebar-admin .sidebar-item-no-disponible {
+    cursor: default;
+}
+.sidebar-admin-pie {
+    padding-top: 16px;
+    margin-top: 24px;
+    border-top: 1px solid #545862;
+}
+.sidebar-admin a.sidebar-item:focus-visible {
+    outline: 2px solid #c6ff00;
+    outline-offset: 2px;
+}
+.oferta-body .oferta-shell {
+    display: block;
+}
+.oferta-body .oferta-principal {
+    width: auto;
+    margin-right: var(--netofit-admin-sidebar-width);
+}
+.main-wrapper {
+    margin-right: var(--netofit-admin-sidebar-width);
+}

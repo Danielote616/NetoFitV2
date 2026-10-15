@@ -1,0 +1,258 @@
+@model Vistasdebeltran.Models.PagosModelo
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["ClaseBody"] = "nf-pago";
+    ViewData["FuenteInter"] = "Si";
+    ViewData["CSS"] = "~/css/BeltranNetoFit.css";
+    ViewData["Title"] = "Finaliza tu inscripción";
+}
+
+<style>
+    .pago-container {
+        max-width: 800px;
+        margin: 0 auto;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .breadcrumb {
+        color: #8a8f99;
+        font-size: 0.85em;
+        margin-bottom: 8px;
+    }
+
+    .pago-title {
+        font-size: 2em;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: #ffffff;
+    }
+
+    .pago-card {
+        background-color: #14171d;
+        border: 1px solid #232730;
+        border-radius: 16px;
+        padding: 24px 28px;
+        margin-bottom: 24px;
+    }
+
+    .pago-card-title {
+        font-size: 1.1em;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group-row {
+        display: flex;
+        gap: 20px;
+    }
+
+        .form-group-row .form-group {
+            flex: 1;
+        }
+
+    .form-label {
+        display: block;
+        color: #a0a5b1;
+        font-size: 0.85em;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+
+    .form-input {
+        width: 100%;
+        background-color: #1c2029;
+        border: 1px solid #2a2f3d;
+        border-radius: 10px;
+        padding: 12px 16px;
+        color: #ffffff;
+        font-size: 0.95em;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+
+        .form-input:focus {
+            border-color: #ccff00;
+        }
+
+    input[type="month"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        cursor: pointer;
+    }
+
+    .summary-box {
+        background-color: #1c2029;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .summary-item-title {
+        font-weight: 600;
+        font-size: 1em;
+        color: #ffffff;
+    }
+
+    .summary-item-sub {
+        color: #8a8f99;
+        font-size: 0.85em;
+        margin-top: 2px;
+    }
+
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        color: #a0a5b1;
+        font-size: 0.9em;
+        margin-bottom: 12px;
+    }
+
+        .price-row.promo {
+            color: #22c55e;
+            font-weight: 500;
+        }
+
+    .pago-divider {
+        border: 0;
+        border-top: 1px solid #232730;
+        margin: 20px 0;
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .total-label {
+        font-size: 1.2em;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    .total-amount {
+        font-size: 1.5em;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    .btn-pagar {
+        width: 100%;
+        background-color: #ccff00;
+        color: #000000;
+        font-weight: 700;
+        border: none;
+        padding: 16px;
+        border-radius: 30px;
+        font-size: 1.05em;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+
+        .btn-pagar:hover {
+            opacity: 0.9;
+        }
+
+    .secure-text {
+        text-align: center;
+        color: #8a8f99;
+        font-size: 0.8em;
+        margin-top: 14px;
+    }
+</style>
+
+<main class="content-container">
+<div class="pago-container">
+    <div class="breadcrumb">Planes &gt; Pago</div>
+    <h1 class="pago-title">Finaliza tu inscripción</h1>
+
+    <form asp-controller="Pago" asp-action="ProcesarPago" method="post">
+        <input type="hidden" asp-for="IdPlan" />
+        <div asp-validation-summary="All" style="color: #ff4d4d;"></div>
+        <input type="hidden" asp-for="NombrePlan" />
+        <input type="hidden" asp-for="DetallePlan" />
+        <input type="hidden" asp-for="Subtotal" />
+        <input type="hidden" asp-for="NombrePromo" />
+        <input type="hidden" asp-for="DescuentoPromo" />
+        <input type="hidden" asp-for="Total" />
+
+        <div class="pago-card">
+            <h2 class="pago-card-title">Datos de facturación</h2>
+            <div class="form-group-row">
+
+                <div class="form-group">
+                    <label class="form-label">Nombre</label>
+                    <input asp-for="Nombre" class="form-input" readonly />
+                    <span asp-validation-for="Nombre" style="color: #ff4d4d; font-size: 0.8em; display: block; margin-top: 4px;"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Correo</label>
+                    <input asp-for="Correo" class="form-input" readonly />
+                    <span asp-validation-for="Correo" style="color: #ff4d4d; font-size: 0.8em; display: block; margin-top: 4px;"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pago-card">
+            <h2 class="pago-card-title">Método de pago</h2>
+            <div class="form-group">
+                <label class="form-label">Pago presencial en una sucursal</label>
+                <select asp-for="IdSucursal" class="form-input" required>
+                    <option value="0">Selecciona la sucursal</option>
+                    @foreach (var sucursal in (List<Vista1Danielote.Models.SucursalAdminModelo>)ViewBag.Sucursales)
+                    {
+                        <option value="@sucursal.Id">@sucursal.Nombre</option>
+                    }
+                </select>
+                <span asp-validation-for="IdSucursal" style="color: #ff4d4d; font-size: 0.8em;"></span>
+            </div>
+            <p class="secure-text">La solicitud se registrará como pendiente. No se solicitarán datos de tarjeta ni se hará ningún cargo bancario.</p>
+        </div>
+
+        <div class="pago-card">
+            <h2 class="pago-card-title">Resumen</h2>
+
+            <div class="summary-box">
+                <div>
+                    <div class="summary-item-title">@Model.NombrePlan</div>
+                    <div class="summary-item-sub">@Model.DetallePlan</div>
+                </div>
+                <div style="font-weight: 700; font-size: 1.1em;">$@Model.Subtotal</div>
+            </div>
+
+            <div class="price-row">
+                <span>Subtotal</span>
+                <span>$@Model.Subtotal</span>
+            </div>
+
+            <div class="price-row promo">
+                <span>@Model.NombrePromo</span>
+                <span>-$@Model.DescuentoPromo</span>
+            </div>
+
+            <hr class="pago-divider" />
+
+            <div class="total-row">
+                <span class="total-label">Total</span>
+                <span class="total-amount">$@Model.Total</span>
+            </div>
+
+            <button type="submit" class="btn-pagar">Solicitar pago presencial de $@Model.Total</button>
+            <p class="secure-text">Pago pendiente de confirmación en sucursal</p>
+        </div>
+    </form>
+</div>
+</main>

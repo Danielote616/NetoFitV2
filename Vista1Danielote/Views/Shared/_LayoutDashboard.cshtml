@@ -1,0 +1,21 @@
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    if (ViewData["AdminSeccion"] == null) { ViewData["AdminSeccion"] = "Dashboard"; }
+    ViewData["CSS"] = "~/css/DashboardUnificado.css";
+}
+<div class="admin-dashboard-integrado">
+    <header class="admin-topbar">
+        <div class="topbar-izquierda">
+            <span class="topbar-ruta">Administración</span>
+            <h1 class="topbar-titulo">@ViewData["Titulo"]</h1>
+        </div>
+        <div class="topbar-usuario">
+            <div class="usuario-texto">
+                <span class="usuario-nombre">@(Context.Session.GetString("NombreUsuario") ?? "Administrador")</span>
+                <span class="usuario-rol">Administrador</span>
+            </div>
+            <span class="usuario-avatar">@(Context.Session.GetString("NombreUsuario")?.Substring(0, 1).ToUpperInvariant() ?? "A")</span>
+        </div>
+    </header>
+    @RenderBody()
+</div>

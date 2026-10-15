@@ -1,0 +1,44 @@
+@model ReservaModelo
+@using System.Globalization
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["ClaseBody"] = "netofit-body";
+    ViewData["Title"] = "Reserva confirmada";
+    ViewData["CSS"] = "~/css/ReservaNetoFit.css";
+    string fecha = Model.Fecha.ToString("ddd dd MMM", CultureInfo.GetCultureInfo("es-SV"));
+    string iniciales = "";
+    string[] nombres = Model.Clase.Entrenador.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    for (int i = 0; i < nombres.Length && i < 2; i++)
+    {
+        iniciales += char.ToUpper(nombres[i][0]);
+    }
+}
+<main class="contenido-principal">
+<div class="reserva-contenedor">
+    <nav class="ruta" aria-label="Ruta">
+        <a asp-controller="Clases" asp-action="Index">Clases</a>
+        <span>›</span>
+        <a asp-controller="Reserva" asp-action="Detalle" asp-route-id="@Model.IdClase">@Model.Clase.Nombre</a>
+    </nav>
+    <div class="reserva-encabezado">
+        <span class="reserva-etiqueta"><span class="reserva-punto"></span>@Model.Clase.Categoria</span>
+        <h1>@Model.Clase.Nombre</h1>
+        <p>@Model.Clase.Descripcion</p>
+    </div>
+    <div class="reserva-datos">
+        <div class="reserva-dato"><span class="reserva-dato-icono" aria-hidden="true">▦</span><small>FECHA</small><strong>@fecha · @Model.Clase.HoraTexto</strong></div>
+        <div class="reserva-dato"><span class="reserva-dato-icono" aria-hidden="true">◷</span><small>DURACIÓN</small><strong>@Model.Clase.DuracionMinutos min</strong></div>
+        <div class="reserva-dato"><span class="reserva-dato-icono" aria-hidden="true">⌖</span><small>SUCURSAL</small><strong>@Model.Clase.Sucursal</strong></div>
+    </div>
+    <div class="reserva-entrenador">
+        <span class="reserva-avatar" aria-hidden="true">@iniciales</span>
+        <div><small>ENTRENADOR</small><strong>@Model.Clase.Entrenador</strong><span>@Model.Clase.Especialidad</span></div>
+    </div>
+    <section class="reserva-panel reserva-exito" aria-live="polite">
+        <span class="reserva-check" aria-hidden="true">✓</span>
+        <h2>¡Reserva confirmada!</h2>
+        <p>Te esperamos el @fecha a las @Model.Clase.HoraTexto. El envío de recordatorios se incorporará posteriormente.</p>
+        <a class="reserva-ver" asp-controller="Perfil" asp-action="Index" asp-route-seccion="reservas" asp-fragment="reservas">Ver mis reservas</a>
+    </section>
+</div>
+</main>

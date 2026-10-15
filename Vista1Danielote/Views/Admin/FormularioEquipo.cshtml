@@ -1,0 +1,19 @@
+@model Vista1Danielote.Models.EquipoAdminModelo
+@{
+    Layout = "~/Views/Shared/_LayoutAdminCabecera.cshtml";
+    ViewData["Title"] = Model.Id == 0 ? "Registrar equipo" : "Editar equipo";
+    ViewData["Subtitulo"] = "Equipos";
+    var sucursales = (List<Vista1Danielote.Models.SucursalAdminModelo>)ViewBag.Sucursales;
+}
+<div class="container py-4"><div class="bg-dark border border-secondary rounded-4 p-4 text-light">
+    <h1 class="fw-bold fs-3 mb-4">@(Model.Id == 0 ? "Registrar equipo" : "Editar equipo")</h1>
+    <form asp-action="FormularioEquipo" method="post"><input asp-for="Id" type="hidden" /><div asp-validation-summary="All" class="text-warning"></div>
+        <div class="row g-3">
+            <div class="col-md-6"><label asp-for="Nombre" class="form-label">Nombre</label><input asp-for="Nombre" class="form-control bg-dark text-light border-secondary" required /></div>
+            <div class="col-md-6"><label asp-for="Tipo" class="form-label">Tipo</label><input asp-for="Tipo" class="form-control bg-dark text-light border-secondary" required /></div>
+            <div class="col-md-6"><label asp-for="IdSucursal" class="form-label">Sucursal</label><select asp-for="IdSucursal" class="form-select bg-dark text-light border-secondary" required><option value="0">Selecciona una sucursal</option>@foreach (var s in sucursales) { <option value="@s.Id">@s.Nombre</option> }</select></div>
+            <div class="col-md-6"><label asp-for="Estado" class="form-label">Estado</label><select asp-for="Estado" class="form-select bg-dark text-light border-secondary"><option>Operativo</option><option>Mantenimiento</option><option>Dañado</option></select></div>
+        </div>
+        <div class="d-flex gap-3 mt-4"><button type="submit" class="btn btn-netofit px-4">Guardar equipo</button><a asp-action="Equipos" class="btn btn-outline-secondary">Cancelar</a></div>
+    </form>
+</div></div>

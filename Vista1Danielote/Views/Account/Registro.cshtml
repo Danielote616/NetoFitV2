@@ -1,0 +1,75 @@
+@model Vista1Danielote.Models.RegistroViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["CSSBase"] = "~/css/estilo.css";
+    ViewData["CSS"] = "~/css/Login.css";
+    ViewData["ClaseBody"] = "cuenta-netofit";
+    ViewData["Title"] = "Crear cuenta";
+}
+    <main class="login-pagina">
+        <div class="login-caja login-caja-ancha">
+
+            <a class="login-logo" asp-controller="Home" asp-action="Index">
+                <span class="login-logo-icono">⚡</span>
+                NetoFitV2
+            </a>
+
+            <h1 class="login-titulo">Crea tu cuenta</h1>
+            <p class="login-subtitulo">Únete y entrena en cualquier sucursal de la cadena.</p>
+
+            <form asp-controller="Account" asp-action="Registro" method="post" novalidate>
+                <div asp-validation-summary="ModelOnly" class="error-campo"></div>
+
+                <div class="campo">
+                    <label asp-for="Nombre"></label>
+                    <input asp-for="Nombre" class="campo-input" placeholder="Tu nombre completo" autocomplete="name" />
+                    <span asp-validation-for="Nombre" class="error-campo"></span>
+                </div>
+
+                <div class="campo">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="campo-input" placeholder="tu@correo.com" autocomplete="email" oninput="this.value = this.value.replace(/[^A-Za-z0-9._@@-]/g, '')" />
+                    <span asp-validation-for="Email" class="error-campo"></span>
+                </div>
+
+                <div class="campo-fila">
+                    <div class="campo">
+                        <label asp-for="Telefono"></label>
+                        <input asp-for="Telefono" class="campo-input" placeholder="12345678" inputmode="numeric" maxlength="8" autocomplete="tel" />
+                        <span asp-validation-for="Telefono" class="error-campo"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label asp-for="FechaNacimiento"></label>
+                        <input asp-for="FechaNacimiento" class="campo-input" />
+                        <span asp-validation-for="FechaNacimiento" class="error-campo"></span>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="campo-input" placeholder="••••••••" autocomplete="new-password" />
+                    <span class="campo-ayuda">Mínimo 8 caracteres, con letras y números.</span>
+                    <span asp-validation-for="Password" class="error-campo"></span>
+                </div>
+
+                <div class="campo">
+                    <label asp-for="ConfirmarPassword"></label>
+                    <input asp-for="ConfirmarPassword" class="campo-input" placeholder="••••••••" autocomplete="new-password" />
+                    <span asp-validation-for="ConfirmarPassword" class="error-campo"></span>
+                </div>
+
+                <button type="submit" class="boton boton-lima boton-ancho login-boton">
+                    Crear cuenta →
+                </button>
+            </form>
+
+            <p class="login-registro">
+                ¿Ya tienes cuenta?
+                <a asp-controller="Account" asp-action="Login">Inicia sesión</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />

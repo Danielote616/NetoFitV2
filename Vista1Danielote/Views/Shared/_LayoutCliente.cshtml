@@ -1,0 +1,10 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["UsarBootstrap"] = "Si";
+    ViewData["ClaseBody"] = "nf-cliente";
+
+}
+<div class="nf-cliente-contenido">
+    @RenderBody()
+</div>
+@await RenderSectionAsync("Scripts", required: false)

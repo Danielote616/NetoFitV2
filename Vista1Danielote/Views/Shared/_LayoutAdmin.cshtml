@@ -1,0 +1,65 @@
+@{
+    string seccion = ViewData["AdminSeccion"]?.ToString() ?? "";
+    string cuerpo = ViewData["ClaseBody"]?.ToString() ?? "";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Administración NetoFitV2</title>
+    @if (ViewData["UsarBootstrap"]?.ToString() == "Si")
+    {
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/AdminSidebarNetoFit.css" asp-append-version="true" />
+    @if (ViewData["CSS"] != null)
+    {
+        <link rel="stylesheet" href="@ViewData["CSS"]" asp-append-version="true" />
+    }
+    <link rel="stylesheet" href="~/css/NetoFitComun.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ModoClaroNetoFit.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/AccesibilidadNetoFit.css" asp-append-version="true" />
+    <script src="~/js/AccesibilidadNetoFit.js" asp-append-version="true"></script>
+</head>
+<body class="nf-cuerpo nf-admin @cuerpo">
+    <aside class="sidebar-admin" id="menu-admin" aria-label="Panel administrativo">
+            <div class="sidebar-admin-marca">
+                <img src="~/Imagenes/Logo.png" asp-append-version="true" alt="Logotipo de NetoFitV2" class="sidebar-admin-logo" />
+                <strong>NetoFitV2</strong>
+            </div>
+            <div class="sidebar-admin-titulo">PANEL ADMINISTRATIVO</div>
+            <div class="nf-a11y-bar" id="nf-accesibilidad" role="group" aria-label="Controles de accesibilidad">
+                <div class="nf-a11y-controles">
+                    <button type="button" class="nf-a11y-opcion nf-a11y-texto" data-nf-a11y="aumentar" aria-label="Aumentar tamaño del texto" title="Aumentar texto">A+</button>
+                    <button type="button" class="nf-a11y-opcion nf-a11y-texto" data-nf-a11y="reducir" aria-label="Reducir tamaño del texto" title="Reducir texto">A−</button>
+                    <button type="button" class="nf-a11y-opcion" data-nf-a11y="oscuro" aria-pressed="false"><i class="bi bi-moon-stars" aria-hidden="true"></i> Modo oscuro</button>
+                    <button type="button" class="nf-a11y-opcion" data-nf-a11y="contraste" aria-pressed="false"><i class="bi bi-circle-half" aria-hidden="true"></i> Alto contraste</button>
+                </div>
+                <span class="nf-a11y-estado" id="nf-accesibilidad-estado" role="status" aria-live="polite">Texto: 100 %</span>
+            </div>
+            <nav class="sidebar-admin-enlaces" aria-label="Navegación administrativa">
+                <a asp-controller="Admin" asp-action="Dashboard" class="sidebar-item @(seccion == "Dashboard" ? "active" : "")" aria-current="@(seccion == "Dashboard" ? "page" : null)"><i class="bi bi-grid" aria-hidden="true"></i>Dashboard</a>
+                <a asp-controller="Admin" asp-action="Sucursales" class="sidebar-item @(seccion == "Sucursales" ? "active" : "")" aria-current="@(seccion == "Sucursales" ? "page" : null)"><i class="bi bi-building" aria-hidden="true"></i>Sucursales</a>
+                <a asp-controller="Clientes" asp-action="Index" class="sidebar-item @(seccion == "Clientes" ? "active" : "")" aria-current="@(seccion == "Clientes" ? "page" : null)"><i class="bi bi-people" aria-hidden="true"></i>Clientes</a>
+                <a asp-controller="OfertaDeportiva" asp-action="Index" class="sidebar-item @(seccion == "Clases" ? "active" : "")" aria-current="@(seccion == "Clases" ? "page" : null)"><i class="bi bi-calendar-event" aria-hidden="true"></i>Clases y horarios</a>
+                <a asp-controller="Planes" asp-action="Index" class="sidebar-item @(seccion == "Planes" ? "active" : "")"><i class="bi bi-card-list" aria-hidden="true"></i>Planes</a>
+                <a asp-controller="Seguimiento" asp-action="Index" class="sidebar-item @(seccion == "Seguimiento" ? "active" : "")"><i class="bi bi-clipboard2-pulse" aria-hidden="true"></i>Seguimiento</a>
+                <a asp-controller="Admin" asp-action="Equipos" class="sidebar-item @(seccion == "Equipos" ? "active" : "")" aria-current="@(seccion == "Equipos" ? "page" : null)"><i class="bi bi-diagram-3" aria-hidden="true"></i>Equipos</a>
+                <a asp-controller="AdminPagos" asp-action="Index" class="sidebar-item @(seccion == "Pagos" ? "active" : "")" aria-current="@(seccion == "Pagos" ? "page" : null)"><i class="bi bi-currency-dollar" aria-hidden="true"></i>Pagos y promos</a>
+            </nav>
+            <div class="sidebar-admin-pie">
+                <a asp-controller="Account" asp-action="Logout" class="sidebar-item"><i class="bi bi-box-arrow-left" aria-hidden="true"></i>Cerrar sesión</a>
+            </div>
+        </aside>
+    <div class="nf-contenido-general">
+        @RenderBody()
+    </div>
+    @if (ViewData["UsarBootstrap"]?.ToString() == "Si")
+    {
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    }
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

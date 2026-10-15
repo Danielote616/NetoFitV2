@@ -1,0 +1,33 @@
+@model ClienteModelo
+@{
+    Layout = "~/Views/Shared/_LayoutOfertaNetoFit.cshtml";
+    ViewData["Title"] = "Detalle del cliente";
+    ViewData["CSS"] = "~/css/ClientesNetoFit.css";
+    ViewData["AdminSeccion"] = "Clientes";
+    ViewData["ClaseBody"] = "oferta-body clientes-body";
+}
+
+<section class="clientes-seccion" aria-labelledby="clientes-titulo">
+    <a class="clientes-volver" asp-controller="Clientes" asp-action="Index">← Volver a clientes</a>
+    <div class="clientes-cabecera">
+        <div>
+            <h1 id="clientes-titulo">Detalle del cliente</h1>
+            <p>Consulta de los datos del cliente registrado</p>
+        </div>
+    </div>
+    <div class="clientes-ficha">
+        <div class="clientes-ficha-encabezado">
+            <span class="clientes-avatar clientes-avatar-grande">@Model.Iniciales</span>
+            <div><h2>@Model.Nombre</h2><span class="clientes-estado @(Model.Estado == "Activa" ? "clientes-activa" : Model.Estado == "Por vencer" ? "clientes-por-vencer" : Model.Estado == "Vencida" ? "clientes-vencida" : "")"><span class="clientes-punto" aria-hidden="true"></span>@Model.Estado</span></div>
+        </div>
+        <dl class="clientes-ficha-datos">
+            <div><dt>Correo electrónico</dt><dd>@Model.Correo</dd></div>
+            <div><dt>Teléfono</dt><dd>@Model.Telefono</dd></div>
+            <div><dt>Plan contratado</dt><dd>@Model.Plan</dd></div>
+            <div><dt>Sucursal</dt><dd>@Model.Sucursal</dd></div>
+            <div><dt>Fecha de vencimiento</dt><dd>@(Model.FechaVencimiento == DateTime.MinValue ? "No aplica" : Model.FechaVencimiento.ToString("dd/MM/yyyy"))</dd></div>
+            <div><dt>Estado de la membresía</dt><dd>@Model.Estado</dd></div>
+        </dl>
+    </div>
+    <p class="clientes-nota">Datos consultados desde SQL Server. La edición todavía está pendiente.</p>
+</section>

@@ -1,0 +1,39 @@
+@model List<Vista1Danielote.Models.SucursalAdminModelo>
+@{
+    Layout = "~/Views/Shared/_LayoutAdminCabecera.cshtml";
+    ViewData["Title"] = "Gestión de sucursales";
+    ViewData["Subtitulo"] = "Sucursales";
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="fw-bold text-white display-6 mb-1">Gestión de sucursales</h1>
+        <p class="text-secondary mb-0">@Model.Count sucursales registradas</p>
+    </div>
+    <a asp-controller="Admin" asp-action="FormularioSucursal" class="btn btn-netofit px-4 py-2 d-flex align-items-center gap-2"><i class="bi bi-plus-lg"></i> Nueva sucursal</a>
+</div>
+@if (TempData["Error"] != null) { <p class="text-warning">@TempData["Error"]</p> }
+<div class="bg-card-dark p-3 rounded-4 border border-secondary bg-dark">
+    <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle mb-0">
+            <thead><tr class="text-secondary border-bottom border-secondary" style="font-size: 0.8rem;"><th scope="col" class="py-3">NOMBRE</th><th scope="col" class="py-3">CIUDAD</th><th scope="col" class="py-3">DIRECCIÓN</th><th scope="col" class="py-3">HORARIO</th><th scope="col" class="py-3">MIEMBROS</th><th scope="col" class="py-3 text-end">ACCIONES</th></tr></thead>
+            <tbody>
+            @foreach (var sucursal in Model)
+            {
+                <tr class="border-bottom border-secondary">
+                    <td class="py-3 fw-bold text-white"><i class="bi bi-building me-2 text-secondary"></i> @sucursal.Nombre</td>
+                    <td class="text-secondary">@sucursal.Ciudad</td><td class="text-secondary">@sucursal.Direccion</td>
+                    <td class="text-secondary">@sucursal.Apertura.ToString(@"hh\:mm") – @sucursal.Cierre.ToString(@"hh\:mm")</td><td class="text-white fw-bold">@sucursal.Miembros</td>
+                    <td class="text-end text-secondary">
+                        <a asp-controller="Admin" asp-action="FormularioSucursal" asp-route-id="@sucursal.Id" class="text-light" title="Editar sucursal" aria-label="Editar @sucursal.Nombre"><i class="bi bi-pencil me-3"></i></a>
+                        <form asp-controller="Admin" asp-action="EliminarSucursal" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@sucursal.Id" />
+                            <button type="submit" class="btn btn-link text-danger p-0" onclick="return confirm('¿Eliminar esta sucursal?')" title="Eliminar sucursal"><i class="bi bi-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            @if (Model.Count == 0) { <tr><td colspan="6" class="text-center py-4">No hay sucursales registradas.</td></tr> }
+            </tbody>
+        </table>
+    </div>
+</div>

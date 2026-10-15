@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Acceso a módulos";
+    ViewData["UsarBootstrap"] = "Si";
+}
+<div class="container py-4">
+    <h1>Módulos integrados de NetoFitV2</h1>
+    <p>Accesos de prueba. Esta página no sustituye ninguna vista del equipo.</p>
+    <ul>
+        <li><a asp-controller="Home" asp-action="Index">Inicio público</a></li>
+        <li><a asp-controller="Account" asp-action="Login">Iniciar sesión</a></li>
+        <li><a asp-controller="Account" asp-action="Registro">Registro de cliente</a></li>
+        <li><a asp-controller="Admin" asp-action="Dashboard">Dashboard (administración)</a></li>
+        <li><a asp-controller="Home" asp-action="Sucursales">Sucursales (cliente)</a></li>
+        <li><a asp-controller="Home" asp-action="Planes">Planes y membresías (cliente)</a></li>
+        <li><a asp-controller="Clases" asp-action="Index">Clases y horarios (cliente)</a></li>
+        <li><a asp-controller="Reserva" asp-action="Detalle" asp-route-id="1">Reserva de clase</a></li>
+        <li><a asp-controller="Perfil" asp-action="Index">Mi perfil: membresía y reservas (dos pestañas de la misma página)</a></li>
+        <li><a asp-controller="Pago" asp-action="Index">Pago e inscripción</a></li>
+        <li><a asp-controller="Clientes" asp-action="Index">Clientes (administración)</a></li>
+        <li><a asp-controller="OfertaDeportiva" asp-action="Index">Oferta deportiva (administración)</a></li>
+        <li><a asp-controller="Admin" asp-action="Sucursales">Sucursales (administración)</a></li>
+        <li><a asp-controller="Admin" asp-action="Equipos">Equipos (administración)</a></li>
+        <li><a asp-controller="AdminPagos" asp-action="Index">Pagos y promociones (administración)</a></li>
+    </ul>
+</div>

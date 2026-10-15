@@ -1,0 +1,309 @@
+@import url("./ClasesNetoFit.css");
+
+.reserva-contenedor, .perfil-contenedor {
+    width: 100%;
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 43px 28px 70px;
+}
+.reserva-contenedor .ruta, .perfil-contenedor .ruta { margin-bottom: 30px; }
+.reserva-contenedor .ruta a { color: #969aa1; text-decoration: none; }
+.reserva-contenedor .ruta a:hover { color: #fff; text-decoration: underline; }
+.reserva-encabezado { margin-bottom: 21px; }
+.reserva-etiqueta {
+    display: inline-flex; align-items: center; gap: 7px; padding: 5px 10px;
+    background: #253018; color: #b9df65; font-size: 12px; border-radius: 30px; margin-bottom: 14px;
+}
+.reserva-punto { width: 7px; height: 7px; border-radius: 50%; background: #c9ff30; }
+.reserva-encabezado h1 { margin: 0 0 7px; font-size: 38px; line-height: 1.08; }
+.reserva-encabezado p { margin: 0; font-size: 14px; color: #8e929a; line-height: 1.55; }
+.reserva-datos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 13px; }
+.reserva-dato { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-height: 88px; background: #17191d; border: 1px solid #25282d; border-radius: 14px; padding: 13px 17px; }
+.reserva-dato-icono { color: #80868f; font-size: 19px; line-height: 1; margin-bottom: 5px; }
+.reserva-dato small, .reserva-entrenador small { color: #777d86; letter-spacing: .4px; font-size: 10px; }
+.reserva-dato strong { font-size: 14px; line-height: 1.2; }
+.reserva-entrenador { display: flex; align-items: center; gap: 14px; border: 1px solid #292c31; background: #17191d; border-radius: 14px; padding: 13px 16px; min-height: 83px; margin-bottom: 25px; }
+.reserva-avatar { display: flex; justify-content: center; align-items: center; border: 2px solid #343b2a; border-radius: 50%; background: radial-gradient(circle at 27% 24%, #c4a9a1, #7b5552 45%, #252b2f 76%); color: #fff; font-size: 15px; font-weight: bold; width: 49px; height: 49px; flex: 0 0 49px; }
+.reserva-entrenador > div { display: flex; flex-direction: column; gap: 2px; }
+.reserva-entrenador strong { font-size: 15px; }
+.reserva-entrenador div > span { font-size: 12px; color: #838994; }
+.reserva-panel { border: 1px solid #25282d; background: #17191d; border-radius: 15px; padding: 25px 20px 19px; }
+.reserva-panel h2 { font-size: 15px; margin: 0 0 18px; }
+.reserva-numero { display: flex; align-items: baseline; gap: 7px; margin-bottom: 9px; }
+.reserva-numero strong { font-size: 27px; line-height: 1; }
+.reserva-numero span { font-size: 12px; color: #8c919a; }
+.reserva-barra { height: 7px; background: #2d3035; border-radius: 20px; overflow: hidden; margin-bottom: 8px; }
+.reserva-barra > span { display: block; height: 100%; border-radius: 20px; background: #c7ff20; }
+.reserva-ocupados { font-size: 11px; color: #8c919a; margin: 0 0 15px; }
+.reserva-confirmar { display: flex; justify-content: center; align-items: center; width: 100%; min-height: 47px; padding: 12px; border: 0; border-radius: 40px; background: #c7ff20; color: #121610 !important; text-decoration: underline; font-size: 14px; font-weight: bold; cursor: pointer; }
+.reserva-confirmar:hover { background: #baf418; }
+.reserva-confirmar-inactivo { background: #30363b; color: #bbb !important; cursor: default; }
+.reserva-confirmar-inactivo:hover { background: #30363b; }
+.reserva-nota { color: #747982; font-size: 11px; text-align: center; margin: 11px 0 0; }
+.reserva-nota span { color: #636872; }
+.reserva-alerta { padding: 10px; border-radius: 8px; color: #ffc3c9; border: 1px solid #803b4a; background: #3f222a; font-size: 13px; }
+.reserva-exito { min-height: 285px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 12px; padding: 30px; }
+.reserva-check { width: 58px; height: 58px; display: flex; align-items: center; justify-content: center; background: #0d291c; color: #25e47d; border-radius: 50%; font-size: 27px; font-weight: bold; }
+.reserva-exito h2 { font-size: 22px; margin: 0; }
+.reserva-exito p { font-size: 14px; color: #858b95; margin: 0 0 4px; }
+.reserva-ver { display: flex; width: 100%; align-items: center; justify-content: center; border-radius: 30px; border: 1px solid #2a2e34; padding: 12px 18px; color: #f0f0f0; font-size: 14px; font-weight: bold; }
+.reserva-ver:hover { border-color: #c7ff20; }
+.perfil-cabecera { min-height: 300px; padding: 24px; border-radius: 15px; border: 1px solid #292c31; background: #17191d; display: flex; flex-direction: column; }
+.perfil-avatar { width: 83px; height: 83px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: radial-gradient(circle at 45% 50%, #a74310 0%, #4b1b06 50%, #080708 78%); box-shadow: inset 0 0 14px #ff7a2040; color: #ff9429; font-size: 50px; font-weight: bold; font-family: Georgia, serif; }
+.perfil-titular { text-align: center; margin: -4px 0 24px; }
+.perfil-titular h1 { font-size: 24px; margin: 0 0 4px; }
+.perfil-titular p { font-size: 13px; color: #8c929b; margin: 0; }
+.perfil-contactos { display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #9298a0; margin-bottom: 17px; }
+.perfil-editar { min-height: 39px; width: 100%; background: transparent; border: 1px solid #30343b; border-radius: 30px; color: #bfc3cb; font-size: 13px; cursor: not-allowed; }
+.perfil-pestanas { margin: 28px 0 17px; display: flex; border-bottom: 1px solid #292c31; gap: 8px; }
+.perfil-pestanas > * { display: inline-block; color: #90969e; font-size: 14px; padding: 13px 17px 14px; text-decoration: underline; border-bottom: 2px solid transparent; }
+.perfil-pestanas .perfil-pestana-activa { color: #fff; border-bottom-color: #c7ff20; font-weight: bold; }
+.perfil-listado { display: flex; flex-direction: column; gap: 11px; scroll-margin-top: 25px; }
+.perfil-reserva { display: flex; justify-content: space-between; align-items: center; padding: 14px 17px; border: 1px solid #272b31; border-radius: 14px; background: #17191d; min-height: 82px; gap: 18px; }
+.perfil-reserva h2 { font-size: 15px; margin: 0 0 5px; }
+.perfil-reserva p { font-size: 12px; color: #9298a0; margin: 0; }
+.perfil-estado { display: inline-block; padding: 7px 11px; border-radius: 20px; font-size: 12px; font-weight: bold; color: #25d677; background: #10301e; white-space: nowrap; }
+.perfil-reservar-mas { text-align: center; background: #17191d; border: 1px solid #292c31; border-radius: 30px; padding: 12px; color: #f5f5f5; font-size: 14px; font-weight: bold; margin-top: 5px; }
+.perfil-reservar-mas:hover { border-color: #c7ff20; }
+.perfil-vacio { border-radius: 14px; background: #17191d; border: 1px solid #292c31; padding: 30px 17px; }
+.perfil-vacio h2 { font-size: 18px; margin: 0 0 9px; }
+.perfil-vacio p { color: #91969f; font-size: 13px; margin: 0; }
+
+.perfil-membresia {
+    border: 1px solid #26292e;
+    background: #090a0c;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.perfil-membresia-cuerpo { padding: 25px 23px 24px; }
+.perfil-membresia-superior { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.perfil-membresia-etiqueta { margin: 0 0 6px; color: #949aa2; font-size: 11px; letter-spacing: 3px; }
+.perfil-membresia-superior h2 { margin: 0; color: #c7ff20; font-size: 36px; line-height: 1.12; font-weight: 800; }
+.perfil-membresia-estado { display: inline-flex; align-items: center; padding: 7px 11px; margin-top: 5px; color: #25d677; background: #10301e; border-radius: 30px; font-size: 12px; font-weight: bold; }
+.perfil-membresia-datos { display: flex; gap: 32px; margin-top: 30px; }
+.perfil-membresia-datos > div { min-width: 112px; display: flex; flex-direction: column; gap: 5px; }
+.perfil-membresia-datos small { color: #9298a0; font-size: 12px; }
+.perfil-membresia-datos strong { color: #f5f5f5; font-size: 15px; }
+.perfil-membresia-acciones { display: flex; align-items: center; gap: 10px; padding: 19px 21px; border-top: 1px solid #24272c; background: #17191d; }
+.perfil-renovar { border: none; padding: 12px 19px; background: #c7ff20; color: #10130c; border-radius: 24px; font-weight: bold; font-size: 13px; cursor: not-allowed; opacity: 1; }
+.perfil-cambiar-plan { border: 1px solid #35383d; border-radius: 25px; padding: 11px 17px; color: #eee; font-size: 13px; text-decoration: underline; }
+.perfil-cambiar-plan:hover { border-color: #c7ff20; }
+.perfil-pestana-pendiente { cursor: default; }
+.perfil-pestanas a:hover { color: #fff; }
+
+
+.perfil-rutina {
+    border: 1px solid #dbe8df;
+    background: #fff;
+    border-radius: 15px;
+    padding: 26px 24px 28px;
+    color: #12141a;
+}
+.perfil-rutina-superior {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+.perfil-rutina-etiqueta {
+    margin: 0 0 5px;
+    color: #667085;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .7px;
+}
+.perfil-rutina-superior h2, .perfil-rutina > h2 {
+    margin: 0;
+    color: #12141a;
+    font-size: 20px;
+    font-weight: 700;
+}
+.perfil-rutina-asignada {
+    margin: 0 0 3px;
+    color: #667085;
+    font-size: 13px;
+    text-align: right;
+}
+.perfil-rutina-tabla-marco {
+    width: 100%;
+    overflow-x: auto;
+}
+.perfil-rutina-tabla-marco:focus-visible {
+    outline: 2px solid #15803d;
+    outline-offset: 4px;
+}
+.perfil-rutina-tabla {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+    text-align: left;
+}
+.perfil-rutina-tabla th {
+    padding: 12px;
+    border-bottom: 1px solid #dbe8df;
+    color: #667085;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .3px;
+}
+.perfil-rutina-tabla td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #edf1ee;
+    color: #344054;
+    font-size: 13px;
+}
+.perfil-rutina-tabla th:first-child, .perfil-rutina-tabla td:first-child {
+    width: 42%;
+    padding-left: 0;
+}
+.perfil-rutina-tabla th:last-child, .perfil-rutina-tabla td:last-child {
+    padding-right: 0;
+}
+.perfil-rutina-tabla tbody tr:last-child td {
+    border-bottom: 0;
+}
+@media (max-width: 650px) {
+    .perfil-rutina { padding: 20px 16px; }
+    .perfil-rutina-superior { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 16px; }
+    .perfil-rutina-asignada { text-align: left; }
+}
+
+.perfil-evaluaciones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.perfil-evaluaciones-indicadores {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+}
+.perfil-evaluaciones-indicador,
+.perfil-evaluaciones-panel {
+    background: #fff;
+    border: 1px solid #dbe8df;
+    border-radius: 15px;
+    color: #12141a;
+}
+.perfil-evaluaciones-indicador {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 18px 19px;
+    min-height: 121px;
+}
+.perfil-evaluaciones-indicador i {
+    font-size: 17px;
+    line-height: 1;
+    color: #677486;
+    margin-bottom: 7px;
+}
+.perfil-evaluaciones-indicador p {
+    font-size: 11px;
+    color: #667085;
+    margin: 0 0 6px;
+    letter-spacing: .4px;
+    font-weight: 700;
+}
+.perfil-evaluaciones-indicador strong {
+    font-size: 24px;
+    line-height: 1.2;
+    color: #12141a;
+    margin-bottom: 5px;
+}
+.perfil-evaluaciones-indicador > span {
+    color: #15803d;
+    font-size: 12px;
+    font-weight: 600;
+}
+.perfil-evaluaciones-panel { padding: 24px 23px 23px; }
+.perfil-evaluaciones-panel h2 {
+    color: #12141a;
+    font-size: 18px;
+    margin: 0 0 5px;
+}
+.perfil-evaluaciones-panel > p {
+    margin: 0;
+    color: #667085;
+    font-size: 12px;
+}
+.perfil-evaluaciones-leyenda {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 18px;
+    margin: 4px 0 20px;
+}
+.perfil-evaluaciones-leyenda span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    color: #667085;
+}
+.perfil-evaluaciones-leyenda b { width: 17px; height: 3px; border-radius: 2px; }
+.perfil-evaluaciones-color-peso { background: #667085; }
+.perfil-evaluaciones-color-grasa { background: #65a30d; }
+.perfil-evaluaciones-grafico {
+    display: grid;
+    grid-template-columns: 31px minmax(0, 1fr);
+    column-gap: 12px;
+    height: 228px;
+    margin-right: 5px;
+}
+.perfil-evaluaciones-eje-y {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    color: #667085;
+    font-size: 11px;
+    transform: translateY(-5px);
+}
+.perfil-evaluaciones-lienzo { position: relative; height: 100%; width: 100%; }
+.perfil-evaluaciones-guia {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: 1px dashed #e4ece6;
+}
+.perfil-evaluaciones-linea {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.perfil-evaluaciones-linea-peso { background: #667085; }
+.perfil-evaluaciones-linea-grasa { background: #65a30d; }
+.perfil-evaluaciones-punto {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    transform: translate(-50%, 50%);
+    pointer-events: none;
+}
+.perfil-evaluaciones-punto-peso { background: #667085; border: 1px solid #fff; }
+.perfil-evaluaciones-punto-grasa { background: #65a30d; border: 1px solid #fff; }
+.perfil-evaluaciones-meses {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 5px 0 43px;
+    color: #667085;
+    font-size: 11px;
+}
+@media (max-width: 650px) {
+    .perfil-evaluaciones-indicadores { gap: 8px; }
+    .perfil-evaluaciones-indicador { padding: 14px 11px; min-height: 112px; }
+    .perfil-evaluaciones-indicador strong { font-size: 20px; }
+    .perfil-evaluaciones-indicador > span { font-size: 10px; }
+    .perfil-evaluaciones-panel { padding: 20px 15px; }
+    .perfil-evaluaciones-grafico { height: 195px; column-gap: 8px; grid-template-columns: 24px minmax(0, 1fr); }
+    .perfil-evaluaciones-meses { margin-left: 32px; }
+}
+@media (max-width: 420px) {
+    .perfil-evaluaciones-indicadores { grid-template-columns: 1fr; }
+    .perfil-evaluaciones-indicador { min-height: 95px; }
+    .perfil-evaluaciones-leyenda { justify-content: flex-start; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+}

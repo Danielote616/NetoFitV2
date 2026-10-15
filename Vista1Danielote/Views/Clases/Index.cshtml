@@ -1,0 +1,74 @@
+@model IReadOnlyList<ClaseHorarioModelo>
+@{
+    Layout = "~/Views/Shared/_LayoutClasesNetoFit.cshtml";
+    ViewData["Title"] = "Clases y horarios";
+    ViewData["CSS"] = "~/css/ClasesNetoFit.css";
+    var dias = new[] { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday };
+    string? tipoSeleccionado = ViewBag.TipoSeleccionado as string;
+    string? sucursalSeleccionada = ViewBag.SucursalSeleccionada as string;
+}
+<div class="contenedor-clases">
+    <div class="ruta"><span>Inicio</span><span>›</span><span class="ruta-actual">Clases y horarios</span></div>
+    <div class="seccion-titulo">
+        <div class="titulo-clases">
+            <h1>Clases y horarios</h1>
+            <p>Reserva tu lugar. Los cupos se llenan rápido.</p>
+        </div>
+        <form class="filtros" method="get" asp-controller="Clases" asp-action="Index">
+            <select name="sucursal" aria-label="Sucursal">
+                <option value="">Todas las sucursales</option>
+                @foreach (var sede in (ViewBag.Sucursales as List<string> ?? new List<string>()))
+                {
+                    <option value="@sede" selected="@(sucursalSeleccionada == sede)">@sede</option>
+                }
+            </select>
+            <select name="tipo" aria-label="Tipo de clase">
+                <option value="">Todos los tipos</option>
+                @foreach (var nombre in (ViewBag.TiposClases as List<string> ?? new List<string>()))
+                {
+                    <option value="@nombre" selected="@(tipoSeleccionado == nombre)">@nombre</option>
+                }
+            </select>
+            <button type="submit" class="boton-filtrar">Filtrar</button>
+        </form>
+    </div>
+    <div class="semana">
+        @foreach (var dia in dias)
+        {
+            string diaNombre = "VIE";
+            if (dia == DayOfWeek.Monday) diaNombre = "LUN";
+            else if (dia == DayOfWeek.Tuesday) diaNombre = "MAR";
+            else if (dia == DayOfWeek.Wednesday) diaNombre = "MIÉ";
+            else if (dia == DayOfWeek.Thursday) diaNombre = "JUE";
+            else if (dia == DayOfWeek.Saturday) diaNombre = "SÁB";
+            else if (dia == DayOfWeek.Sunday) diaNombre = "DOM";
+            <section class="dia">
+                <h2>@diaNombre</h2>
+                @foreach (var clase in Model)
+                {
+                    if (clase.DiaSemana != dia) { continue; }
+                    @if (clase.CuposDisponibles > 0)
+                    {
+                        <a class="tarjeta tarjeta-enlace" asp-controller="Reserva" asp-action="Detalle" asp-route-id="@clase.Id" aria-label="Reservar @clase.Nombre el @clase.DiaAbreviado a las @clase.HoraTexto">
+                            <span class="linea @clase.Color"></span>
+                            <h3>@clase.Nombre</h3>
+                            <p class="hora">@clase.RangoHorario</p>
+                            <p class="entrenador">@clase.Entrenador</p>
+                            <p class="cupos disponibles">@clase.CuposDisponibles cupos</p>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="tarjeta tarjeta-llena" aria-label="@clase.Nombre sin cupos">
+                            <span class="linea @clase.Color"></span>
+                            <h3>@clase.Nombre</h3>
+                            <p class="hora">@clase.RangoHorario</p>
+                            <p class="entrenador">@clase.Entrenador</p>
+                            <p class="cupos lleno">Lleno</p>
+                        </div>
+                    }
+                }
+            </section>
+        }
+    </div>
+</div>

@@ -1,0 +1,22 @@
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["UsarBootstrap"] = "Si";
+    ViewData["AdminSeccion"] = ViewData["Subtitulo"]?.ToString() ?? "";
+}
+<div class="main-wrapper">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-3">
+        <div>
+            <small class="text-secondary d-block" style="font-size: 0.8rem;">Administración</small>
+            <span class="fw-bold text-white fs-6">@ViewData["Subtitulo"]</span>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <div class="text-end">
+                <span class="fw-bold d-block text-white" style="font-size: 0.9rem;">@(Context.Session.GetString("NombreUsuario") ?? "Administrador")</span>
+                <small class="text-secondary d-block" style="font-size: 0.75rem;">Administrador</small>
+            </div>
+            <div class="rounded-circle bg-white text-dark d-flex align-items-center justify-content-center fw-bold" style="width: 42px; height: 42px; font-size: 0.85rem;">@(Context.Session.GetString("NombreUsuario")?.Substring(0, 1).ToUpperInvariant() ?? "A")</div>
+        </div>
+    </div>
+    <main>@RenderBody()</main>
+</div>
+@await RenderSectionAsync("Scripts", required: false)

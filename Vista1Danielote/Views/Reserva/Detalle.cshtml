@@ -1,0 +1,67 @@
+@model ClaseHorarioModelo
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["ClaseBody"] = "netofit-body";
+    ViewData["Title"] = "Reservar " + Model.Nombre;
+    ViewData["CSS"] = "~/css/ReservaNetoFit.css";
+    string iniciales = "";
+    string[] nombres = Model.Entrenador.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    for (int i = 0; i < nombres.Length && i < 2; i++)
+    {
+        iniciales += char.ToUpper(nombres[i][0]);
+    }
+    bool yaReservada = ViewBag.YaReservada;
+    int cuposDisponibles = ViewBag.CuposDisponibles;
+    int ocupados = ViewBag.Ocupados;
+    int porcentajeOcupacion = ViewBag.PorcentajeOcupacion;
+}
+<main class="contenido-principal">
+<div class="reserva-contenedor">
+    <nav class="ruta" aria-label="Ruta">
+        <a asp-controller="Clases" asp-action="Index">Clases</a>
+        <span>›</span>
+        <span class="ruta-actual">@Model.Nombre</span>
+    </nav>
+    <div class="reserva-encabezado">
+        <span class="reserva-etiqueta"><span class="reserva-punto"></span>@Model.Categoria</span>
+        <h1>@Model.Nombre</h1>
+        <p>@Model.Descripcion</p>
+    </div>
+    <div class="reserva-datos">
+        <div class="reserva-dato"><span class="reserva-dato-icono" aria-hidden="true">▦</span><small>FECHA</small><strong>@Model.FechaCorta · @Model.HoraTexto</strong></div>
+        <div class="reserva-dato"><span class="reserva-dato-icono" aria-hidden="true">◷</span><small>DURACIÓN</small><strong>@Model.DuracionMinutos min</strong></div>
+        <div class="reserva-dato"><span class="reserva-dato-icono" aria-hidden="true">⌖</span><small>SUCURSAL</small><strong>@Model.Sucursal</strong></div>
+    </div>
+    <div class="reserva-entrenador">
+        <span class="reserva-avatar" aria-hidden="true">@iniciales</span>
+        <div><small>ENTRENADOR</small><strong>@Model.Entrenador</strong><span>@Model.Especialidad</span></div>
+    </div>
+    <section class="reserva-panel">
+        <h2>Cupo disponible</h2>
+        <div class="reserva-numero"><strong>@cuposDisponibles</strong><span>/ @Model.Capacidad lugares</span></div>
+        <div class="reserva-barra" role="progressbar" aria-label="Cupos ocupados" aria-valuemin="0" aria-valuemax="@Model.Capacidad" aria-valuenow="@ocupados">
+            <span style="width: @(porcentajeOcupacion)%"></span>
+        </div>
+        <p class="reserva-ocupados">@ocupados personas ya reservaron esta clase.</p>
+        @if (ViewBag.ErrorReserva != null)
+        {
+            <p class="reserva-alerta" role="alert">@ViewBag.ErrorReserva</p>
+        }
+        @if (yaReservada)
+        {
+            <a class="reserva-confirmar reserva-confirmar-inactivo" asp-controller="Perfil" asp-action="Index" asp-route-seccion="reservas" asp-fragment="reservas">Ya tienes una reserva · Ver mis reservas</a>
+        }
+        else if (cuposDisponibles == 0)
+        {
+            <button class="reserva-confirmar reserva-confirmar-inactivo" type="button" disabled>Sin cupos disponibles</button>
+        }
+        else
+        {
+            <form method="post" asp-controller="Reserva" asp-action="Confirmar" asp-route-id="@Model.Id" asp-antiforgery="true">
+                <button class="reserva-confirmar" type="submit">Confirmar reserva</button>
+            </form>
+        }
+        <p class="reserva-nota">◷ &nbsp; Cancelación gratuita hasta 2 horas antes (función pendiente de implementar).</p>
+    </section>
+</div>
+</main>

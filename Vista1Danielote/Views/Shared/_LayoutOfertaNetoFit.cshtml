@@ -1,0 +1,28 @@
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    if (ViewData["ClaseBody"] == null) { ViewData["ClaseBody"] = "oferta-body"; }
+
+    if (ViewData["AdminSeccion"] == null) { ViewData["AdminSeccion"] = "Clases"; }
+}
+<div class="oferta-shell">
+    <div class="oferta-principal">
+        <div class="oferta-header">
+            <div class="oferta-header-izq">
+                <div class="oferta-ubicacion">
+                    <span>Administración</span>
+                    <strong>@(ViewData["AdminSeccion"]?.ToString() ?? "Clases & horarios")</strong>
+                </div>
+            </div>
+            <div class="oferta-usuario">
+                <div>
+                    <strong>@(Context.Session.GetString("NombreUsuario") ?? "Administrador")</strong>
+                    <small>Administrador</small>
+                </div>
+                <span class="oferta-usuario-avatar" aria-hidden="true">@(Context.Session.GetString("NombreUsuario")?.Substring(0, 1).ToUpperInvariant() ?? "A")</span>
+            </div>
+        </div>
+        <main class="oferta-contenido" id="contenido-principal">
+            @RenderBody()
+        </main>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+@model Vistasdebeltran.Models.PagosModelo
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["ClaseBody"] = "nf-pago";
+    ViewData["FuenteInter"] = "Si";
+    ViewData["CSS"] = "~/css/BeltranNetoFit.css";
+    ViewData["Title"] = "Solicitud registrada";
+}
+
+<style>
+    .confirm-container {
+        max-width: 500px;
+        margin: 40px auto;
+        text-align: center;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .success-icon-circle {
+        width: 80px;
+        height: 80px;
+        background-color: #ccff00;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px auto;
+        font-size: 2.2em;
+        color: #000000;
+        font-weight: bold;
+    }
+
+    .confirm-title {
+        font-size: 2.2em;
+        font-weight: 800;
+        color: #ffffff;
+        margin-bottom: 12px;
+    }
+
+    .confirm-subtitle {
+        color: #8a8f99;
+        font-size: 1em;
+        margin-bottom: 30px;
+        line-height: 1.5;
+    }
+
+        .confirm-subtitle strong {
+            color: #ffffff;
+        }
+
+    .confirm-card {
+        background-color: #14171d;
+        border: 1px solid #232730;
+        border-radius: 16px;
+        padding: 24px;
+        margin-bottom: 30px;
+        text-align: left;
+    }
+
+    .confirm-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+    }
+
+    .confirm-label {
+        color: #8a8f99;
+        font-size: 0.9em;
+    }
+
+    .confirm-value {
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 0.95em;
+    }
+
+    .btn-perfil {
+        display: block;
+        width: 100%;
+        background-color: #ccff00;
+        color: #000000;
+        font-weight: 700;
+        text-decoration: none;
+        padding: 16px;
+        border-radius: 30px;
+        font-size: 1.05em;
+        transition: opacity 0.2s;
+        box-sizing: border-box;
+    }
+
+        .btn-perfil:hover {
+            opacity: 0.9;
+            color: #000000;
+        }
+</style>
+
+<main class="content-container">
+<div class="confirm-container">
+
+    <div class="success-icon-circle">
+        ✓
+    </div>
+
+    <h1 class="confirm-title">¡Solicitud registrada!</h1>
+    <p class="confirm-subtitle">
+        Tu solicitud para la membresía <strong>@Model.NombrePlan</strong> está pendiente. Realiza el pago presencial para activarla.
+    </p>
+
+
+    <div class="confirm-card">
+        <div class="confirm-row">
+            <span class="confirm-label">Plan</span>
+            <span class="confirm-value">@Model.NombrePlan</span>
+        </div>
+        <div class="confirm-row">
+            <span class="confirm-label">Monto pendiente</span>
+            <span class="confirm-value">$@Model.Total</span>
+        </div>
+        <div class="confirm-row">
+            <span class="confirm-label">Vigencia</span>
+            <span class="confirm-value">@Model.FechaFin.ToString("dd/MM/yyyy")</span>
+        </div>
+    </div>
+
+    <a href="/Perfil/Index" class="btn-perfil">Ir a mi perfil</a>
+</div>
+</main>

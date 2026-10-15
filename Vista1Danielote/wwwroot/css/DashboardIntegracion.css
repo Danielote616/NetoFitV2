@@ -1,0 +1,10 @@
+.admin-dashboard-integrado {
+    margin-right: 260px;
+    padding: 24px 32px;
+    min-height: 100vh;
+    background-color: #f6faf7;
+    color: #12141a;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+.admin-dashboard-integrado .dashboard-encabezado,
+.admin-dashboard-integrado .dashboard-subtitulo { color: #12141a; }

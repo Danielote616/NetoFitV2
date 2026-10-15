@@ -1,0 +1,46 @@
+@model Vista1Danielote.Models.LoginViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["CSSBase"] = "~/css/estilo.css";
+    ViewData["CSS"] = "~/css/Login.css";
+    ViewData["ClaseBody"] = "cuenta-netofit";
+    ViewData["Title"] = "Iniciar sesión";
+}
+    <main class="login-pagina">
+        <div class="login-caja">
+
+            <a class="login-logo" asp-controller="Home" asp-action="Index">
+                <span class="login-logo-icono">⚡</span>
+                NetoFitV2
+            </a>
+
+            <h1 class="login-titulo">Bienvenido de vuelta</h1>
+            <p class="login-subtitulo">Entrena en cualquier sucursal de la cadena.</p>
+
+            <form asp-controller="Account" asp-action="Login" method="post" novalidate>
+                <div asp-validation-summary="ModelOnly" class="error-campo"></div>
+
+                <div class="campo">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="campo-input" placeholder="tu@correo.com" autocomplete="email" oninput="this.value = this.value.replace(/[^A-Za-z0-9._@@-]/g, '')" />
+                    <span asp-validation-for="Email" class="error-campo"></span>
+                </div>
+
+                <div class="campo">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="campo-input" placeholder="••••••••" autocomplete="current-password" />
+                    <span asp-validation-for="Password" class="error-campo"></span>
+                </div>
+
+                <button type="submit" class="boton boton-lima boton-ancho login-boton">Iniciar sesión</button>
+            </form>
+
+            <p class="login-registro">
+                ¿Aún no eres miembro?
+                <a asp-controller="Account" asp-action="Registro">Regístrate</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />

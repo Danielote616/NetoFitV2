@@ -1,0 +1,159 @@
+.login-pagina {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: radial-gradient(circle at 20% 10%, var(--acento-suave) 0%, var(--fondo) 45%);
+}
+
+.login-caja {
+    width: 100%;
+    max-width: 420px;
+    background-color: #ffffff;
+    border: 1px solid var(--borde);
+    border-radius: 20px;
+    padding: 36px;
+    box-shadow: 0 12px 40px rgba(18, 20, 26, 0.10);
+}
+
+.login-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    color: var(--texto);
+    text-decoration: none;
+    margin-bottom: 28px;
+}
+
+.login-logo-icono {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background-color: var(--oscuro);
+    color: var(--acento-claro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-titulo {
+    font-size: 30px;
+    margin: 0 0 6px 0;
+}
+
+.login-subtitulo {
+    color: var(--texto-gris);
+    font-size: 14px;
+    margin: 0 0 24px 0;
+}
+
+.campo {
+    margin-bottom: 16px;
+}
+
+    .campo label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+.campo-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    background-color: var(--fondo);
+    color: var(--texto);
+    font-size: 15px;
+}
+
+    .campo-input:focus {
+        outline: none;
+        border-color: var(--acento);
+        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+    }
+
+.error-campo {
+    color: #d93a4a;
+    font-size: 13px;
+    display: block;
+    margin-top: 4px;
+}
+
+.login-opciones {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 4px 0 20px 0;
+    font-size: 14px;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--texto-gris);
+    cursor: pointer;
+}
+
+    .check input {
+        accent-color: var(--acento);
+        width: 16px;
+        height: 16px;
+    }
+
+.login-opciones a {
+    color: var(--acento-oscuro);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-boton {
+    padding: 14px 20px;
+    font-size: 15px;
+}
+
+.login-registro {
+    text-align: center;
+    color: var(--texto-gris);
+    font-size: 14px;
+    margin: 22px 0 0 0;
+}
+
+    .login-registro a {
+        color: var(--texto);
+        font-weight: bold;
+    }
+
+
+/* Registro */
+.login-caja-ancha {
+    max-width: 480px;
+}
+
+.campo-fila {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.campo-ayuda {
+    display: block;
+    color: var(--texto-gris);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+@media (max-width: 520px) {
+    .campo-fila {
+        grid-template-columns: 1fr;
+    }
+
+    .login-caja {
+        padding: 24px;
+    }
+}

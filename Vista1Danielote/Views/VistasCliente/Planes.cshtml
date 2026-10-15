@@ -1,0 +1,27 @@
+@model List<Vista1Danielote.Models.PlanAdminModelo>
+@{
+    Layout = "~/Views/Shared/_LayoutCliente.cshtml";
+    ViewData["Title"] = "Planes y Membresías";
+}
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-3"><ol class="breadcrumb"><li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-secondary text-decoration-none">Inicio</a></li><li class="breadcrumb-item"><a asp-controller="Home" asp-action="Sucursales" class="text-secondary text-decoration-none">Sucursales</a></li><li class="breadcrumb-item active text-light">Planes y membresías</li></ol></nav>
+    <div class="text-center mb-5"><h1 class="fw-bold display-4 mb-3">Planes que se adaptan a ti</h1><p class="text-secondary">Consulta nuestros planes registrados y sus beneficios.</p></div>
+    <div class="row g-4 mb-5">
+        @foreach (var plan in Model)
+        {
+            bool popular = plan.Nombre.Contains("Pro", StringComparison.OrdinalIgnoreCase);
+            <div class="col-lg-4"><div class="card bg-dark text-light @(popular ? "border-netofit" : "border-secondary") rounded-4 p-4 h-100 shadow d-flex flex-column">
+                @if (popular) { <div class="text-center mb-2"><span class="badge btn-netofit text-dark fw-bold px-3 py-1 rounded-pill">★ MÁS POPULAR</span></div> }
+                <h3 class="fw-bold">@plan.Nombre</h3><p class="text-secondary small mb-4">@plan.Duracion</p>
+                <h2 class="fw-bold mb-4">$@plan.Precio.ToString("0.00") <span class="fs-6 text-secondary fw-normal">/@plan.Duracion</span></h2>
+                <ul class="list-unstyled text-secondary mb-4 flex-grow-1">
+                    @foreach (string beneficio in plan.Beneficios.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                    { <li class="mb-2 text-light"><i class="bi bi-check text-netofit me-2"></i>@beneficio</li> }
+                </ul>
+                <a asp-controller="Pago" asp-action="Index" asp-route-id="@plan.Id" class="btn @(popular ? "btn-netofit fw-bold" : "btn-outline-light") rounded-pill w-100 py-2">Contratar @plan.Nombre</a>
+            </div></div>
+        }
+        @if (Model.Count == 0) { <div class="col-12 text-secondary text-center">Por el momento no hay planes registrados.</div> }
+    </div>
+    <div class="text-center mt-5"><a asp-controller="Home" asp-action="Sucursales" class="text-secondary text-decoration-none">← Volver a Sucursales</a></div>
+</div>

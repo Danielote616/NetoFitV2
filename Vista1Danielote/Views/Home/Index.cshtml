@@ -1,0 +1,125 @@
+@{
+    ViewData["Title"] = "Inicio";
+    ViewData["CSS"] = "~/css/estilo.css";
+    ViewData["ClaseBody"] = "inicio-netofit";
+}
+
+<section class="hero">
+    <img src="~/images/hero.png" alt="Gimnasio" class="hero-imagen" />
+    <div class="hero-overlay"></div>
+    <div class="contenedor hero-texto">
+        <span class="badge-lima">🔥 Nueva temporada · Inscripción abierta</span>
+        <h1 class="hero-titulo">
+            ENTRENA<br />SIN<br /><span class="texto-lima">LÍMITES.</span>
+        </h1>
+        <p class="hero-descripcion">Una membresía, todo El Salvador. Clases, entrenadores y equipo de primer nivel esperándote.</p>
+        <div class="hero-botones">
+            <a asp-controller="Home" asp-action="Planes" class="boton boton-lima">Ver planes →</a>
+            <a asp-controller="Clases" asp-action="Index" class="boton boton-gris">Explorar clases</a>
+        </div>
+        <form asp-controller="Home" asp-action="Sucursales" method="get" class="hero-buscador">
+            <input type="text" name="ciudad" class="buscador-input" placeholder="¿En qué ciudad quieres entrenar?" />
+            <button type="submit" class="boton boton-blanco">Buscar sucursales</button>
+        </form>
+    </div>
+</section>
+
+<section class="contenedor seccion-sucursales">
+    <div class="seccion-encabezado">
+        <div>
+            <span class="etiqueta">CERCA DE TI</span>
+            <h2>Sucursales destacadas</h2>
+        </div>
+        <a asp-controller="Home" asp-action="Sucursales" class="link-ver-todas">Ver todas →</a>
+    </div>
+    <div class="tarjetas-grid">
+        <div class="tarjeta-sucursal">
+            <img src="~/images/sucursal1.png" alt="NetoFit Centro" />
+            <span class="etiqueta-ciudad">San Salvador</span>
+            <div class="tarjeta-texto">
+                <h3>NetoFit Centro</h3>
+                <p>Alameda Roosevelt, Edif. Torre Roble</p>
+                <p>05:00 – 23:00</p>
+                <a asp-controller="Home" asp-action="Sucursales">Ver detalle →</a>
+            </div>
+        </div>
+        <div class="tarjeta-sucursal">
+            <img src="~/images/sucursal2.png" alt="NetoFit Escalón" />
+            <span class="etiqueta-ciudad">San Salvador</span>
+            <div class="tarjeta-texto">
+                <h3>NetoFit Escalón</h3>
+                <p>Paseo General Escalón #4521</p>
+                <p>06:00 – 23:00</p>
+                <a asp-controller="Home" asp-action="Sucursales">Ver detalle →</a>
+            </div>
+        </div>
+        <div class="tarjeta-sucursal">
+            <img src="~/images/sucursal3.png" alt="NetoFit Santa Ana" />
+            <span class="etiqueta-ciudad">Santa Ana</span>
+            <div class="tarjeta-texto">
+                <h3>NetoFit Santa Ana</h3>
+                <p>Av. Independencia Sur, Col. Santa Lucía</p>
+                <p>05:30 – 22:30</p>
+                <a asp-controller="Home" asp-action="Sucursales">Ver detalle →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="seccion-planes">
+    <div class="contenedor">
+        <div class="planes-encabezado">
+            <span class="etiqueta">MEMBRESÍAS</span>
+            <h2>Elige tu plan</h2>
+            <p>Cancela cuando quieras. Sin letras chiquitas.</p>
+        </div>
+        <div class="planes-grid">
+            <div class="tarjeta-plan">
+                <h3>Flex</h3>
+                <p class="plan-descripcion">Entrena a tu ritmo, sin ataduras.</p>
+                <p class="plan-precio">$24.99 <span>/mensual</span></p>
+                <ul>
+                    <li>Acceso a 1 sucursal</li>
+                    <li>Horario completo</li>
+                    <li>App de rutinas</li>
+                    <li>1 clase grupal / semana</li>
+                </ul>
+                <a asp-controller="Home" asp-action="Planes" class="boton boton-borde boton-ancho">Contratar Flex</a>
+            </div>
+            <div class="tarjeta-plan tarjeta-popular">
+                <span class="badge-popular">★ MÁS POPULAR</span>
+                <h3>Pro</h3>
+                <p class="plan-descripcion">El equilibrio perfecto para resultados reales.</p>
+                <p class="plan-precio">$39.99 <span>/mensual</span></p>
+                <ul>
+                    <li>Acceso a todas las sucursales</li>
+                    <li>Clases grupales ilimitadas</li>
+                    <li>1 evaluación física / mes</li>
+                    <li>Rutina personalizada</li>
+                    <li>Invita a un amigo 2 veces</li>
+                </ul>
+                <a asp-controller="Home" asp-action="Planes" class="boton boton-lima boton-ancho">Contratar Pro</a>
+            </div>
+            <div class="tarjeta-plan">
+                <h3>Elite</h3>
+                <p class="plan-descripcion">Acompañamiento total con tu entrenador.</p>
+                <p class="plan-precio">$64.99 <span>/mensual</span></p>
+                <ul>
+                    <li>Todo lo de Pro</li>
+                    <li>Entrenador personal 4x/mes</li>
+                    <li>Evaluación física quincenal</li>
+                    <li>Plan nutricional</li>
+                    <li>Acceso a spa y sauna</li>
+                </ul>
+                <a asp-controller="Home" asp-action="Planes" class="boton boton-borde boton-ancho">Contratar Elite</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-banner">
+    <div class="contenedor cta-interno">
+        <p>♡ Tu primera semana es gratis. Empieza hoy.</p>
+        <a asp-controller="Account" asp-action="Registro" class="boton boton-blanco">Comenzar ahora</a>
+    </div>
+</section>

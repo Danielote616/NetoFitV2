@@ -1,0 +1,29 @@
+@model List<Vista1Danielote.Models.SeguimientoFilaModelo>
+@{
+    Layout = "~/Views/Shared/_LayoutAdminCabecera.cshtml";
+    string seccion = ViewBag.Seccion as string ?? "Evaluaciones";
+    ViewData["Title"] = seccion;
+    ViewData["Subtitulo"] = "Seguimiento";
+    string[] secciones = { "Evaluaciones", "Rutinas", "Ejercicios", "Detalles", "Asistencias" };
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div><h1 class="fw-bold text-white display-6 mb-1">Seguimiento de clientes</h1><p class="text-secondary">Evaluaciones, rutinas, ejercicios y asistencias registrados en SQL Server</p></div>
+    <a asp-controller="Seguimiento" asp-action="Formulario" asp-route-seccion="@seccion" class="btn btn-netofit px-4">+ Agregar</a>
+</div>
+<nav class="d-flex gap-2 flex-wrap mb-4" aria-label="Secciones de seguimiento">
+    @foreach (string item in secciones) { <a asp-action="Index" asp-route-seccion="@item" class="btn @(seccion == item ? "btn-netofit" : "btn-outline-secondary") rounded-pill">@item</a> }
+</nav>
+@if (TempData["Error"] != null) { <p class="text-warning">@TempData["Error"]</p> }
+<div class="bg-dark border border-secondary p-3 rounded-4"><div class="table-responsive"><table class="table table-dark table-hover align-middle mb-0">
+    <thead><tr><th>REGISTRO</th><th>RELACIÓN</th><th>FECHA</th><th>DETALLE</th><th class="text-end">ACCIONES</th></tr></thead>
+    <tbody>
+    @foreach (var fila in Model)
+    {
+        <tr><td class="fw-bold text-light">@fila.Titulo</td><td class="text-secondary">@fila.Subtitulo</td><td>@fila.Fecha</td><td>@fila.Detalle</td>
+            <td class="text-end"><a asp-action="Formulario" asp-route-seccion="@seccion" asp-route-id="@fila.Id" asp-route-relacionado="@fila.IdRelacionado" class="text-light me-3">Editar</a>
+                <form asp-action="Eliminar" method="post" class="d-inline"><input type="hidden" name="id" value="@fila.Id" /><input type="hidden" name="relacionado" value="@fila.IdRelacionado" /><input type="hidden" name="seccion" value="@seccion" /><button type="submit" class="btn btn-link text-danger" onclick="return confirm('¿Eliminar este registro?')">Eliminar</button></form>
+            </td></tr>
+    }
+    @if (Model.Count == 0) { <tr><td colspan="5" class="text-center text-secondary py-4">No hay registros en esta sección.</td></tr> }
+    </tbody>
+</table></div></div>

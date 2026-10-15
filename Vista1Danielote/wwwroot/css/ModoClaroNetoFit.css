@@ -1,0 +1,270 @@
+/*
+ * NetoFitV2: modo claro común de las áreas de contenido.
+ * Se carga DESPUÉS de los estilos propios de cada módulo.
+ * Nunca cambia el header, footer ni el menú lateral administrativo.
+ * Paleta tomada del Dashboard existente: #f6faf7, #fff, #dbe8df, #12141a.
+ */
+body.nf-cuerpo .nf-contenido-general { color-scheme: light; }
+body.nf-cuerpo,
+body.nf-cuerpo.nf-admin,
+body.nf-cuerpo.netofit-body,
+body.nf-cuerpo.oferta-body,
+body.nf-cuerpo.nf-pago {
+    background: #f6faf7 !important;
+    color: #12141a;
+}
+body.nf-cuerpo .nf-contenido-general,
+body.nf-cuerpo.nf-cliente .nf-contenido-general,
+body.nf-cuerpo.inicio-netofit .nf-contenido-general,
+body.nf-cuerpo.cuenta-netofit .nf-contenido-general {
+    background: #f6faf7 !important;
+    color: #12141a;
+}
+/* Solamente el área central, nunca .nf-encabezado/.nf-pie-pagina/.sidebar-admin. */
+body.nf-cuerpo .nf-contenido-general .oferta-shell,
+body.nf-cuerpo .nf-contenido-general .oferta-principal,
+body.nf-cuerpo .nf-contenido-general .oferta-contenido,
+body.nf-cuerpo .nf-contenido-general .contenido-principal,
+body.nf-cuerpo .nf-contenido-general .main-wrapper,
+body.nf-cuerpo .nf-contenido-general .admin-pagos-contenido,
+body.nf-cuerpo .nf-contenido-general .content-container,
+body.nf-cuerpo .nf-contenido-general .nf-cliente-contenido,
+body.nf-cuerpo .nf-contenido-general .admin-dashboard-integrado {
+    background-color: transparent !important;
+    color: #12141a;
+}
+/* Textos generales. Se preservan los rótulos del hero sobre fotografía. */
+body.nf-cuerpo .nf-contenido-general h1,
+body.nf-cuerpo .nf-contenido-general h2,
+body.nf-cuerpo .nf-contenido-general h3,
+body.nf-cuerpo .nf-contenido-general h4,
+body.nf-cuerpo .nf-contenido-general h5,
+body.nf-cuerpo .nf-contenido-general .text-white,
+body.nf-cuerpo .nf-contenido-general .text-light {
+    color: #12141a !important;
+}
+body.nf-cuerpo .nf-contenido-general .hero .hero-titulo,
+body.nf-cuerpo .nf-contenido-general .hero .hero-descripcion,
+body.nf-cuerpo .nf-contenido-general .hero .hero-texto,
+body.nf-cuerpo .nf-contenido-general .hero .boton-gris {
+    color: #fff !important;
+}
+body.nf-cuerpo .nf-contenido-general .hero .texto-lima { color: #c6f200 !important; }
+body.nf-cuerpo .nf-contenido-general .text-secondary,
+body.nf-cuerpo .nf-contenido-general .text-muted { color: #657080 !important; }
+/* Tarjetas y tablas Bootstrap de Sucursales, Equipos y Planes. */
+body.nf-cuerpo .nf-contenido-general .bg-dark,
+body.nf-cuerpo .nf-contenido-general .bg-card-dark,
+body.nf-cuerpo .nf-contenido-general .card.bg-dark {
+    background: #fff !important;
+    color: #12141a !important;
+    border-color: #dbe8df !important;
+}
+body.nf-cuerpo .nf-contenido-general .border-secondary { border-color: #dbe8df !important; }
+body.nf-cuerpo .nf-contenido-general .table-dark,
+body.nf-cuerpo .nf-contenido-general .table-dark > :not(caption) > * > * {
+    --bs-table-color: #12141a;
+    --bs-table-bg: #fff;
+    --bs-table-border-color: #dbe8df;
+    --bs-table-hover-bg: #eff6f0;
+    --bs-table-hover-color: #12141a;
+    background: #fff !important;
+    color: #12141a !important;
+    border-color: #dbe8df !important;
+}
+body.nf-cuerpo .nf-contenido-general .form-control.bg-dark,
+body.nf-cuerpo .nf-contenido-general .form-select.bg-dark {
+    background: #fff !important;
+    color: #12141a !important;
+    border-color: #dbe8df !important;
+}
+/* Administración: oferta deportiva, clientes y sus formularios. */
+body.nf-cuerpo .nf-contenido-general .oferta-header {
+    background: #fff !important;
+    border-bottom-color: #dbe8df !important;
+    color: #12141a;
+}
+body.nf-cuerpo .nf-contenido-general .oferta-ubicacion strong,
+body.nf-cuerpo .nf-contenido-general .oferta-usuario strong { color: #12141a !important; }
+body.nf-cuerpo .nf-contenido-general .oferta-ubicacion span,
+body.nf-cuerpo .nf-contenido-general .oferta-usuario small,
+body.nf-cuerpo .nf-contenido-general .oferta-cabecera-seccion p,
+body.nf-cuerpo .nf-contenido-general .clientes-cabecera p { color: #657080 !important; }
+body.nf-cuerpo .nf-contenido-general .oferta-tabla-marco,
+body.nf-cuerpo .nf-contenido-general .clientes-tabla-marco,
+body.nf-cuerpo .nf-contenido-general .clientes-ficha {
+    background: #fff !important;
+    border-color: #dbe8df !important;
+}
+body.nf-cuerpo .nf-contenido-general .oferta-tabla tbody td,
+body.nf-cuerpo .nf-contenido-general .clientes-tabla tbody td {
+    color: #12141a !important;
+    border-color: #e5ece7 !important;
+}
+body.nf-cuerpo .nf-contenido-general .oferta-tabla thead th,
+body.nf-cuerpo .nf-contenido-general .clientes-tabla thead th,
+body.nf-cuerpo .nf-contenido-general .oferta-texto-secundario,
+body.nf-cuerpo .nf-contenido-general .clientes-texto-sutil,
+body.nf-cuerpo .nf-contenido-general .clientes-contacto span:last-child {
+    color: #667085 !important;
+}
+body.nf-cuerpo .nf-contenido-general .oferta-tabla tbody tr:hover,
+body.nf-cuerpo .nf-contenido-general .clientes-tabla tbody tr:hover { background: #f0f7f2 !important; }
+body.nf-cuerpo .nf-contenido-general .oferta-pestana,
+body.nf-cuerpo .nf-contenido-general .clientes-filtro,
+body.nf-cuerpo .nf-contenido-general .clientes-boton-detalle {
+    background: #f7faf8 !important;
+    border-color: #dbe8df !important;
+    color: #344054 !important;
+}
+body.nf-cuerpo .nf-contenido-general .oferta-pestana.seleccionada,
+body.nf-cuerpo .nf-contenido-general .clientes-filtro.seleccionado {
+    background: #dcfce7 !important;
+    border-color: #a7e4b9 !important;
+    color: #166534 !important;
+}
+body.nf-cuerpo .nf-contenido-general .clientes-busqueda input,
+body.nf-cuerpo .nf-contenido-general .oferta-formulario input,
+body.nf-cuerpo .nf-contenido-general .oferta-formulario select,
+body.nf-cuerpo .nf-contenido-general .oferta-formulario textarea,
+body.nf-cuerpo .nf-contenido-general .clientes-ficha input,
+body.nf-cuerpo .nf-contenido-general .clientes-ficha select {
+    background: #fff !important;
+    color: #12141a !important;
+    border-color: #d0dbd3 !important;
+}
+body.nf-cuerpo .nf-contenido-general .clientes-avatar { background: #eaf5ed !important; color: #205437 !important; }
+body.nf-cuerpo .nf-contenido-general .clientes-activa,
+body.nf-cuerpo .nf-contenido-general .perfil-estado,
+body.nf-cuerpo .nf-contenido-general .perfil-membresia-estado { background: #dcfce7 !important; color: #166534 !important; }
+body.nf-cuerpo .nf-contenido-general .clientes-por-vencer { background: #fff3d6 !important; color: #926000 !important; }
+body.nf-cuerpo .nf-contenido-general .clientes-vencida { background: #fee4e2 !important; color: #b42318 !important; }
+/* Clases, reserva y perfil público. */
+body.nf-cuerpo .nf-contenido-general .tarjeta,
+body.nf-cuerpo .nf-contenido-general .reserva-dato,
+body.nf-cuerpo .nf-contenido-general .reserva-entrenador,
+body.nf-cuerpo .nf-contenido-general .reserva-panel,
+body.nf-cuerpo .nf-contenido-general .perfil-cabecera,
+body.nf-cuerpo .nf-contenido-general .perfil-reserva,
+body.nf-cuerpo .nf-contenido-general .perfil-reservar-mas,
+body.nf-cuerpo .nf-contenido-general .perfil-vacio,
+body.nf-cuerpo .nf-contenido-general .perfil-membresia,
+body.nf-cuerpo .nf-contenido-general .perfil-membresia-acciones {
+    background: #fff !important;
+    color: #12141a !important;
+    border-color: #dbe8df !important;
+}
+body.nf-cuerpo .nf-contenido-general .tarjeta h3,
+body.nf-cuerpo .nf-contenido-general .reserva-dato strong,
+body.nf-cuerpo .nf-contenido-general .reserva-entrenador strong,
+body.nf-cuerpo .nf-contenido-general .perfil-membresia-datos strong,
+body.nf-cuerpo .nf-contenido-general .perfil-pestana-activa { color: #12141a !important; }
+body.nf-cuerpo .nf-contenido-general .perfil-pestanas,
+body.nf-cuerpo .nf-contenido-general .perfil-membresia-acciones { border-color: #dbe8df !important; }
+body.nf-cuerpo .nf-contenido-general .perfil-pestanas a,
+body.nf-cuerpo .nf-contenido-general .perfil-cambiar-plan,
+body.nf-cuerpo .nf-contenido-general .perfil-reserva p,
+body.nf-cuerpo .nf-contenido-general .reserva-encabezado p { color: #526071 !important; }
+body.nf-cuerpo .nf-contenido-general .reserva-ver,
+body.nf-cuerpo .nf-contenido-general .perfil-editar {
+    background: #fff !important;
+    color: #12141a !important;
+    border-color: #cbd8cd !important;
+}
+body.nf-cuerpo .nf-contenido-general .reserva-barra { background: #e4ece6 !important; }
+body.nf-cuerpo .nf-contenido-general .reserva-etiqueta { background: #ecf8df !important; color: #3c641a !important; }
+body.nf-cuerpo .nf-contenido-general .reserva-confirmar-inactivo { background: #e8ece9 !important; color: #344054 !important; }
+body.nf-cuerpo .nf-contenido-general .reserva-alerta { background: #fff1f0 !important; color: #b42318 !important; border-color: #fecdca !important; }
+/* Pago del cliente: también sobrescribe el <style> interno de la vista. */
+body.nf-cuerpo .nf-contenido-general .pago-card,
+body.nf-cuerpo .nf-contenido-general .summary-box {
+    background: #fff !important;
+    border: 1px solid #dbe8df !important;
+    color: #12141a !important;
+}
+body.nf-cuerpo .nf-contenido-general .summary-box { background: #f5faf6 !important; }
+body.nf-cuerpo .nf-contenido-general .pago-title,
+body.nf-cuerpo .nf-contenido-general .pago-card-title,
+body.nf-cuerpo .nf-contenido-general .summary-item-title,
+body.nf-cuerpo .nf-contenido-general .total-label,
+body.nf-cuerpo .nf-contenido-general .total-amount { color: #12141a !important; }
+body.nf-cuerpo .nf-contenido-general .form-input { background: #fff !important; border-color: #cbd8cd !important; color: #12141a !important; }
+body.nf-cuerpo .nf-contenido-general .pago-divider { border-color: #dbe8df !important; }
+/* Pagos y promociones administrativo: estilos definidos dentro de Index.cshtml. */
+body.nf-cuerpo .nf-contenido-general .admin-card,
+body.nf-cuerpo .nf-contenido-general .promo-card,
+body.nf-cuerpo .nf-contenido-general .btn-export {
+    background: #fff !important;
+    color: #12141a !important;
+    border-color: #dbe8df !important;
+}
+body.nf-cuerpo .nf-contenido-general .promo-icon-box { background: #eaf5ed !important; color: #166534 !important; }
+body.nf-cuerpo .nf-contenido-general .custom-table th { color: #667085 !important; border-color: #dbe8df !important; }
+body.nf-cuerpo .nf-contenido-general .custom-table td,
+body.nf-cuerpo .nf-contenido-general .custom-table td[style] { color: #12141a !important; border-color: #e5ece7 !important; }
+body.nf-cuerpo .nf-contenido-general .badge-activa { background: #dcfce7 !important; color: #166534 !important; }
+body.nf-cuerpo .nf-contenido-general .badge-finalizada { background: #edf1ee !important; color: #576474 !important; }
+/* Mantener el aspecto verde/negro de botones CTA y los textos de contraste. */
+body.nf-cuerpo .nf-contenido-general .btn-netofit,
+body.nf-cuerpo .nf-contenido-general .btn-pagar,
+body.nf-cuerpo .nf-contenido-general .reserva-confirmar:not(.reserva-confirmar-inactivo),
+body.nf-cuerpo .nf-contenido-general .oferta-boton-agregar,
+body.nf-cuerpo .nf-contenido-general .clientes-boton-nuevo,
+body.nf-cuerpo .nf-contenido-general .btn-nueva-promo { color: #10130c !important; }
+/* Complementos para campos de filtro, formularios y tipografía auxiliar. */
+body.nf-cuerpo .nf-contenido-general .filtros select,
+body.nf-cuerpo .nf-contenido-general .oferta-campo input,
+body.nf-cuerpo .nf-contenido-general .oferta-campo select {
+    background: #fff !important;
+    border-color: #d0dbd3 !important;
+    color: #12141a !important;
+}
+body.nf-cuerpo .nf-contenido-general .oferta-formulario-marco {
+    background: #fff !important;
+    border-color: #dbe8df !important;
+}
+body.nf-cuerpo .nf-contenido-general .oferta-campo label,
+body.nf-cuerpo .nf-contenido-general .ruta-actual,
+body.nf-cuerpo .nf-contenido-general .perfil-titular h1 {
+    color: #12141a !important;
+}
+body.nf-cuerpo .nf-contenido-general .oferta-boton-cancelar {
+    background: #f7faf8 !important;
+    border-color: #dbe8df !important;
+    color: #344054 !important;
+}
+body.nf-cuerpo .nf-contenido-general .oferta-boton-deshabilitado {
+    background: #ecf1ea !important;
+    color: #667085 !important;
+    border-color: #dbe8df !important;
+}
+body.nf-cuerpo .nf-contenido-general .titulo-clases p,
+body.nf-cuerpo .nf-contenido-general .hora,
+body.nf-cuerpo .nf-contenido-general .entrenador,
+body.nf-cuerpo .nf-contenido-general .reserva-dato small,
+body.nf-cuerpo .nf-contenido-general .reserva-entrenador small,
+body.nf-cuerpo .nf-contenido-general .reserva-nota,
+body.nf-cuerpo .nf-contenido-general .oferta-nota,
+body.nf-cuerpo .nf-contenido-general .clientes-nota { color: #667085 !important; }
+body.nf-cuerpo .nf-contenido-general .perfil-pestanas .perfil-pestana-activa {
+    color: #12141a !important;
+    border-bottom-color: #15803d !important;
+}
+body.nf-cuerpo .nf-contenido-general .perfil-membresia-superior h2 { color: #15803d !important; }
+body.nf-cuerpo .nf-contenido-general .perfil-membresia-datos small { color: #667085 !important; }
+body.nf-cuerpo .nf-contenido-general .clientes-ficha-encabezado,
+body.nf-cuerpo .nf-contenido-general .clientes-formulario-pie,
+body.nf-cuerpo .nf-contenido-general .oferta-formulario-acciones { border-color: #dbe8df !important; }
+/* Evitar que el borde azul del módulo de clases se extienda sobre el fondo claro. */
+body.nf-cuerpo .nf-contenido-general .contenido-principal { border-bottom-color: #dbe8df !important; }
+/* Confirmación del pago público. */
+body.nf-cuerpo .nf-contenido-general .confirm-card {
+    background: #fff !important;
+    border-color: #dbe8df !important;
+    color: #12141a !important;
+}
+body.nf-cuerpo .nf-contenido-general .confirm-title,
+body.nf-cuerpo .nf-contenido-general .confirm-value,
+body.nf-cuerpo .nf-contenido-general .confirm-subtitle strong { color: #12141a !important; }
+body.nf-cuerpo .nf-contenido-general .confirm-subtitle,
+body.nf-cuerpo .nf-contenido-general .confirm-label { color: #667085 !important; }
