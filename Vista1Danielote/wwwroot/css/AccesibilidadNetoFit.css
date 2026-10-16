@@ -1,4 +1,3 @@
-/* Controles de accesibilidad en el encabezado público y la barra administrativa. */
 .nf-cuerpo .nf-a11y-bar {
     display: flex;
     align-items: center;
@@ -37,7 +36,6 @@
 .nf-cuerpo .nf-a11y-opcion:disabled { opacity: .55; cursor: not-allowed; }
 .nf-cuerpo .nf-a11y-texto { min-width: 33px; font-weight: 800; font-size: 12px; }
 .nf-cuerpo .nf-a11y-opcion:focus-visible { outline: 3px solid #facc15 !important; outline-offset: 2px; }
-/* El estado sigue anunciado a lectores de pantalla, pero no ocupa espacio visual. */
 .nf-cuerpo .nf-a11y-estado {
     position: absolute;
     width: 1px;
@@ -66,7 +64,6 @@
     white-space: normal;
     padding: 7px 4px;
 }
-/* Separación entre el menú principal, los controles y el perfil en escritorio. */
 .nf-cuerpo:not(.nf-admin) .nf-a11y-bar {
     border-left: 1px solid #64717c;
     padding-left: 20px;
@@ -74,7 +71,6 @@
 }
 .nf-cuerpo:not(.nf-admin) .nf-usuario { margin-left: 24px; }
 
-/* Modo oscuro. Actúa en el contenido, sin sustituir la navegación existente. */
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo,
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general,
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(.contenido-principal, .main-wrapper, .oferta-shell, .oferta-principal, .oferta-contenido, .admin-dashboard-integrado, .admin-pagos-contenido, .nf-cliente-contenido) {
@@ -96,7 +92,6 @@ html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(.btn-netofit,.btn-pagar,.reserva-confirmar:not(.reserva-confirmar-inactivo),.oferta-boton-agregar,.clientes-boton-nuevo,.btn-nueva-promo) { background-color: #c6ff00 !important; color: #10130c !important; }
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(.btn-netofit,.btn-pagar,.reserva-confirmar:not(.reserva-confirmar-inactivo),.oferta-boton-agregar,.clientes-boton-nuevo,.btn-nueva-promo) :is(span,strong) { color: #10130c !important; }
 
-/* Correcciones de legibilidad: fondos oscuros y colores de botones/insignias. */
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero .hero-overlay {
     background: linear-gradient(90deg, rgba(3, 8, 13, .93) 0%, rgba(3, 8, 13, .83) 55%, rgba(3, 8, 13, .70) 100%) !important;
 }
@@ -133,7 +128,6 @@ html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general a:not(.boton-lima):not(.boton-blanco):not(.btn-netofit):not(.btn-pagar):not(.reserva-confirmar) { color: #cde4ff !important; }
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero :is(.boton-gris, .boton-gris:visited) { background-color: #334155 !important; color: #fff !important; }
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero :is(.badge-lima,.badge-lima span) { color: #10130c !important; }
-/* Alto contraste: prioridad sobre el modo oscuro, con texto blanco y acciones amarillas. */
 html.nf-ac-contraste body.nf-cuerpo,
 html.nf-ac-contraste body.nf-cuerpo .nf-contenido-general,
 html.nf-ac-contraste body.nf-cuerpo .nf-contenido-general *:not(svg):not(path):not(img):not(video):not(canvas),

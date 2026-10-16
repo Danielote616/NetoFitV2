@@ -202,6 +202,17 @@ namespace Vistasdebeltran.Controllers
                     }
                 }
 
+
+                if (!tieneMembresiaActiva &&
+                    (plan.TipoOperacion == "renovar" ||
+                     plan.TipoOperacion == "cambiar"))
+                {
+                    ModelState.AddModelError(
+                        "",
+                        "No tienes una membresía activa. Para adquirir un plan debes realizar una contratación nueva."
+                    );
+                }
+
                 if (tieneMembresiaActiva)
                 {
                     if (plan.TipoOperacion == "nuevo")

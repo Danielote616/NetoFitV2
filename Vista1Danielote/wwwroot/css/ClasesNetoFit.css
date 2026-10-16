@@ -237,7 +237,6 @@
     color: #ff4d67;
 }
 
-/* LÍNEAS DE COLORES */
 
 .linea {
     width: 30px;
@@ -266,7 +265,6 @@
     background-color: #ff791f;
 }
 
-/* PIE DE PÁGINA */
 
 .pie-pagina {
     background-color: #0d0f11;
@@ -316,7 +314,6 @@
 }
 
 
-/* Ajustes para pantallas de laptop, sin reglas por tamaño de pantalla. */
 .contenido-principal { border-bottom: 1px solid #202329; }
 .contenedor-clases { max-width: 1420px; padding: 40px 28px 70px; }
 .menu .menu-activo { background: transparent; border-radius: 0; padding: 0; text-decoration: underline; }

@@ -329,10 +329,10 @@ namespace Vista1Danielote.Controllers
 
             if (idCliente <= 0 ||
                 string.IsNullOrWhiteSpace(objetivo) ||
-                objetivo.Trim().Length > 200)
+                objetivo.Trim().Length > 150)
             {
                 TempData["ErrorEntrenador"] =
-                    "Selecciona un alumno y escribe un objetivo de hasta 200 caracteres.";
+                    "Selecciona un alumno y escribe un objetivo de hasta 150 caracteres.";
 
                 return RedirectToAction(nameof(Index));
             }

@@ -159,7 +159,6 @@ namespace Vistasdebeltran.Controllers
         }
 
         [HttpPost]
-        
         public IActionResult Confirmar(int id)
         {
             if (!EsAdmin())
@@ -352,7 +351,6 @@ namespace Vistasdebeltran.Controllers
         }
 
         [HttpPost]
-        
         public IActionResult Promocion(PromocionAdminModelo modelo)
         {
             if (!EsAdmin())
@@ -365,6 +363,14 @@ namespace Vistasdebeltran.Controllers
                 ModelState.AddModelError(
                     "FechaFin",
                     "La fecha final debe ser posterior a la inicial."
+                );
+            }
+
+            if (modelo.FechaFin.Date < DateTime.Today)
+            {
+                ModelState.AddModelError(
+                    "FechaFin",
+                    "La fecha de finalización no puede ser anterior a la fecha actual."
                 );
             }
 
@@ -422,7 +428,6 @@ namespace Vistasdebeltran.Controllers
         }
 
         [HttpPost]
-        
         public IActionResult EliminarPromocion(int id)
         {
             if (!EsAdmin())

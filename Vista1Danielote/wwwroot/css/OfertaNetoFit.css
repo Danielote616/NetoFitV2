@@ -520,6 +520,5 @@
     outline-offset: 3px;
 }
 
-/* Menú administrativo en modo laptop. */
 .oferta-menu-movil { display: none; }
 .oferta-tabla-marco { overflow-x: auto; }
