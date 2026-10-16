@@ -28,6 +28,12 @@
     {
         asistenciasSinSucursal = 0;
     }
+    int? sucursalSeleccionada =
+    (int?)ViewBag.SucursalSeleccionada;
+
+    List<ReporteSucursalModelo> sucursalesFiltro =
+        ViewBag.TodasLasSucursales as List<ReporteSucursalModelo>
+        ?? new List<ReporteSucursalModelo>();
 }
 
 <div class="dashboard-encabezado">
@@ -43,9 +49,38 @@
         </p>
     </div>
 
-    <span class="dashboard-select">
-        Todas las sucursales
-    </span>
+
+    <form asp-controller="Admin"
+          asp-action="Dashboard"
+          method="get">
+
+        <select name="sucursal"
+                class="dashboard-select"
+                aria-label="Seleccionar sucursal"
+                onchange="this.form.submit()">
+
+            <option value="">Todas las sucursales</option>
+
+            @foreach (ReporteSucursalModelo sede in sucursalesFiltro)
+            {
+                if (sucursalSeleccionada == sede.IdSucursal)
+                {
+                    <option value="@sede.IdSucursal" selected="selected">
+                        @sede.Nombre
+                    </option>
+                }
+                else
+                {
+                    <option value="@sede.IdSucursal">
+                        @sede.Nombre
+                    </option>
+                }
+            }
+
+        </select>
+
+    </form>
+
 
 </div>
 
@@ -63,7 +98,9 @@
         </p>
 
         <p class="stat-etiqueta">
-            Ingresos confirmados
+            @(sucursalSeleccionada.HasValue
+                        ? "Clientes con membresía"
+                        : "Clientes registrados")
         </p>
     </div>
 

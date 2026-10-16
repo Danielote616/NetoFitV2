@@ -16,7 +16,7 @@ namespace Vista1Danielote.Controllers
         }
 
         [HttpGet]
-        public IActionResult Dashboard()
+        public IActionResult Dashboard(int? sucursal)
         {
             if (!EsAdmin())
             {
@@ -25,45 +25,121 @@ namespace Vista1Danielote.Controllers
 
             DashboardAdminModelo modelo = new DashboardAdminModelo();
 
+            List<ReporteSucursalModelo> todasLasSucursales =
+                new List<ReporteSucursalModelo>();
+
             using (SqlConnection con = conexion.GetConnection())
             {
                 con.Open();
 
-                using (SqlCommand cmd = new SqlCommand(
-                    "SELECT COUNT(*) FROM Cliente", con))
+                string sqlSucursales = @"
+            SELECT id_sucursal, nombre
+            FROM Sucursal
+            ORDER BY nombre";
+
+                using (SqlCommand cmd =
+                    new SqlCommand(sqlSucursales, con))
                 {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ReporteSucursalModelo sede =
+                                new ReporteSucursalModelo();
+
+                            sede.IdSucursal = reader.GetInt32(0);
+                            sede.Nombre = reader.GetString(1);
+
+                            todasLasSucursales.Add(sede);
+                        }
+                    }
+                }
+
+                if (sucursal.HasValue &&
+                    !todasLasSucursales.Any(
+                        s => s.IdSucursal == sucursal.Value))
+                {
+                    sucursal = null;
+                }
+
+                ViewBag.TodasLasSucursales = todasLasSucursales;
+                ViewBag.SucursalSeleccionada = sucursal;
+
+                string sqlClientes = sucursal.HasValue
+                    ? @"SELECT COUNT(DISTINCT IdCliente)
+                FROM dbo.vw_MembresiasDetalle
+                WHERE IdSucursal = @Sucursal"
+                    : "SELECT COUNT(*) FROM Cliente";
+
+                using (SqlCommand cmd =
+                    new SqlCommand(sqlClientes, con))
+                {
+                    if (sucursal.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@Sucursal", sucursal.Value);
+                    }
+
                     ViewBag.Clientes = Convert.ToInt32(
-                        cmd.ExecuteScalar()
-                    );
+                        cmd.ExecuteScalar());
                 }
 
-                using (SqlCommand cmd = new SqlCommand(
-                    @"SELECT COALESCE(SUM(monto), 0)
-                      FROM Pago
-                      WHERE estado_pago = 'Confirmado'", con))
+                string sqlIngresosTotales = sucursal.HasValue
+                    ? @"SELECT COALESCE(SUM(Monto), 0)
+                FROM dbo.vw_PagosDetalle
+                WHERE EstadoPago = 'Confirmado'
+                AND IdSucursal = @Sucursal"
+                    : @"SELECT COALESCE(SUM(Monto), 0)
+                FROM dbo.vw_PagosDetalle
+                WHERE EstadoPago = 'Confirmado'";
+
+                using (SqlCommand cmd =
+                    new SqlCommand(sqlIngresosTotales, con))
                 {
+                    if (sucursal.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@Sucursal", sucursal.Value);
+                    }
+
                     ViewBag.Ingresos = Convert.ToDecimal(
-                        cmd.ExecuteScalar()
-                    );
+                        cmd.ExecuteScalar());
                 }
 
-                using (SqlCommand cmd = new SqlCommand(
-                    "SELECT COUNT(*) FROM Asistencia", con))
+                string sqlAsistenciasTotales = sucursal.HasValue
+                    ? @"SELECT COUNT(*)
+                FROM dbo.vw_AsistenciasDetalle
+                WHERE IdSucursal = @Sucursal"
+                    : "SELECT COUNT(*) FROM dbo.vw_AsistenciasDetalle";
+
+                using (SqlCommand cmd =
+                    new SqlCommand(sqlAsistenciasTotales, con))
                 {
+                    if (sucursal.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@Sucursal", sucursal.Value);
+                    }
+
                     ViewBag.Asistencias = Convert.ToInt32(
-                        cmd.ExecuteScalar()
-                    );
+                        cmd.ExecuteScalar());
                 }
 
                 string sqlVencer = @"
-                    SELECT COUNT(*)
-                    FROM Membresias
-                    WHERE estado = 'Activa'
-                    AND fecha_inicio <= @Hoy
-                    AND fecha_fin >= @Hoy
-                    AND fecha_fin <= @Limite";
+            SELECT COUNT(*)
+            FROM dbo.vw_MembresiasDetalle
+            WHERE EstadoMembresia = 'Activa'
+            AND FechaInicio <= @Hoy
+            AND FechaFin >= @Hoy
+            AND FechaFin <= @Limite";
 
-                using (SqlCommand cmd = new SqlCommand(sqlVencer, con))
+                if (sucursal.HasValue)
+                {
+                    sqlVencer += " AND IdSucursal = @Sucursal";
+                }
+
+                using (SqlCommand cmd =
+                    new SqlCommand(sqlVencer, con))
                 {
                     cmd.Parameters.AddWithValue(
                         "@Hoy", DateTime.Today);
@@ -71,107 +147,100 @@ namespace Vista1Danielote.Controllers
                     cmd.Parameters.AddWithValue(
                         "@Limite", DateTime.Today.AddDays(15));
 
+                    if (sucursal.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@Sucursal", sucursal.Value);
+                    }
+
                     ViewBag.PorVencer = Convert.ToInt32(
-                        cmd.ExecuteScalar()
-                    );
+                        cmd.ExecuteScalar());
                 }
 
-                string sqlSucursales = @"
-                    SELECT id_sucursal, nombre
-                    FROM Sucursal
-                    ORDER BY nombre";
-
-                using (SqlCommand cmd = new SqlCommand(sqlSucursales, con))
+                foreach (ReporteSucursalModelo sede in todasLasSucursales)
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    if (sucursal.HasValue &&
+                        sede.IdSucursal != sucursal.Value)
                     {
-                        while (reader.Read())
-                        {
-                            ReporteSucursalModelo sucursal =
-                                new ReporteSucursalModelo();
-
-                            sucursal.IdSucursal = reader.GetInt32(0);
-                            sucursal.Nombre = reader.GetString(1);
-
-                            modelo.Sucursales.Add(sucursal);
-                        }
+                        continue;
                     }
+
+                    modelo.Sucursales.Add(sede);
                 }
 
                 int asistenciasIdentificadas = 0;
 
-                foreach (ReporteSucursalModelo sucursal in modelo.Sucursales)
+                foreach (ReporteSucursalModelo sede in modelo.Sucursales)
                 {
                     string sqlIngresos = @"
-                        SELECT COALESCE(SUM(p.monto), 0)
-                        FROM Pago p
-                        INNER JOIN Membresias m
-                            ON m.id_membresia = p.id_membresia
-                        WHERE m.id_sucursal = @Sucursal
-                        AND p.estado_pago = 'Confirmado'";
+    SELECT IngresosConfirmados
+    FROM dbo.vw_IngresosSucursal
+    WHERE IdSucursal = @Sucursal";
 
-                    using (SqlCommand cmd = new SqlCommand(sqlIngresos, con))
+                    using (SqlCommand cmd =
+                        new SqlCommand(sqlIngresos, con))
                     {
                         cmd.Parameters.AddWithValue(
-                            "@Sucursal", sucursal.IdSucursal);
+                            "@Sucursal", sede.IdSucursal);
 
-                        sucursal.Ingresos = Convert.ToDecimal(
-                            cmd.ExecuteScalar()
-                        );
+                        sede.Ingresos = Convert.ToDecimal(
+                            cmd.ExecuteScalar());
                     }
 
                     string sqlAsistencia = @"
-                        SELECT COUNT(*)
-                        FROM Asistencia a
-                        INNER JOIN Reserva r
-                            ON r.id_reserva = a.id_reserva
-                        INNER JOIN Horario h
-                            ON h.id_horario = r.id_horario
-                        INNER JOIN Clase c
-                            ON c.id_clase = h.id_clase
-                        WHERE c.id_sucursal = @Sucursal";
+    SELECT COUNT(*)
+    FROM dbo.vw_AsistenciasDetalle
+    WHERE IdSucursal = @Sucursal";
 
-                    using (SqlCommand cmd = new SqlCommand(sqlAsistencia, con))
+                    using (SqlCommand cmd =
+                        new SqlCommand(sqlAsistencia, con))
                     {
                         cmd.Parameters.AddWithValue(
-                            "@Sucursal", sucursal.IdSucursal);
+                            "@Sucursal", sede.IdSucursal);
 
-                        sucursal.Asistencias = Convert.ToInt32(
-                            cmd.ExecuteScalar()
-                        );
+                        sede.Asistencias = Convert.ToInt32(
+                            cmd.ExecuteScalar());
                     }
 
-                    asistenciasIdentificadas += sucursal.Asistencias;
+                    asistenciasIdentificadas += sede.Asistencias;
                 }
 
                 ViewBag.AsistenciasIdentificadas =
                     asistenciasIdentificadas;
 
                 string sqlProximas = @"
-                    SELECT c.nombre,
-                           COALESCE(p.nombre, 'Sin plan'),
-                           COALESCE(s.nombre, 'Sin sucursal'),
-                           m.fecha_fin
-                    FROM Membresias m
-                    INNER JOIN Cliente c
-                        ON c.id_cliente = m.id_cliente
-                    LEFT JOIN Planes p
-                        ON p.id_plan = m.id_plan
-                    LEFT JOIN Sucursal s
-                        ON s.id_sucursal = m.id_sucursal
-                    WHERE m.estado = 'Activa'
-                    AND m.fecha_inicio <= @Hoy
-                    AND m.fecha_fin >= @Hoy
-                    AND m.fecha_fin <= @Limite
-                    ORDER BY m.fecha_fin";
+            SELECT Cliente,
+                   COALESCE([Plan], 'Sin plan'),
+                   COALESCE(Sucursal, 'Sin sucursal'),
+                   FechaFin
+            FROM dbo.vw_MembresiasDetalle
+            WHERE Cliente IS NOT NULL
+            AND EstadoMembresia = 'Activa'
+            AND FechaInicio <= @Hoy
+            AND FechaFin >= @Hoy
+            AND FechaFin <= @Limite";
 
-                using (SqlCommand cmd = new SqlCommand(sqlProximas, con))
+                if (sucursal.HasValue)
+                {
+                    sqlProximas += " AND IdSucursal = @Sucursal";
+                }
+
+                sqlProximas += " ORDER BY FechaFin";
+
+                using (SqlCommand cmd =
+                    new SqlCommand(sqlProximas, con))
                 {
                     cmd.Parameters.AddWithValue(
                         "@Hoy", DateTime.Today);
 
                     cmd.Parameters.AddWithValue(
                         "@Limite", DateTime.Today.AddDays(15));
+
+                    if (sucursal.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@Sucursal", sucursal.Value);
+                    }
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -193,6 +262,7 @@ namespace Vista1Danielote.Controllers
 
             return View(modelo);
         }
+
 
         [HttpGet]
         public IActionResult Sucursales()
@@ -464,18 +534,17 @@ namespace Vista1Danielote.Controllers
                 con.Open();
 
                 string sql = @"
-                    SELECT e.id_equipo,
-                           e.nombre,
-                           e.tipo,
-                           e.estado,
-                           e.id_sucursal,
-                           s.nombre
-                    FROM Equipo e
-                    LEFT JOIN Sucursal s
-                        ON s.id_sucursal = e.id_sucursal
-                    WHERE @Sucursal IS NULL
-                       OR e.id_sucursal = @Sucursal
-                    ORDER BY e.id_equipo DESC";
+    SELECT
+        IdEquipo,
+        Equipo,
+        Tipo,
+        Estado,
+        IdSucursal,
+        Sucursal
+    FROM dbo.vw_EquiposSucursal
+    WHERE @Sucursal IS NULL
+       OR IdSucursal = @Sucursal
+    ORDER BY IdEquipo DESC";
 
                 using (SqlCommand cmd = new SqlCommand(sql, con))
                 {

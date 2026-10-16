@@ -110,3 +110,133 @@
 .clientes-avatar-grande .bi {
     font-size: 28px;
 }
+body:not(.modo-oscuro) .clientes-cabecera h1 {
+    color: #1a1d21;
+}
+
+body:not(.modo-oscuro) .clientes-cabecera p {
+    color: #5a5f68;
+}
+
+body:not(.modo-oscuro) .clientes-boton-nuevo {
+    background: #c9ff36;
+    color: #111411 !important;
+}
+
+    body:not(.modo-oscuro) .clientes-boton-nuevo:hover,
+    body:not(.modo-oscuro) .clientes-boton-nuevo:focus-visible {
+        background: #b3ef18;
+    }
+
+body:not(.modo-oscuro) .clientes-busqueda input {
+    background: #ffffff;
+    border: 1px solid #d5d8dd;
+    color: #1a1d21;
+}
+
+    body:not(.modo-oscuro) .clientes-busqueda input::placeholder {
+        color: #8a8f98;
+    }
+
+    body:not(.modo-oscuro) .clientes-busqueda input:focus-visible {
+        border-color: #7ab800;
+    }
+
+body:not(.modo-oscuro) .clientes-filtro {
+    background: #ffffff;
+    color: #3a3f47 !important;
+    border: 1px solid #d5d8dd;
+}
+
+    body:not(.modo-oscuro) .clientes-filtro.seleccionado {
+        background: #1a1d21;
+        border-color: #1a1d21;
+        color: #ffffff !important;
+    }
+
+    body:not(.modo-oscuro) .clientes-filtro:hover:not(.seleccionado) {
+        background: #eef1f4;
+        color: #1a1d21 !important;
+    }
+
+body:not(.modo-oscuro) .clientes-tabla-marco {
+    background: #ffffff;
+    border: 1px solid #e2e5e9;
+}
+
+body:not(.modo-oscuro) .clientes-tabla thead th {
+    color: #1a1d21;
+    border-bottom: 1px solid #e2e5e9;
+}
+
+body:not(.modo-oscuro) .clientes-tabla tbody td {
+    color: #1a1d21;
+    border-bottom: 1px solid #eef0f2;
+}
+
+body:not(.modo-oscuro) .clientes-tabla tbody tr:nth-child(even) {
+    background: #f5faf3;
+}
+
+body:not(.modo-oscuro) .clientes-tabla tbody tr:hover {
+    background: #eef6e8;
+}
+
+body:not(.modo-oscuro) .clientes-contacto span:last-child,
+body:not(.modo-oscuro) .clientes-tabla tbody td.clientes-texto-sutil {
+    color: #5a5f68;
+}
+
+body:not(.modo-oscuro) .clientes-boton-detalle {
+    border: 1px solid #d5d8dd;
+    color: #1a1d21 !important;
+    background: #ffffff;
+}
+
+    body:not(.modo-oscuro) .clientes-boton-detalle:hover,
+    body:not(.modo-oscuro) .clientes-boton-detalle:focus-visible {
+        background: #eef1f4;
+        color: #3a7d00 !important;
+    }
+
+body:not(.modo-oscuro) .clientes-volver {
+    color: #5a5f68 !important;
+}
+
+    body:not(.modo-oscuro) .clientes-volver:hover {
+        color: #3a7d00 !important;
+    }
+
+body:not(.modo-oscuro) .clientes-ficha {
+    background: #ffffff;
+    border: 1px solid #e2e5e9;
+}
+
+body:not(.modo-oscuro) .clientes-ficha-encabezado {
+    border-bottom: 1px solid #e2e5e9;
+}
+
+body:not(.modo-oscuro) .clientes-ficha h2 {
+    color: #1a1d21;
+}
+
+body:not(.modo-oscuro) .clientes-ficha-datos dt {
+    color: #5a5f68;
+}
+
+body:not(.modo-oscuro) .clientes-ficha-datos dd {
+    color: #1a1d21;
+}
+
+body:not(.modo-oscuro) .clientes-formulario-pie {
+    border-top: 1px solid #e2e5e9;
+}
+
+    body:not(.modo-oscuro) .clientes-formulario-pie p {
+        color: #5a5f68;
+    }
+
+body:not(.modo-oscuro) .clientes-avatar {
+    background: #eef1f4;
+    color: #1a1d21;
+}

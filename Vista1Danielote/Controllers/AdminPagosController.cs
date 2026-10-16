@@ -39,22 +39,17 @@ namespace Vistasdebeltran.Controllers
                 con.Open();
 
                 string sqlPagos = @"
-                    SELECT TOP 100
-                           p.id_pago,
-                           c.nombre,
-                           COALESCE(pl.nombre, 'Sin plan'),
-                           COALESCE(p.metodo_pago, 'Sin registrar'),
-                           p.fecha,
-                           p.monto,
-                           COALESCE(p.estado_pago, 'Pendiente')
-                    FROM Pago p
-                    INNER JOIN Cliente c
-                        ON c.id_cliente = p.id_cliente
-                    LEFT JOIN Membresias m
-                        ON m.id_membresia = p.id_membresia
-                    LEFT JOIN Planes pl
-                        ON pl.id_plan = m.id_plan
-                    ORDER BY p.id_pago DESC";
+    SELECT TOP 100
+        IdPago,
+        Cliente,
+        COALESCE([Plan], 'Sin plan'),
+        COALESCE(MetodoPago, 'Sin registrar'),
+        FechaPago,
+        Monto,
+        COALESCE(EstadoPago, 'Pendiente')
+    FROM dbo.vw_PagosDetalle
+    WHERE Cliente IS NOT NULL
+    ORDER BY IdPago DESC";
 
                 using (SqlCommand cmd = new SqlCommand(sqlPagos, con))
                 {
@@ -87,16 +82,15 @@ namespace Vistasdebeltran.Controllers
                 }
 
                 string sqlPromociones = @"
-                    SELECT pr.id_promocion,
-                           pr.nombre,
-                           COALESCE(pl.nombre, 'Sin plan'),
-                           pr.descuento,
-                           pr.fecha_inicio,
-                           pr.fecha_fin
-                    FROM Promocion pr
-                    LEFT JOIN Planes pl
-                        ON pl.id_plan = pr.id_plan
-                    ORDER BY pr.fecha_inicio DESC";
+    SELECT
+        IdPromocion,
+        Promocion,
+        COALESCE([Plan], 'Sin plan'),
+        Descuento,
+        FechaInicio,
+        FechaFin
+    FROM dbo.vw_PromocionesPlanes
+    ORDER BY FechaInicio DESC";
 
                 using (SqlCommand cmd = new SqlCommand(sqlPromociones, con))
                 {

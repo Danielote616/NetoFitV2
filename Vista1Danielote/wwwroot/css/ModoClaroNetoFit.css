@@ -63,11 +63,12 @@ body.nf-cuerpo .nf-contenido-general .table-dark > :not(caption) > * > * {
     color: #12141a !important;
     border-color: #dbe8df !important;
 }
-body.nf-cuerpo .nf-contenido-general .form-control.bg-dark,
-body.nf-cuerpo .nf-contenido-general .form-select.bg-dark {
-    background: #fff !important;
-    color: #12141a !important;
-    border-color: #dbe8df !important;
+    body.nf-cuerpo .nf-contenido-general .form-control.bg-dark,
+    body.nf-cuerpo .nf-contenido-general .form-select.bg-dark {
+        background: #fff !important;
+        color: #12141a !important;
+        border-color: #dbe8df !important;
+    }
 body.nf-cuerpo .nf-contenido-general .oferta-header {
     background: #fff !important;
     border-bottom-color: #dbe8df !important;
@@ -250,3 +251,88 @@ body.nf-cuerpo .nf-contenido-general .confirm-value,
 body.nf-cuerpo .nf-contenido-general .confirm-subtitle strong { color: #12141a !important; }
 body.nf-cuerpo .nf-contenido-general .confirm-subtitle,
 body.nf-cuerpo .nf-contenido-general .confirm-label { color: #667085 !important; }
+body.modo-oscuro .nf-seccion-titulo,
+body.modo-oscuro .nf-titulo-tarjeta,
+body.modo-oscuro .nf-card-titulo,
+body.modo-oscuro .nf-card h2,
+body.modo-oscuro .nf-card h3,
+body.modo-oscuro .nf-panel h2,
+body.modo-oscuro .nf-panel h3 {
+    color: #1a1d21 !important;
+}
+
+body.modo-oscuro .nf-buscador,
+body.modo-oscuro .nf-buscador::placeholder,
+body.modo-oscuro input.nf-buscador {
+    color: #1a1d21 !important;
+}
+
+body.modo-oscuro .nf-tab,
+body.modo-oscuro .nf-tab-activo,
+body.modo-oscuro .nf-chip,
+body.modo-oscuro .nf-filtro {
+    color: #1a1d21 !important;
+}
+
+body.modo-oscuro .nf-fila-plan,
+body.modo-oscuro .nf-plan-nombre,
+body.modo-oscuro .nf-plan-beneficio {
+    color: #1a1d21 !important;
+}
+
+body.modo-oscuro .nf-btn-nueva,
+body.modo-oscuro .nf-btn-primario {
+    color: #1a1d21 !important;
+}
+
+body.nf-cuerpo .nf-contenido-general .perfil-titular p,
+body.nf-cuerpo .nf-contenido-general .perfil-contactos,
+body.nf-cuerpo .nf-contenido-general .perfil-membresia-etiqueta,
+body.nf-cuerpo .nf-contenido-general .perfil-reserva p,
+body.nf-cuerpo .nf-contenido-general .perfil-vacio p {
+    color: #526071 !important;
+}
+
+body.nf-cuerpo .nf-contenido-general .perfil-renovar {
+    color: #10130c !important;
+}
+
+body.nf-cuerpo .nf-contenido-general .perfil-aviso-exito {
+    color: #166534 !important;
+}
+
+body.nf-cuerpo .nf-contenido-general .perfil-aviso-error {
+    color: #b42318 !important;
+}
+body.nf-cuerpo .nf-contenido-general
+.perfil-editar-formulario .perfil-formulario-control {
+    background-color: #fff !important;
+    color: #12141a !important;
+    border-color: #cbd8cd !important;
+    color-scheme: light;
+}
+
+body.nf-cuerpo .nf-contenido-general
+.perfil-editar-formulario .perfil-campo label {
+    color: #344054 !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo .nf-contenido-general
+.perfil-editar-formulario .perfil-formulario-control {
+    background-color: #171f28 !important;
+    color: #fff !important;
+    border-color: #728396 !important;
+    color-scheme: dark;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo .nf-contenido-general
+.perfil-editar-formulario .perfil-campo label {
+    color: #f1f5f9 !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo .nf-contenido-general .perfil-contactos {
+    color: #e2e8f0 !important;
+}

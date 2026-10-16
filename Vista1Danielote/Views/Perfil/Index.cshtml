@@ -148,8 +148,7 @@
 
                 @if (ViewBag.ProximoPlan != null)
                 {
-                    <p role="status"
-                       style="padding:12px;color:#ccff00;">
+                    <p role="status" class="perfil-aviso perfil-aviso-exito perfil-aviso-membresia">
                         @ViewBag.ProximoPlan
                     </p>
                 }
@@ -158,8 +157,7 @@
 
                     @if (solicitudPendiente)
                     {
-                        <p role="status"
-                           style="color:#ccff00;">
+                        <p role="status" class="perfil-aviso perfil-aviso-exito perfil-aviso-pendiente">
                             Tienes una solicitud de membresía pendiente.
                             Espera la confirmación del administrador
                             antes de realizar otra solicitud.
@@ -380,14 +378,14 @@
 
                 @if (TempData["ErrorPerfil"] != null)
                 {
-                    <p role="alert" style="color:#ff7474;">
+                    <p role="alert" class="perfil-aviso perfil-aviso-error">
                         @TempData["ErrorPerfil"]
                     </p>
                 }
 
                 @if (TempData["ExitoPerfil"] != null)
                 {
-                    <p role="status" style="color:#ccff00;">
+                    <p role="status" class="perfil-aviso perfil-aviso-exito">
                         @TempData["ExitoPerfil"]
                     </p>
                 }

@@ -125,7 +125,9 @@ html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is
     .hero-buscador .buscador-input, .buscador-input, input, select, textarea
 ) { background-color: #171f28 !important; color: #fff !important; border-color: #728396 !important; }
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is(input,textarea)::placeholder { color: #d3deeb !important; opacity: 1; }
-html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general a:not(.boton-lima):not(.boton-blanco):not(.btn-netofit):not(.btn-pagar):not(.reserva-confirmar) { color: #cde4ff !important; }
+    html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general a:not(.boton-lima):not(.boton-blanco):not(.btn-netofit):not(.btn-pagar):not(.reserva-confirmar):not(:is(.np-planes-nuevo, .np-planes-editar, .np-planes-eliminar, .promo-cancelar, .promo-guardar, .oferta-pestana, .clientes-filtro, .clientes-boton-detalle, .btn-nueva-promo, .oferta-boton-agregar, .clientes-boton-nuevo)) {
+        color: #cde4ff !important;
+    }
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero :is(.boton-gris, .boton-gris:visited) { background-color: #334155 !important; color: #fff !important; }
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero :is(.badge-lima,.badge-lima span) { color: #10130c !important; }
 html.nf-ac-contraste body.nf-cuerpo,
@@ -163,4 +165,177 @@ html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general :is
 html.nf-ac-oscuro:not(.nf-ac-contraste) body.nf-cuerpo .nf-contenido-general .hero-buscador {
     background-color: #1e2630 !important;
     border: 1px solid #728396 !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .panel-grafico, .panel-asistencia, .panel-tabla, .dashboard-select, .np-planes-panel, .promo-tarjeta, .oferta-tabla-marco, .clientes-tabla-marco, .clientes-ficha, .oferta-formulario-marco, .admin-card, .promo-card, .btn-export ) {
+    background-color: #1e2630 !important;
+    color: #f0f4f8 !important;
+    border-color: #526273 !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .np-planes-tabla thead, .np-planes-tabla tbody tr:hover, .oferta-tabla tbody tr:nth-child(even), .oferta-tabla tbody tr:hover, .clientes-tabla tbody tr:nth-child(even), .clientes-tabla tbody tr:hover ) {
+    background-color: #293544 !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .progreso-barra, .np-planes-duracion, .oferta-accion-editar, .clientes-boton-detalle, .oferta-pestana, .clientes-filtro, .promo-cancelar ) {
+    background-color: #303d4a !important;
+    border-color: #647589 !important;
+    color: #f0f4f8 !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .dashboard-encabezado h2, .panel-encabezado h3, .panel-asistencia h3, .panel-tabla h3, .np-planes-encabezado h1, .np-planes-panel-encabezado h2, .np-planes-tabla td, .np-planes-precio, .custom-table td, .custom-table td[style], .oferta-tabla tbody td, .clientes-tabla tbody td, .promo-formulario h1 ) {
+    color: #f5f8fb !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .dashboard-subtitulo, .panel-nota, .barra-item span, .progreso-nombre, .progreso-porcentaje, .np-planes-encabezado p, .np-planes-panel-encabezado p, .np-planes-tabla th, .np-planes-beneficios li, .np-planes-sin-beneficios, .np-planes-vacio, .custom-table th, .admin-header-row p, .admin-header-row span, .oferta-texto-secundario, .clientes-cabecera p, .clientes-contacto span:last-child, .clientes-texto-sutil, .promo-descripcion, .promo-ayuda ) {
+    color: #c3ceda !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .np-planes-panel-encabezado, .np-planes-tabla th, .np-planes-tabla td, .custom-table th, .custom-table td, .oferta-tabla th, .oferta-tabla td, .clientes-tabla th, .clientes-tabla td, .promo-acciones ) {
+    border-color: #526273 !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .stat-icono, .np-planes-icono, .promo-icon-box ) {
+    background-color: #2b452f !important;
+    color: #c6ff00 !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .np-planes-contador, .badge-estado.ambar ) {
+    background-color: #483a20 !important;
+    color: #ffe49a !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .badge-estado.rojo, .np-planes-eliminar, .np-planes-error ) {
+    background-color: #4b2832 !important;
+    color: #ffbdc5 !important;
+    border-color: #8b4655 !important;
+}
+
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .badge-activa, .clientes-activa, .oferta-pestana.seleccionada, .clientes-filtro.seleccionado ) {
+    background-color: #c6ff00 !important;
+    color: #17210c !important;
+    border-color: #c6ff00 !important;
+}
+
+    html.nf-ac-oscuro:not(.nf-ac-contraste)
+    body.nf-cuerpo.nf-admin .nf-contenido-general :is( .badge-activa, .clientes-activa, .oferta-pestana.seleccionada, .clientes-filtro.seleccionado ) :is(span, strong, i, small) {
+        color: #17210c !important;
+    }
+
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .np-planes-nuevo, .btn-nueva-promo, .promo-guardar, .oferta-boton-agregar, .clientes-boton-nuevo ) {
+    background-color: #c6ff00 !important;
+    color: #101a0a !important;
+    border-color: #c6ff00 !important;
+}
+
+    html.nf-ac-oscuro:not(.nf-ac-contraste)
+    body.nf-cuerpo.nf-admin .nf-contenido-general :is( .np-planes-nuevo, .btn-nueva-promo, .promo-guardar, .oferta-boton-agregar, .clientes-boton-nuevo ) :is(span, strong, i) {
+        color: #101a0a !important;
+    }
+
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin
+.nf-contenido-general .np-planes-editar {
+    background-color: #254337 !important;
+    color: #c5f5d5 !important;
+    border-color: #41795a !important;
+}
+
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .promo-campo input, .promo-campo select, .clientes-busqueda input, .oferta-campo input, .oferta-campo select ) {
+    background-color: #171f28 !important;
+    color: #f5f8fb !important;
+    border-color: #738395 !important;
+    color-scheme: dark;
+}
+
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .promo-campo label, .promo-etiqueta ) {
+    color: #d4f68a !important;
+}
+
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .promo-validacion, .promo-resumen-validacion ) {
+    color: #ffb4b4 !important;
+}
+
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .panel-tabla a, .promo-volver, .clientes-volver, .custom-table a ) {
+    color: #c6ff00 !important;
+}
+
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .np-planes-eliminar, .text-danger, .badge-estado.rojo ) {
+    color: #ffbdc5 !important;
+}
+
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin
+.nf-contenido-general .badge-finalizada {
+    background-color: #374453 !important;
+    color: #dfe7f0 !important;
+}
+
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin .nf-contenido-general :is( .oferta-avatar, .clientes-avatar ) {
+    background-color: #304332 !important;
+    color: #d5ff91 !important;
+}
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin
+.nf-contenido-general .table.table-hover,
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin
+.nf-contenido-general
+.table.table-hover > :not(caption) > * > * {
+    --bs-table-bg: #1e2630 !important;
+    --bs-table-color: #f0f4f8 !important;
+    --bs-table-hover-bg: #293544 !important;
+    --bs-table-hover-color: #f5f8fb !important;
+    --bs-table-border-color: #526273 !important;
+}
+
+    html.nf-ac-oscuro:not(.nf-ac-contraste)
+    body.nf-cuerpo.nf-admin
+    .nf-contenido-general
+    .table.table-hover > tbody > tr:hover > * {
+        --bs-table-bg-state: #293544 !important;
+        --bs-table-color-state: #f5f8fb !important;
+        background-color: #293544 !important;
+        color: #f5f8fb !important;
+        box-shadow: inset 0 0 0 9999px #293544 !important;
+    }
+
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin
+.nf-contenido-general
+:is( .clientes-tabla, .oferta-tabla, .np-planes-tabla, .custom-table, .tabla-membresias ) tbody tr:hover,
+html.nf-ac-oscuro:not(.nf-ac-contraste)
+body.nf-cuerpo.nf-admin
+.nf-contenido-general
+:is( .clientes-tabla, .oferta-tabla, .np-planes-tabla, .custom-table, .tabla-membresias ) tbody tr:hover > td {
+    background: #293544 !important;
+    color: #f5f8fb !important;
 }

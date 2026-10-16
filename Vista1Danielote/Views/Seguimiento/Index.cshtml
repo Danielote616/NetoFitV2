@@ -15,7 +15,7 @@
 </nav>
 @if (TempData["Error"] != null) { <p class="text-warning">@TempData["Error"]</p> }
 <div class="bg-dark border border-secondary p-3 rounded-4"><div class="table-responsive"><table class="table table-dark table-hover align-middle mb-0">
-    <thead><tr><th>REGISTRO</th><th>RELACIÓN</th><th>FECHA</th><th>DETALLE</th><th class="text-end">ACCIONES</th></tr></thead>
+    <thead><tr><th>REGISTRO</th><th>ENTRENADOR</th><th>FECHA</th><th>DETALLE</th><th class="text-end">ACCIONES</th></tr></thead>
     <tbody>
     @foreach (var fila in Model)
     {

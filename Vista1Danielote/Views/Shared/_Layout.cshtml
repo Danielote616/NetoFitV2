@@ -2,6 +2,22 @@
 @{
     int? rol = Context.Session.GetInt32("Rol");
     string cuerpo = ViewData["ClaseBody"]?.ToString() ?? "";
+
+    bool esAdmin = rol == 1;
+    bool esCliente = rol == 2;
+    bool esEntrenador = rol == 3;
+
+    bool mostrarMenuPublico = !(esAdmin || esEntrenador);
+
+    string logoCtrl = esEntrenador ? "Entrenador"
+                    : esAdmin ? "Admin"
+                    : "Home";
+    string logoAcc = esEntrenador ? "Index"
+                    : esAdmin ? "Dashboard"
+                    : "Index";
+    string logoAria = esEntrenador ? "NetoFitV2, ir al panel del entrenador"
+                    : esAdmin ? "NetoFitV2, ir al panel del administrador"
+                    : "NetoFitV2, ir al inicio";
 }
 <!DOCTYPE html>
 <html lang="es">
@@ -35,16 +51,23 @@
 <body class="nf-cuerpo @cuerpo">
     <header class="nf-encabezado">
         <div class="nf-encabezado-interior">
-            <a asp-controller="Home" asp-action="Index" class="nf-marca" aria-label="NetoFitV2, ir al inicio">
+
+            <a asp-controller="@logoCtrl" asp-action="@logoAcc"
+               class="nf-marca" aria-label="@logoAria">
                 <img src="~/Imagenes/Logo.png" asp-append-version="true" alt="Logo NetoFitV2" />
                 <strong>NetoFitV2</strong>
             </a>
-            <nav class="nf-navegacion" aria-label="Navegación principal">
-                <a asp-controller="Home" asp-action="Index">Inicio</a>
-                <a asp-controller="Home" asp-action="Sucursales">Sucursales</a>
-                <a asp-controller="Home" asp-action="Planes">Planes</a>
-                <a asp-controller="Clases" asp-action="Index">Clases</a>
-            </nav>
+
+            @if (mostrarMenuPublico)
+            {
+                <nav class="nf-navegacion" aria-label="Navegación principal">
+                    <a asp-controller="Home" asp-action="Index">Inicio</a>
+                    <a asp-controller="Home" asp-action="Sucursales">Sucursales</a>
+                    <a asp-controller="Home" asp-action="Planes">Planes</a>
+                    <a asp-controller="Clases" asp-action="Index">Clases</a>
+                </nav>
+            }
+
             <div class="nf-a11y-bar" id="nf-accesibilidad" role="group" aria-label="Controles de accesibilidad">
                 <div class="nf-a11y-controles">
                     <button type="button" class="nf-a11y-opcion nf-a11y-texto" data-nf-a11y="aumentar" aria-label="Aumentar tamaño del texto" title="Aumentar texto">A+</button>
@@ -59,59 +82,23 @@
 
                 @if (rol == 2)
                 {
-                    <a asp-controller="Perfil"
-                       asp-action="Index"
-                       class="nf-perfil">
-                        Mi perfil
-                    </a>
-
-                    <a asp-controller="Account"
-                       asp-action="Logout"
-                       class="nf-unete">
-                        Cerrar sesión
-                    </a>
+                    <a asp-controller="Perfil" asp-action="Index" class="nf-perfil">Mi perfil</a>
+                    <a asp-controller="Account" asp-action="Logout" class="nf-unete">Cerrar sesión</a>
                 }
                 else if (rol == 1)
                 {
-                    <a asp-controller="Admin"
-                       asp-action="Dashboard"
-                       class="nf-perfil">
-                        Mi panel
-                    </a>
-
-                    <a asp-controller="Account"
-                       asp-action="Logout"
-                       class="nf-unete">
-                        Cerrar sesión
-                    </a>
+                    <a asp-controller="Admin" asp-action="Dashboard" class="nf-perfil">Mi panel</a>
+                    <a asp-controller="Account" asp-action="Logout" class="nf-unete">Cerrar sesión</a>
                 }
                 else if (rol == 3)
                 {
-                    <a asp-controller="Entrenador"
-                       asp-action="Index"
-                       class="nf-perfil">
-                        Mi panel
-                    </a>
-
-                    <a asp-controller="Account"
-                       asp-action="Logout"
-                       class="nf-unete">
-                        Cerrar sesión
-                    </a>
+                    <a asp-controller="Entrenador" asp-action="Index" class="nf-perfil">Mi panel</a>
+                    <a asp-controller="Account" asp-action="Logout" class="nf-unete">Cerrar sesión</a>
                 }
                 else
                 {
-                    <a asp-controller="Account"
-                       asp-action="Login"
-                       class="nf-perfil">
-                        Iniciar sesión
-                    </a>
-
-                    <a asp-controller="Account"
-                       asp-action="Registro"
-                       class="nf-unete">
-                        Únete
-                    </a>
+                    <a asp-controller="Account" asp-action="Login" class="nf-perfil">Iniciar sesión</a>
+                    <a asp-controller="Account" asp-action="Registro" class="nf-unete">Únete</a>
                 }
 
             </div>
@@ -128,11 +115,14 @@
                     <img src="~/Imagenes/Logo.png" asp-append-version="true" alt="Logo NetoFitV2" />
                     <strong>NetoFitV2</strong>
                 </div>
-                <nav class="nf-pie-enlaces" aria-label="Navegación del pie">
-                    <a asp-controller="Home" asp-action="Sucursales">Sucursales</a>
-                    <a asp-controller="Home" asp-action="Planes">Planes</a>
-                    <a asp-controller="Clases" asp-action="Index">Clases</a>
-                </nav>
+                @if (mostrarMenuPublico)
+                {
+                    <nav class="nf-pie-enlaces" aria-label="Navegación del pie">
+                        <a asp-controller="Home" asp-action="Sucursales">Sucursales</a>
+                        <a asp-controller="Home" asp-action="Planes">Planes</a>
+                        <a asp-controller="Clases" asp-action="Index">Clases</a>
+                    </nav>
+                }
             </div>
             <div class="nf-pie-inferior">© 2026 NetoFitV2 · El Salvador. Todos los derechos reservados.</div>
         </div>
