@@ -17,6 +17,16 @@
                 <div><label asp-for="Telefono">Teléfono</label><input asp-for="Telefono" type="tel" pattern="[0-9]{8}" required style="display:block;width:100%;padding:12px;border-radius:8px;color:white;background:#1c2029;border:1px solid #2a2f3d;" /></div>
                 <div><label asp-for="FechaNacimiento">Fecha de nacimiento</label><input asp-for="FechaNacimiento" type="date" required style="display:block;width:100%;padding:12px;border-radius:8px;color:white;background:#1c2029;border:1px solid #2a2f3d;" /></div>
                 <div><label asp-for="Contrasena">Nueva contraseña (opcional)</label><input asp-for="Contrasena" type="password" style="display:block;width:100%;padding:12px;border-radius:8px;color:white;background:#1c2029;border:1px solid #2a2f3d;" /></div>
+                <div>
+                    <label asp-for="RutaImagen">
+                        Foto de perfil (opcional)
+                    </label>
+                    <input asp-for="RutaImagen"
+                    style="display:block;width:100%;padding:12px;border-radius:8px;color:white;background:#1c2029;border:1px solid #2a2f3d;" />
+                    <span asp-validation-for="RutaImagen"style="color:#ef4444;">
+                        </span>
+                </div>
+
             </div>
             <div class="perfil-membresia-acciones" style="display:flex;gap:16px;margin-top:25px;">
                 <button type="submit" class="perfil-renovar">Guardar cambios</button>

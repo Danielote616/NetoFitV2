@@ -35,7 +35,7 @@ namespace Vista1Danielote.DAL
                 con.Open();
 
                 string sqlClientes = @"
-                    SELECT id_cliente, nombre, email, telefono
+                    SELECT id_cliente, nombre, email, telefono, ruta_imagen
                     FROM Cliente";
 
                 if (id.HasValue)
@@ -67,6 +67,10 @@ namespace Vista1Danielote.DAL
                             cliente.Telefono = reader[3] == DBNull.Value
                                 ? "Sin teléfono"
                                 : reader[3]?.ToString() ?? "Sin teléfono";
+
+                            cliente.RutaImagen = reader[4] == DBNull.Value
+                                ? null
+                                : reader[4].ToString();
 
                             cliente.Plan = "Sin plan";
                             cliente.Sucursal = "Sin asignar";

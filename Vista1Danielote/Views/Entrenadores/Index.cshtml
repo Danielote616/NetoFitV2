@@ -1,0 +1,494 @@
+﻿@model Vista1Danielote.Models.EntrenadorPanelModelo
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Panel del entrenador";
+    ViewData["CSS"] = "~/css/EntrenadorNetoFit.css";
+}
+
+<div class="ent-pagina">
+
+    <div class="ent-hero">
+        <span class="ent-etiqueta">PANEL DEL ENTRENADOR</span>
+
+        <h1>Bienvenido, @Model.Nombre</h1>
+
+        <p>@Model.Especialidad · @Model.Sucursal</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Certificaciones))
+        {
+            <small>Certificaciones: @Model.Certificaciones</small>
+        }
+    </div>
+
+    @if (TempData["ErrorEntrenador"] != null)
+    {
+        <p class="ent-mensaje ent-error" role="alert">
+            @TempData["ErrorEntrenador"]
+        </p>
+    }
+
+    @if (TempData["ExitoEntrenador"] != null)
+    {
+        <p class="ent-mensaje ent-exito" role="status">
+            @TempData["ExitoEntrenador"]
+        </p>
+    }
+
+    <div class="ent-indicadores">
+
+        <div class="ent-indicador">
+            <strong>@Model.Clases.Count</strong>
+            <span>Próximas clases</span>
+        </div>
+
+        <div class="ent-indicador">
+            <strong>@Model.Alumnos.Count</strong>
+            <span>Alumnos inscritos</span>
+        </div>
+
+        <div class="ent-indicador">
+            <strong>@Model.Rutinas.Count</strong>
+            <span>Rutinas asignadas</span>
+        </div>
+
+        <div class="ent-indicador">
+            <strong>@Model.Evaluaciones.Count</strong>
+            <span>Evaluaciones</span>
+        </div>
+
+    </div>
+
+    <section class="ent-tarjeta">
+
+        <h2>
+            <i class="bi bi-calendar-week"></i>
+            Mis próximas clases
+        </h2>
+
+        @if (Model.Clases.Count == 0)
+        {
+            <p class="ent-vacio">
+                Todavía no tienes clases futuras asignadas.
+            </p>
+        }
+        else
+        {
+            <div class="ent-tabla-movil">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Clase</th>
+                            <th>Fecha</th>
+                            <th>Horario</th>
+                            <th>Sucursal</th>
+                            <th>Inscritos</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var clase in Model.Clases)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@clase.Nombre</strong>
+                                </td>
+
+                                <td>
+                                    @clase.Fecha.ToString("dd/MM/yyyy")
+                                </td>
+
+                                <td>
+                                    @clase.HoraInicio.ToString(@"hh\:mm")
+                                    -
+                                    @clase.HoraFin.ToString(@"hh\:mm")
+                                </td>
+
+                                <td>@clase.Sucursal</td>
+
+                                <td>
+                                    <span class="ent-etiqueta-cupo">
+                                        @clase.Reservas / @clase.Capacidad
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+        }
+
+    </section>
+
+    <section class="ent-tarjeta">
+
+        <h2>
+            <i class="bi bi-people"></i>
+            Mis alumnos
+        </h2>
+
+        @if (Model.Alumnos.Count == 0)
+        {
+            <p class="ent-vacio">
+                Aparecerán aquí los clientes con reservas
+                confirmadas en tus clases.
+            </p>
+        }
+        else
+        {
+            <div class="ent-alumnos">
+
+                @foreach (var alumno in Model.Alumnos)
+                {
+                    <div class="ent-alumno">
+
+                        <span class="ent-icono">
+                            <i class="bi bi-person"></i>
+                        </span>
+
+                        <div>
+                            <strong>@alumno.Nombre</strong>
+                            <small>@alumno.Correo</small>
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+
+    </section>
+
+    <div class="ent-columnas">
+
+        <section class="ent-tarjeta">
+
+            <h2>
+                <i class="bi bi-journal-plus"></i>
+                Nueva rutina
+            </h2>
+
+            <form asp-controller="Entrenador"
+                  asp-action="CrearRutina"
+                  method="post"
+                  class="ent-formulario">
+
+                <label for="rutina-cliente">Alumno</label>
+
+                <select name="idCliente"
+                        id="rutina-cliente"
+                        required>
+
+                    <option value="">Selecciona un alumno</option>
+
+                    @foreach (var alumno in Model.Alumnos)
+                    {
+                        <option value="@alumno.Id">
+                            @alumno.Nombre
+                        </option>
+                    }
+
+                </select>
+
+                <label for="rutina-objetivo">
+                    Objetivo de la rutina
+                </label>
+
+                <textarea name="objetivo"
+                          id="rutina-objetivo"
+                          maxlength="200"
+                          rows="3"
+                          required
+                          placeholder="Ejemplo: mejorar resistencia y fuerza"></textarea>
+
+                <button type="submit"
+                        disabled="@(Model.Alumnos.Count == 0)">
+                    Guardar rutina
+                </button>
+
+            </form>
+
+        </section>
+
+        <section class="ent-tarjeta">
+
+            <h2>
+                <i class="bi bi-clipboard2-pulse"></i>
+                Nueva evaluación
+            </h2>
+
+            <form asp-controller="Entrenador"
+                  asp-action="RegistrarEvaluacion"
+                  method="post"
+                  class="ent-formulario">
+
+                <label for="eval-cliente">Alumno</label>
+
+                <select name="idCliente"
+                        id="eval-cliente"
+                        required>
+
+                    <option value="">Selecciona un alumno</option>
+
+                    @foreach (var alumno in Model.Alumnos)
+                    {
+                        <option value="@alumno.Id">
+                            @alumno.Nombre
+                        </option>
+                    }
+
+                </select>
+
+                <div class="ent-campos-triples">
+
+                    <div>
+                        <label for="peso">Peso (kg)</label>
+
+                        <input type="number"
+                               step="0.01"
+                               min="0.01"
+                               name="peso"
+                               id="peso"
+                               required />
+                    </div>
+
+                    <div>
+                        <label for="imc">IMC</label>
+
+                        <input type="number"
+                               step="0.01"
+                               min="0.01"
+                               name="imc"
+                               id="imc"
+                               required />
+                    </div>
+
+                    <div>
+                        <label for="grasa">Grasa (%)</label>
+
+                        <input type="number"
+                               step="0.01"
+                               min="0"
+                               max="100"
+                               name="porcentajeGrasa"
+                               id="grasa"
+                               required />
+                    </div>
+
+                </div>
+
+                <button type="submit"
+                        disabled="@(Model.Alumnos.Count == 0)">
+                    Guardar evaluación
+                </button>
+
+            </form>
+
+        </section>
+
+    </div>
+
+    <div class="ent-columnas">
+
+        <section class="ent-tarjeta">
+
+            <h2>Últimas rutinas</h2>
+
+            @if (Model.Rutinas.Count == 0)
+            {
+                <p class="ent-vacio">
+                    Sin rutinas registradas.
+                </p>
+            }
+
+            @foreach (var rutina in Model.Rutinas)
+            {
+                <div class="ent-registro">
+
+                    <strong>@rutina.Cliente</strong>
+
+                    <small>
+                        @rutina.Fecha.ToString("dd/MM/yyyy")
+                    </small>
+
+                    <p>@rutina.Detalle</p>
+
+                </div>
+            }
+
+        </section>
+
+        <section class="ent-tarjeta">
+
+            <h2>Últimas evaluaciones</h2>
+
+            @if (Model.Evaluaciones.Count == 0)
+            {
+                <p class="ent-vacio">
+                    Sin evaluaciones registradas.
+                </p>
+            }
+
+            @foreach (var evaluacion in Model.Evaluaciones)
+            {
+                <div class="ent-registro">
+
+                    <strong>@evaluacion.Cliente</strong>
+
+                    <small>
+                        @evaluacion.Fecha.ToString("dd/MM/yyyy")
+                    </small>
+
+                    <p>@evaluacion.Detalle</p>
+
+                </div>
+            }
+
+        </section>
+
+    </div>
+
+    @{
+        List<Vista1Danielote.Models.OpcionModelo> rutinasDetalle =
+        ViewBag.RutinasDisponibles as List<Vista1Danielote.Models.OpcionModelo>
+        ?? new List<Vista1Danielote.Models.OpcionModelo>();
+
+        List<Vista1Danielote.Models.OpcionModelo> ejerciciosDetalle =
+        ViewBag.EjerciciosDisponibles as List<Vista1Danielote.Models.OpcionModelo>
+        ?? new List<Vista1Danielote.Models.OpcionModelo>();
+    }
+
+    <section class="ent-tarjeta">
+
+        <h2>
+            <i class="bi bi-list-check"></i>
+            Agregar ejercicios a una rutina
+        </h2>
+
+        <p class="ent-vacio">
+            Selecciona una rutina que hayas creado y agrega
+            los ejercicios que realizará el alumno.
+        </p>
+
+        @if (rutinasDetalle.Count == 0)
+        {
+            <p class="ent-vacio">
+                Primero debes crear una rutina.
+            </p>
+        }
+        else if (ejerciciosDetalle.Count == 0)
+        {
+            <p class="ent-vacio">
+                No hay ejercicios registrados.
+                El administrador debe agregarlos desde Seguimiento.
+            </p>
+        }
+        else
+        {
+            <form asp-controller="Entrenador"
+                  asp-action="AgregarEjercicio"
+                  method="post"
+                  class="ent-formulario">
+
+                <label for="idRutina">
+                    Rutina del alumno
+                </label>
+
+                <select name="idRutina"
+                        id="idRutina"
+                        required>
+
+                    <option value="">
+                        Selecciona una rutina
+                    </option>
+
+                    @foreach (var rutina in rutinasDetalle)
+                    {
+                        <option value="@rutina.Id">
+                            @rutina.Nombre
+                        </option>
+                    }
+
+                </select>
+
+                <label for="idEjercicio">
+                    Ejercicio
+                </label>
+
+                <select name="idEjercicio"
+                        id="idEjercicio"
+                        required>
+
+                    <option value="">
+                        Selecciona un ejercicio
+                    </option>
+
+                    @foreach (var ejercicio in ejerciciosDetalle)
+                    {
+                        <option value="@ejercicio.Id">
+                            @ejercicio.Nombre
+                        </option>
+                    }
+
+                </select>
+
+                <div class="ent-campos-triples">
+
+                    <div>
+                        <label for="series">
+                            Series
+                        </label>
+
+                        <input type="number"
+                               name="series"
+                               id="series"
+                               min="1"
+                               max="100"
+                               required />
+                    </div>
+
+                    <div>
+                        <label for="repeticiones">
+                            Repeticiones
+                        </label>
+
+                        <input type="text"
+                               name="repeticiones"
+                               id="repeticiones"
+                               maxlength="20"
+                               placeholder="Ej. 12"
+                               required />
+                    </div>
+
+                    <div>
+                        <label for="pesoEjercicio">
+                            Peso (kg)
+                        </label>
+
+                        <input type="number"
+                               name="peso"
+                               id="pesoEjercicio"
+                               min="0"
+                               max="1000"
+                               step="0.01"
+                               value="0"
+                               required />
+                    </div>
+
+                </div>
+
+                <button type="submit">
+                    <i class="bi bi-plus-circle"></i>
+                    Agregar ejercicio a la rutina
+                </button>
+
+            </form>
+        }
+
+    </section>
+
+</div>

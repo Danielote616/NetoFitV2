@@ -276,7 +276,7 @@ namespace Vista1Danielote.Controllers
         }
 
         [HttpPost]
-        
+
         public IActionResult Formulario(FormularioOfertaViewModel modelo)
         {
             if (!EsAdmin())
@@ -291,6 +291,32 @@ namespace Vista1Danielote.Controllers
                     nameof(modelo.Nombre),
                     "El nombre es obligatorio"
                 );
+            }
+
+            if (modelo.Seccion == "Entrenadores" &&
+                string.IsNullOrWhiteSpace(modelo.Email))
+            {
+                ModelState.AddModelError(nameof(modelo.Email),
+                    "El correo del entrenador es obligatorio");
+            }
+
+            if (modelo.Seccion == "Entrenadores")
+            {
+                if (!modelo.Id.HasValue &&
+                    string.IsNullOrWhiteSpace(modelo.Contrasena))
+                {
+                    ModelState.AddModelError(nameof(modelo.Contrasena),
+                        "La contraseña es obligatoria para un entrenador nuevo");
+                }
+                else if (!string.IsNullOrWhiteSpace(modelo.Contrasena) &&
+                         (modelo.Contrasena.Length < 8 ||
+                          modelo.Contrasena.Length > 100 ||
+                          !modelo.Contrasena.Any(char.IsLetter) ||
+                          !modelo.Contrasena.Any(char.IsDigit)))
+                {
+                    ModelState.AddModelError(nameof(modelo.Contrasena),
+                        "La contraseña debe tener entre 8 y 100 caracteres, letras y números");
+                }
             }
 
             if (modelo.Seccion == "Entrenadores" &&
@@ -369,6 +395,27 @@ namespace Vista1Danielote.Controllers
             {
                 con.Open();
 
+                if (modelo.Seccion == "Entrenadores" &&
+                    !string.IsNullOrWhiteSpace(modelo.Email))
+                {
+                    string sqlCorreo = @"
+                        SELECT COUNT(*) FROM (
+                            SELECT email FROM Cliente
+                            UNION ALL SELECT email FROM Administrador
+                            UNION ALL SELECT email FROM Entrenador
+                            WHERE id_entrenador <> @Id
+                        ) usuarios WHERE email = @Email";
+
+                    using (SqlCommand cmd = new SqlCommand(sqlCorreo, con))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", modelo.Id ?? 0);
+                        cmd.Parameters.AddWithValue("@Email", modelo.Email.Trim());
+                        if (Convert.ToInt32(cmd.ExecuteScalar()) > 0)
+                            ModelState.AddModelError(nameof(modelo.Email),
+                                "Este correo ya está registrado");
+                    }
+                }
+
                 if (modelo.Seccion == "Clases" &&
                     modelo.Id.HasValue &&
                     modelo.Cupos > 0)
@@ -416,22 +463,36 @@ namespace Vista1Danielote.Controllers
                 {
                     if (modelo.Id.HasValue)
                     {
-                        sql = @"UPDATE Entrenador
-                                SET nombre = @Nombre,
-                                    especialidad = @Especialidad,
-                                    email = @Email,
-                                    certificaciones = @Certificaciones,
-                                    id_sucursal = @Sucursal
-                                WHERE id_entrenador = @Id";
+                        if (string.IsNullOrWhiteSpace(modelo.Contrasena))
+                        {
+                            sql = @"UPDATE Entrenador
+                                    SET nombre = @Nombre,
+                                        especialidad = @Especialidad,
+                                        email = @Email,
+                                        certificaciones = @Certificaciones,
+                                        id_sucursal = @Sucursal
+                                    WHERE id_entrenador = @Id";
+                        }
+                        else
+                        {
+                            sql = @"UPDATE Entrenador
+                                    SET nombre = @Nombre,
+                                        especialidad = @Especialidad,
+                                        email = @Email,
+                                        certificaciones = @Certificaciones,
+                                        id_sucursal = @Sucursal,
+                                        [contraseña] = @Clave
+                                    WHERE id_entrenador = @Id";
+                        }
                     }
                     else
                     {
                         sql = @"INSERT INTO Entrenador
                                 (nombre, especialidad, email,
-                                 certificaciones, id_sucursal)
+                                 certificaciones, id_sucursal, [contraseña])
                                 VALUES
                                 (@Nombre, @Especialidad, @Email,
-                                 @Certificaciones, @Sucursal)";
+                                 @Certificaciones, @Sucursal, @Clave)";
                     }
                 }
                 else if (modelo.Seccion == "Clases")
@@ -486,6 +547,11 @@ namespace Vista1Danielote.Controllers
                     cmd.Parameters.AddWithValue("@Especialidad", modelo.Especialidad.Trim());
                     cmd.Parameters.AddWithValue("@Email", modelo.Email.Trim());
                     cmd.Parameters.AddWithValue("@Certificaciones", modelo.Certificaciones.Trim());
+                    if (modelo.Seccion == "Entrenadores" &&
+                        !string.IsNullOrWhiteSpace(modelo.Contrasena))
+                    {
+                        cmd.Parameters.AddWithValue("@Clave", modelo.Contrasena);
+                    }
                     cmd.Parameters.AddWithValue("@Sucursal", modelo.IdSucursal);
                     cmd.Parameters.AddWithValue("@Tipo", modelo.Tipo.Trim());
                     cmd.Parameters.AddWithValue("@Duracion", modelo.DuracionMinutos.ToString());
@@ -527,7 +593,7 @@ namespace Vista1Danielote.Controllers
         }
 
         [HttpPost]
-        
+
         public IActionResult Eliminar(string seccion, int id)
         {
             if (!EsAdmin())

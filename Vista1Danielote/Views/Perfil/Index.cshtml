@@ -28,9 +28,24 @@
 
         <section class="perfil-cabecera" aria-label="Datos de mi perfil">
 
+
             <div class="perfil-avatar" aria-hidden="true">
-                @ViewBag.InicialUsuario
+                @{
+                    string rutaFoto = ViewBag.RutaImagen as string ?? "";
+                }
+
+                @if (!string.IsNullOrWhiteSpace(rutaFoto) &&
+                                rutaFoto.StartsWith("~/Imagenes/Clientes/",
+                                StringComparison.OrdinalIgnoreCase))
+                {
+                    <img src="@Url.Content(rutaFoto)" alt="" />
+                }
+                else
+                {
+                    <i class="bi bi-person-fill"></i>
+                }
             </div>
+
 
             <div class="perfil-titular">
                 <h1>@ViewBag.Usuario</h1>

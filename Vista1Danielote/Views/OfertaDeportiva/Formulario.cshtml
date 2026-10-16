@@ -31,7 +31,6 @@
                 @(Model.Id.HasValue ? "Editar" : "Agregar")
                 @Model.Seccion.ToLower()
             </h1>
-            <p>Registro conectado a SQL Server</p>
         </div>
     </div>
 
@@ -63,7 +62,41 @@
 
                 <div class="oferta-campo">
                     <label asp-for="Email">Correo electrónico</label>
-                    <input asp-for="Email" type="email" />
+                    <input asp-for="Email" type="email" required />
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="Contrasena">
+                        @(Model.Id.HasValue ? "Nueva contraseña (opcional)" : "Contraseña")
+                    </label>
+
+                    <input asp-for="Contrasena"
+                           type="password"
+                           minlength="8"
+                           required="@(!Model.Id.HasValue)"
+                           autocomplete="new-password" />
+
+                    <span asp-validation-for="Contrasena"
+                          style="color:#ef4444;">
+                    </span>
+
+                    <small style="display:block; margin-top:6px; color:#a1a6ae;">
+                        @if (Model.Id.HasValue)
+                        {
+                            <span>
+                                Déjala vacía para conservar la contraseña actual.
+                                Si escribes una nueva, debe tener al menos ocho
+                                caracteres, letras y números.
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                La contraseña debe tener al menos ocho
+                                caracteres, letras y números.
+                            </span>
+                        }
+                    </small>
                 </div>
 
                 <div class="oferta-campo">
@@ -178,9 +211,6 @@
         </div>
 
         <div class="oferta-formulario-acciones">
-
-            <p>Los datos se guardarán en la base de datos NetoFitV2.</p>
-
             <div>
                 <a class="oferta-boton-cancelar"
                    asp-controller="OfertaDeportiva"
@@ -194,7 +224,6 @@
                     Guardar cambios
                 </button>
             </div>
-
         </div>
 
     </form>

@@ -1,22 +1,442 @@
 @model List<Vista1Danielote.Models.PlanAdminModelo>
+
 @{
     Layout = "~/Views/Shared/_LayoutAdminCabecera.cshtml";
     ViewData["Title"] = "Gestión de planes";
     ViewData["Subtitulo"] = "Planes";
 }
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div><h1 class="fw-bold text-white display-6 mb-1">Gestión de planes</h1><p class="text-secondary">Planes registrados en SQL Server</p></div>
-    <a asp-action="Formulario" class="btn btn-netofit px-4 py-2"><i class="bi bi-plus-lg"></i> Nuevo plan</a>
-</div>
-@if (TempData["Error"] != null) { <p class="text-warning">@TempData["Error"]</p> }
-<div class="bg-dark border border-secondary p-3 rounded-4"><div class="table-responsive"><table class="table table-dark table-hover align-middle mb-0">
-    <thead><tr><th>NOMBRE</th><th>PRECIO</th><th>DURACIÓN</th><th>BENEFICIOS</th><th class="text-end">ACCIONES</th></tr></thead>
-    <tbody>
-    @foreach (var plan in Model)
+
+<div class="np-planes">
+
+    <div class="np-planes-encabezado">
+
+        <div>
+            <h1>Gestión de planes</h1>
+            <p>Administra las membresías disponibles en NetoFitV2.</p>
+        </div>
+
+        <a asp-controller="Planes"
+           asp-action="Formulario"
+           class="np-planes-nuevo">
+
+            <i class="bi bi-plus-lg"></i>
+            Nuevo plan
+
+        </a>
+
+    </div>
+
+    @if (TempData["Error"] != null)
     {
-        <tr><td class="fw-bold text-white">@plan.Nombre</td><td>$@plan.Precio.ToString("0.00")</td><td>@plan.Duracion</td><td>@plan.Beneficios</td>
-            <td class="text-end"><a asp-action="Formulario" asp-route-id="@plan.Id" class="text-light"><i class="bi bi-pencil"></i> Editar</a>
-                <form asp-action="Eliminar" method="post" class="d-inline ms-3"><input type="hidden" name="id" value="@plan.Id" /><button type="submit" class="btn btn-link text-danger" onclick="return confirm('¿Eliminar este plan?')">Eliminar</button></form></td></tr>
+        <div class="np-planes-error">
+            @TempData["Error"]
+        </div>
     }
-    @if (Model.Count == 0) { <tr><td colspan="5" class="text-center text-secondary py-4">No hay planes registrados.</td></tr> }
-    </tbody></table></div></div>
+
+    <div class="np-planes-panel">
+
+        <div class="np-planes-panel-encabezado">
+
+            <div>
+                <h2>Planes registrados</h2>
+            </div>
+
+            <span class="np-planes-contador">
+                @Model.Count planes
+            </span>
+
+        </div>
+
+        <div class="np-planes-tabla-contenedor">
+
+            <table class="np-planes-tabla">
+
+                <thead>
+                    <tr>
+                        <th scope="col">NOMBRE</th>
+                        <th scope="col">PRECIO</th>
+                        <th scope="col">DURACIÓN</th>
+                        <th scope="col">BENEFICIOS</th>
+                        <th scope="col">ACCIONES</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var plan in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                <div class="np-planes-nombre">
+                                    <strong>@plan.Nombre</strong>
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="np-planes-precio">
+                                    $@plan.Precio.ToString("0.00")
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="np-planes-duracion">
+                                    @plan.Duracion
+                                </span>
+                            </td>
+
+                            <td>
+
+                                @if (!string.IsNullOrWhiteSpace(plan.Beneficios))
+                                {
+                                    <ul class="np-planes-beneficios">
+
+                                        @foreach (string beneficio in plan.Beneficios.Split(';'))
+                                        {
+                                            if (!string.IsNullOrWhiteSpace(beneficio))
+                                            {
+                                                <li>
+                                                    <span>@beneficio.Trim()</span>
+                                                </li>
+                                            }
+                                        }
+
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span class="np-planes-sin-beneficios">
+                                        Sin beneficios registrados
+                                    </span>
+                                }
+
+                            </td>
+
+                            <td>
+
+                                <div class="np-planes-acciones">
+
+                                    <a asp-controller="Planes"
+                                       asp-action="Formulario"
+                                       asp-route-id="@plan.Id"
+                                       class="np-planes-editar">
+
+                                        <i class="bi bi-pencil-square"></i>
+                                        Editar
+
+                                    </a>
+
+                                    <form asp-controller="Planes"
+                                          asp-action="Eliminar"
+                                          method="post">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@plan.Id" />
+
+                                        <button type="submit"
+                                                class="np-planes-eliminar"
+                                                onclick="return confirm('¿Eliminar este plan?')">
+
+                                            <i class="bi bi-trash3"></i>
+                                            Eliminar
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                    @if (Model.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="5" class="np-planes-vacio">
+                                No hay planes registrados.
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .np-planes {
+        padding: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #12141a;
+    }
+
+    .np-planes-encabezado {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 28px;
+    }
+
+        .np-planes-encabezado h1 {
+            font-size: 30px;
+            font-weight: 700;
+            margin: 0 0 8px;
+            color: #12141a;
+        }
+
+        .np-planes-encabezado p {
+            margin: 0;
+            font-size: 14px;
+            color: #667085;
+        }
+
+    .np-planes-nuevo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 13px 20px;
+        background: #c6ff00;
+        color: #12141a;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+        transition: background 0.2s;
+    }
+
+        .np-planes-nuevo:hover {
+            background: #b3e600;
+            color: #12141a;
+            text-decoration: none;
+        }
+
+    .np-planes-panel {
+        background: #ffffff;
+        border: 1px solid #dbe8df;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .np-planes-panel-encabezado {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        padding: 25px 28px;
+        border-bottom: 1px solid #e5ece7;
+    }
+
+        .np-planes-panel-encabezado h2 {
+            font-size: 19px;
+            font-weight: 700;
+            margin: 0 0 6px;
+            color: #12141a;
+        }
+
+        .np-planes-panel-encabezado p {
+            margin: 0;
+            color: #667085;
+            font-size: 13px;
+        }
+
+    .np-planes-contador {
+        background: #edf8df;
+        color: #335b16;
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .np-planes-tabla-contenedor {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .np-planes-tabla {
+        width: 100%;
+        min-width: 800px;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+        .np-planes-tabla thead {
+            background: #f8faf9;
+        }
+
+        .np-planes-tabla th {
+            padding: 18px 20px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            color: #667085;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e5ece7;
+        }
+
+        .np-planes-tabla td {
+            padding: 22px 20px;
+            vertical-align: middle;
+            border-bottom: 1px solid #e5ece7;
+            color: #12141a;
+        }
+
+        .np-planes-tabla tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .np-planes-tabla tbody tr:hover {
+            background: #fbfdfb;
+        }
+
+    .np-planes-nombre {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .np-planes-nombre strong {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+    .np-planes-icono {
+        width: 38px;
+        height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: #eef9d5;
+        color: #476a00;
+        border-radius: 11px;
+        font-size: 18px;
+    }
+
+    .np-planes-precio {
+        font-size: 18px;
+        font-weight: 700;
+        color: #12141a;
+        white-space: nowrap;
+    }
+
+    .np-planes-duracion {
+        display: inline-block;
+        background: #f1f4f2;
+        border: 1px solid #e0e7e2;
+        padding: 7px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #475467;
+        white-space: nowrap;
+    }
+
+    .np-planes-beneficios {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+    }
+
+        .np-planes-beneficios li {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #475467;
+        }
+
+        .np-planes-beneficios i {
+            color: #5a9500;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+    .np-planes-sin-beneficios {
+        color: #98a2b3;
+        font-size: 13px;
+    }
+
+    .np-planes-acciones {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .np-planes-editar,
+    .np-planes-eliminar {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 7px;
+        border-radius: 9px;
+        padding: 9px 12px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .np-planes-editar {
+        background: #eef5ef;
+        border: 1px solid #d7e8da;
+        color: #23623b;
+    }
+
+        .np-planes-editar:hover {
+            background: #dff0e2;
+            color: #184e2e;
+            text-decoration: none;
+        }
+
+    .np-planes-eliminar {
+        background: #fff1f0;
+        border: 1px solid #ffd8d4;
+        color: #b42318;
+    }
+
+        .np-planes-eliminar:hover {
+            background: #ffe5e2;
+        }
+
+    .np-planes-acciones form {
+        margin: 0;
+    }
+
+    .np-planes-vacio {
+        text-align: center;
+        padding: 45px 20px;
+        color: #667085;
+    }
+
+    .np-planes-error {
+        padding: 14px 18px;
+        margin-bottom: 20px;
+        background: #fff1f0;
+        border: 1px solid #ffd8d4;
+        border-radius: 12px;
+        color: #b42318;
+        font-size: 14px;
+    }
+</style>

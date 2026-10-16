@@ -1,5 +1,4 @@
 @model List<ClienteModelo>
-@using System.Globalization
 
 @{
     Layout = "~/Views/Shared/_LayoutOfertaNetoFit.cshtml";
@@ -129,7 +128,7 @@
 
     @if (TempData["Error"] != null)
     {
-        <p style="color:#fbbf24" role="alert">
+        <p style="color:#ef4444" role="alert">
             @TempData["Error"]
         </p>
     }
@@ -189,7 +188,21 @@
 
                                     <span class="clientes-avatar"
                                           aria-hidden="true">
-                                        @cliente.Iniciales
+
+                                        @if (!string.IsNullOrWhiteSpace(cliente.RutaImagen) &&
+                                                                            cliente.RutaImagen.StartsWith(
+                                                                            "~/Imagenes/Clientes/",
+                                                                            StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <img src="@Url.Content(cliente.RutaImagen)"
+                                                 alt=""
+                                                 loading="lazy" />
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-person-fill"></i>
+                                        }
+
                                     </span>
 
                                     <strong>@cliente.Nombre</strong>
@@ -292,9 +305,5 @@
         </div>
 
     </div>
-
-    <p class="clientes-nota">
-        Listado de clientes registrados en SQL Server.
-    </p>
 
 </section>

@@ -36,7 +36,7 @@ namespace Vista1Danielote.Controllers
             {
                 con.Open();
 
-                string sqlCliente = @"SELECT nombre, email
+                string sqlCliente = @"SELECT nombre, email, ruta_imagen
                                       FROM Cliente
                                       WHERE id_cliente = @IdCliente";
 
@@ -56,9 +56,7 @@ namespace Vista1Danielote.Controllers
 
                         string nombre = reader["nombre"].ToString() ?? "";
 
-                        ViewBag.InicialUsuario = nombre.Length > 0
-                            ? nombre.Substring(0, 1).ToUpperInvariant()
-                            : "C";
+                        ViewBag.RutaImagen = reader["ruta_imagen"] == DBNull.Value? "": reader["ruta_imagen"].ToString() ?? "";
                     }
                 }
 

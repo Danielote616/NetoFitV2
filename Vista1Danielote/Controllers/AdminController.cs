@@ -220,7 +220,8 @@ namespace Vista1Danielote.Controllers
                             WHERE m.id_sucursal = s.id_sucursal
                             AND m.estado = 'Activa'
                             AND m.fecha_inicio <= @Hoy
-                            AND m.fecha_fin >= @Hoy)
+                            AND m.fecha_fin >= @Hoy),
+                           s.ruta_imagen
                     FROM Sucursal s
                     ORDER BY s.id_sucursal";
 
@@ -254,6 +255,9 @@ namespace Vista1Danielote.Controllers
                                 : (TimeSpan)reader[6];
 
                             sucursal.Miembros = Convert.ToInt32(reader[7]);
+                            sucursal.RutaImagen = reader[8] == DBNull.Value
+                                ? ""
+                                : reader[8]?.ToString() ?? "";
 
                             lista.Add(sucursal);
                         }
@@ -284,7 +288,8 @@ namespace Vista1Danielote.Controllers
                     string sql = @"
                         SELECT id_sucursal, nombre, ciudad,
                                [dirección], telefono,
-                               horario_apertura, horario_cierre
+                               horario_apertura, horario_cierre,
+                               ruta_imagen
                         FROM Sucursal
                         WHERE id_sucursal = @Id";
 
@@ -313,6 +318,10 @@ namespace Vista1Danielote.Controllers
                             modelo.Cierre = reader[6] == DBNull.Value
                                 ? TimeSpan.Zero
                                 : (TimeSpan)reader[6];
+
+                            modelo.RutaImagen = reader[7] == DBNull.Value
+                                ? ""
+                                : reader[7]?.ToString() ?? "";
                         }
                     }
                 }
@@ -322,7 +331,7 @@ namespace Vista1Danielote.Controllers
         }
 
         [HttpPost]
-        
+
         public IActionResult FormularioSucursal(SucursalAdminModelo modelo)
         {
             if (!EsAdmin())
@@ -333,6 +342,15 @@ namespace Vista1Danielote.Controllers
                 ModelState.AddModelError(
                     "Cierre",
                     "El cierre debe ser posterior a la apertura."
+                );
+            }
+
+            if (!string.IsNullOrWhiteSpace(modelo.RutaImagen) &&
+                !modelo.RutaImagen.Trim().StartsWith("~/Imagenes/Sucursales/"))
+            {
+                ModelState.AddModelError(
+                    "RutaImagen",
+                    "La ruta debe empezar por ~/Imagenes/Sucursales/"
                 );
             }
 
@@ -352,10 +370,10 @@ namespace Vista1Danielote.Controllers
                     sql = @"
                         INSERT INTO Sucursal
                         (nombre, ciudad, [dirección], telefono,
-                         horario_apertura, horario_cierre)
+                         horario_apertura, horario_cierre, ruta_imagen)
                         VALUES
                         (@Nombre, @Ciudad, @Direccion, @Telefono,
-                         @Apertura, @Cierre)";
+                         @Apertura, @Cierre, @RutaImagen)";
                 }
                 else
                 {
@@ -366,7 +384,8 @@ namespace Vista1Danielote.Controllers
                             [dirección] = @Direccion,
                             telefono = @Telefono,
                             horario_apertura = @Apertura,
-                            horario_cierre = @Cierre
+                            horario_cierre = @Cierre,
+                            ruta_imagen = @RutaImagen
                         WHERE id_sucursal = @Id";
                 }
 
@@ -385,6 +404,11 @@ namespace Vista1Danielote.Controllers
                         "@Apertura", modelo.Apertura);
                     cmd.Parameters.AddWithValue(
                         "@Cierre", modelo.Cierre);
+                    cmd.Parameters.Add(
+                        "@RutaImagen", System.Data.SqlDbType.NVarChar, 255
+                    ).Value = string.IsNullOrWhiteSpace(modelo.RutaImagen)
+                        ? DBNull.Value
+                        : modelo.RutaImagen.Trim();
 
                     cmd.ExecuteNonQuery();
                 }
@@ -394,7 +418,7 @@ namespace Vista1Danielote.Controllers
         }
 
         [HttpPost]
-        
+
         public IActionResult EliminarSucursal(int id)
         {
             if (!EsAdmin())
@@ -545,7 +569,7 @@ namespace Vista1Danielote.Controllers
         }
 
         [HttpPost]
-        
+
         public IActionResult FormularioEquipo(EquipoAdminModelo modelo)
         {
             if (!EsAdmin())
@@ -612,7 +636,7 @@ namespace Vista1Danielote.Controllers
         }
 
         [HttpPost]
-        
+
         public IActionResult EliminarEquipo(int id)
         {
             if (!EsAdmin())

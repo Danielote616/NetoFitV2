@@ -1,3 +1,4 @@
+
 namespace Vista1Danielote.Models;
 
 public class ClienteModelo
@@ -11,17 +12,5 @@ public class ClienteModelo
     public DateTime FechaVencimiento { get; set; }
     public string Estado { get; set; } = "";
 
-    public string Iniciales
-    {
-        get
-        {
-            string[] partes = Nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            string letras = "";
-            for (int i = 0; i < partes.Length && i < 2; i++)
-            {
-                if (partes[i].Length > 0) { letras += char.ToUpperInvariant(partes[i][0]); }
-            }
-            return letras;
-        }
-    }
+    public string? RutaImagen { get; set; }
 }

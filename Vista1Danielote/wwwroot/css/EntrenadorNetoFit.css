@@ -1,0 +1,330 @@
+﻿
+.ent-pagina {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 35px 20px 60px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #12141a;
+}
+
+.ent-hero {
+    background: #151a20;
+    border-radius: 20px;
+    padding: 35px;
+    color: #ffffff;
+    margin-bottom: 24px;
+}
+
+    .ent-hero h1 {
+        font-size: 34px;
+        font-weight: 700;
+        margin: 9px 0;
+    }
+
+    .ent-hero p {
+        color: #d3d9dc;
+        margin: 0 0 8px;
+    }
+
+    .ent-hero small {
+        color: #aeb8bd;
+    }
+
+.ent-etiqueta {
+    font-size: 12px;
+    font-weight: 800;
+    color: #c6ff00;
+    letter-spacing: 1px;
+}
+
+.ent-indicadores {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.ent-indicador,
+.ent-tarjeta {
+    background: #ffffff;
+    border: 1px solid #dae4dc;
+    border-radius: 16px;
+    padding: 23px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+}
+
+    .ent-indicador strong {
+        display: block;
+        font-size: 31px;
+        font-weight: 700;
+        color: #18211b;
+    }
+
+    .ent-indicador span {
+        color: #667085;
+        font-size: 13px;
+    }
+
+.ent-tarjeta {
+    margin-bottom: 24px;
+}
+
+    .ent-tarjeta h2 {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0 0 20px;
+        color: #161b1e;
+    }
+
+        .ent-tarjeta h2 i {
+            color: #5f9100;
+            margin-right: 7px;
+        }
+
+.ent-vacio {
+    color: #657080;
+    font-size: 14px;
+}
+
+.ent-tabla-movil {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.ent-tarjeta table {
+    width: 100%;
+    min-width: 620px;
+    border-collapse: collapse;
+}
+
+.ent-tarjeta th {
+    font-size: 12px;
+    text-align: left;
+    color: #677381;
+    background: #f6faf7;
+}
+
+.ent-tarjeta th,
+.ent-tarjeta td {
+    padding: 13px;
+    border-bottom: 1px solid #e9eeeb;
+}
+
+.ent-tarjeta td {
+    font-size: 14px;
+    color: #12141a;
+}
+
+.ent-etiqueta-cupo {
+    display: inline-block;
+    background: #edf8d7;
+    padding: 7px 11px;
+    border-radius: 9px;
+    color: #426300;
+    font-weight: 700;
+}
+
+.ent-alumnos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.ent-alumno {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #e9eeeb;
+    border-radius: 11px;
+    padding: 12px;
+}
+
+    .ent-alumno strong,
+    .ent-alumno small {
+        display: block;
+        overflow-wrap: anywhere;
+    }
+
+    .ent-alumno strong {
+        color: #12141a;
+    }
+
+    .ent-alumno small {
+        color: #667085;
+        margin-top: 4px;
+        font-size: 12px;
+    }
+
+.ent-icono {
+    width: 41px;
+    height: 41px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #eef8df;
+    color: #476a00;
+}
+
+.ent-columnas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.ent-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+    .ent-formulario label {
+        color: #12141a;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .ent-formulario select,
+    .ent-formulario textarea,
+    .ent-formulario input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 12px;
+        background: #ffffff;
+        border: 1px solid #ccd8ce;
+        border-radius: 9px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        color: #12141a;
+    }
+
+    .ent-formulario textarea {
+        resize: vertical;
+    }
+
+        .ent-formulario input:focus,
+        .ent-formulario select:focus,
+        .ent-formulario textarea:focus {
+            outline: 2px solid #a9db00;
+            outline-offset: 1px;
+        }
+
+    .ent-formulario button {
+        background: #c6ff00;
+        color: #141414;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 5px;
+    }
+
+        .ent-formulario button:hover {
+            background: #b1e600;
+        }
+
+        .ent-formulario button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+.ent-campos-triples {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+}
+
+    .ent-campos-triples div {
+        min-width: 0;
+    }
+
+    .ent-campos-triples input {
+        margin-top: 8px;
+    }
+
+.ent-registro {
+    padding: 12px 0;
+    border-bottom: 1px solid #e9eeeb;
+}
+
+    .ent-registro strong {
+        font-size: 14px;
+        color: #12141a;
+    }
+
+    .ent-registro small {
+        float: right;
+        color: #667085;
+    }
+
+    .ent-registro p {
+        font-size: 13px;
+        color: #667085;
+        margin: 8px 0 0;
+        overflow-wrap: anywhere;
+    }
+
+.ent-mensaje {
+    padding: 13px 18px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.ent-error {
+    background: #fff1f0;
+    color: #a51c12;
+}
+
+.ent-exito {
+    background: #edfade;
+    color: #365900;
+}
+
+body.nf-cuerpo .nf-contenido-general .ent-hero h1 {
+    color: #ffffff !important;
+}
+
+body.nf-cuerpo .nf-contenido-general .ent-hero p {
+    color: #d3d9dc !important;
+}
+
+@media (max-width: 800px) {
+    .ent-indicadores {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ent-columnas {
+        grid-template-columns: 1fr;
+    }
+
+    .ent-alumnos {
+        grid-template-columns: 1fr;
+    }
+
+    .ent-hero {
+        padding: 24px;
+    }
+
+        .ent-hero h1 {
+            font-size: 27px;
+        }
+}
+
+@media (max-width: 430px) {
+    .ent-pagina {
+        padding: 18px 12px 35px;
+    }
+
+    .ent-indicador {
+        padding: 15px;
+    }
+
+    .ent-campos-triples {
+        grid-template-columns: 1fr;
+    }
+}

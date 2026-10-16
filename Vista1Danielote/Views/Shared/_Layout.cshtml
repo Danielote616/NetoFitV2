@@ -54,23 +54,68 @@
                 </div>
                 <span class="nf-a11y-estado" id="nf-accesibilidad-estado" role="status" aria-live="polite">Texto: 100 %</span>
             </div>
+
             <div class="nf-usuario">
+
                 @if (rol == 2)
                 {
-                    <a asp-controller="Perfil" asp-action="Index" class="nf-perfil">Mi perfil</a>
-                    <a asp-controller="Account" asp-action="Logout" class="nf-unete">Cerrar sesión</a>
+                    <a asp-controller="Perfil"
+                       asp-action="Index"
+                       class="nf-perfil">
+                        Mi perfil
+                    </a>
+
+                    <a asp-controller="Account"
+                       asp-action="Logout"
+                       class="nf-unete">
+                        Cerrar sesión
+                    </a>
                 }
                 else if (rol == 1)
                 {
-                    <a asp-controller="Admin" asp-action="Dashboard" class="nf-perfil">Mi panel</a>
-                    <a asp-controller="Account" asp-action="Logout" class="nf-unete">Cerrar sesión</a>
+                    <a asp-controller="Admin"
+                       asp-action="Dashboard"
+                       class="nf-perfil">
+                        Mi panel
+                    </a>
+
+                    <a asp-controller="Account"
+                       asp-action="Logout"
+                       class="nf-unete">
+                        Cerrar sesión
+                    </a>
+                }
+                else if (rol == 3)
+                {
+                    <a asp-controller="Entrenador"
+                       asp-action="Index"
+                       class="nf-perfil">
+                        Mi panel
+                    </a>
+
+                    <a asp-controller="Account"
+                       asp-action="Logout"
+                       class="nf-unete">
+                        Cerrar sesión
+                    </a>
                 }
                 else
                 {
-                    <a asp-controller="Account" asp-action="Login" class="nf-perfil">Iniciar sesión</a>
-                    <a asp-controller="Account" asp-action="Registro" class="nf-unete">Únete</a>
+                    <a asp-controller="Account"
+                       asp-action="Login"
+                       class="nf-perfil">
+                        Iniciar sesión
+                    </a>
+
+                    <a asp-controller="Account"
+                       asp-action="Registro"
+                       class="nf-unete">
+                        Únete
+                    </a>
                 }
+
             </div>
+
         </div>
     </header>
     <div class="nf-contenido-general">

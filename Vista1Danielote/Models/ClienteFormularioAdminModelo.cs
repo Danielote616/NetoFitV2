@@ -26,5 +26,9 @@ namespace Vista1Danielote.Models
 
         [DataType(DataType.Password)]
         public string? Contrasena { get; set; }
+
+        [Display(Name = "Foto del cliente (opcional)")]
+        [StringLength(255)]
+        public string? RutaImagen { get; set; }
     }
 }

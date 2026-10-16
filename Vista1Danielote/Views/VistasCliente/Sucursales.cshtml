@@ -1,35 +1,183 @@
 @model List<Vista1Danielote.Models.SucursalAdminModelo>
+
 @{
     Layout = "~/Views/Shared/_LayoutCliente.cshtml";
     ViewData["Title"] = "Sucursales";
+
     string busqueda = ViewBag.Busqueda as string ?? "";
     string ciudad = ViewBag.Ciudad as string ?? "";
 }
+
 <div class="container py-5">
-    <nav aria-label="breadcrumb" class="mb-3"><ol class="breadcrumb"><li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-secondary text-decoration-none">Inicio</a></li><li class="breadcrumb-item active text-light">Sucursales</li></ol></nav>
-    <h1 class="fw-bold display-5 mb-2">Encuentra tu sucursal</h1>
-    <p class="text-secondary mb-4">@Model.Count sucursales disponibles con los filtros actuales.</p>
-    <form method="get" asp-controller="Home" asp-action="Sucursales" class="row g-3 mb-5 align-items-center">
-        <div class="col-md-4"><input type="search" name="busqueda" value="@busqueda" class="form-control bg-dark text-light border-secondary py-2" placeholder="Buscar por nombre..." aria-label="Buscar sucursal" /></div>
-        <div class="col-md-5"><select name="ciudad" class="form-select bg-dark text-light border-secondary py-2" aria-label="Filtrar por ciudad"><option value="">Todas las ciudades</option><option value="San Salvador" selected="@(ciudad == "San Salvador")">San Salvador</option><option value="Santa Ana" selected="@(ciudad == "Santa Ana")">Santa Ana</option><option value="San Miguel" selected="@(ciudad == "San Miguel")">San Miguel</option><option value="La Libertad" selected="@(ciudad == "La Libertad")">La Libertad</option></select></div>
-        <div class="col-md-3 d-flex gap-2"><button type="submit" class="btn btn-netofit rounded-pill px-4">Buscar</button><a asp-controller="Home" asp-action="Sucursales" class="btn btn-outline-secondary rounded-pill">Todas</a></div>
+
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="text-secondary text-decoration-none">
+                    Inicio
+                </a>
+            </li>
+
+            <li class="breadcrumb-item active text-light">
+                Sucursales
+            </li>
+        </ol>
+    </nav>
+
+    <h1 class="fw-bold display-5 mb-2">
+        Encuentra tu sucursal
+    </h1>
+
+    <p class="text-secondary mb-4">
+        @Model.Count sucursales disponibles con los filtros actuales.
+    </p>
+
+    <form method="get"
+          asp-controller="Home"
+          asp-action="Sucursales"
+          class="row g-3 mb-5 align-items-center">
+
+        <div class="col-md-4">
+            <input type="search"
+                   name="busqueda"
+                   value="@busqueda"
+                   class="form-control bg-dark text-light border-secondary py-2"
+                   placeholder="Buscar por nombre..."
+                   aria-label="Buscar sucursal" />
+        </div>
+
+        <div class="col-md-5">
+            <select name="ciudad"
+                    class="form-select bg-dark text-light border-secondary py-2"
+                    aria-label="Filtrar por ciudad">
+
+                <option value="">Todas las ciudades</option>
+
+                <option value="San Salvador"
+                        selected="@(ciudad == "San Salvador")">
+                    San Salvador
+                </option>
+
+                <option value="Santa Ana"
+                        selected="@(ciudad == "Santa Ana")">
+                    Santa Ana
+                </option>
+
+                <option value="San Miguel"
+                        selected="@(ciudad == "San Miguel")">
+                    San Miguel
+                </option>
+
+                <option value="La Libertad"
+                        selected="@(ciudad == "La Libertad")">
+                    La Libertad
+                </option>
+
+            </select>
+        </div>
+
+        <div class="col-md-3 d-flex gap-2">
+            <button type="submit"
+                    class="btn btn-netofit rounded-pill px-4">
+                Buscar
+            </button>
+
+            <a asp-controller="Home"
+               asp-action="Sucursales"
+               class="btn btn-outline-secondary rounded-pill">
+                Todas
+            </a>
+        </div>
+
     </form>
+
     <div class="row g-4">
+
         @foreach (var s in Model)
         {
-            string imagen = s.Nombre.Contains("Escalón", StringComparison.OrdinalIgnoreCase) ? "Escalon.png"
-                : s.Nombre.Contains("Santa Ana", StringComparison.OrdinalIgnoreCase) ? "Santa ana.png"
-                : s.Nombre.Contains("San Miguel", StringComparison.OrdinalIgnoreCase) ? "San miguel.png"
-                : s.Nombre.Contains("Santa Tecla", StringComparison.OrdinalIgnoreCase) ? "Santa tecla.png" : "Centro.png";
-            <div class="col-md-6"><div class="card bg-dark text-light border-secondary rounded-4 overflow-hidden h-100 shadow">
-                <img src="@Url.Content("~/Imagenes/" + imagen)" class="card-img-top" alt="@s.Nombre" style="height: 220px; object-fit: cover;" />
-                <div class="card-body p-4"><span class="text-secondary small">@s.Ciudad</span><h3 class="card-title fw-bold fs-4 mb-3">@s.Nombre</h3>
-                <p class="card-text text-secondary mb-2"><i class="bi bi-geo-alt me-2"></i>@s.Direccion</p>
-                <p class="card-text text-secondary mb-2"><i class="bi bi-clock me-2"></i>@s.Apertura.ToString(@"hh\:mm") – @s.Cierre.ToString(@"hh\:mm")</p>
-                <p class="card-text text-secondary mb-0"><i class="bi bi-telephone me-2"></i>@s.Telefono</p></div>
-            </div></div>
+            <div class="col-md-6">
+
+                <div class="card bg-dark text-light border-secondary rounded-4 overflow-hidden h-100 shadow">
+
+                    @if (!string.IsNullOrWhiteSpace(s.RutaImagen)
+                                    && s.RutaImagen.StartsWith("~/Imagenes/Sucursales/"))
+                    {
+                        <img src="@Url.Content(s.RutaImagen)"
+                             class="card-img-top"
+                             alt="Fotografía de @s.Nombre"
+                             style="height: 220px; object-fit: cover;"
+                             loading="lazy" />
+                    }
+                    else
+                    {
+                        <div class="d-flex flex-column align-items-center justify-content-center bg-dark border-bottom border-secondary"
+                             style="height: 220px;">
+
+                            <i class="bi bi-image text-secondary"
+                               style="font-size: 3rem;"></i>
+
+                            <span class="text-secondary mt-2">
+                                Imagen no disponible
+                            </span>
+
+                        </div>
+                    }
+
+                    <div class="card-body p-4">
+
+                        <span class="text-secondary small">
+                            @s.Ciudad
+                        </span>
+
+                        <h3 class="card-title fw-bold fs-4 mb-3">
+                            @s.Nombre
+                        </h3>
+
+                        <p class="card-text text-secondary mb-2">
+                            <i class="bi bi-geo-alt me-2"></i>
+                            @s.Direccion
+                        </p>
+
+                        <p class="card-text text-secondary mb-2">
+                            <i class="bi bi-clock me-2"></i>
+                            @s.Apertura.ToString(@"hh\:mm")
+                            -
+                            @s.Cierre.ToString(@"hh\:mm")
+                        </p>
+
+                        <p class="card-text text-secondary mb-0">
+                            <i class="bi bi-telephone me-2"></i>
+                            @s.Telefono
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
         }
-        @if (Model.Count == 0) { <div class="col-12 text-secondary">No se encontraron sucursales registradas.</div> }
+
+        @if (Model.Count == 0)
+        {
+            <div class="col-12 text-secondary">
+                No se encontraron sucursales registradas.
+            </div>
+        }
+
     </div>
-    <div class="text-center mt-5 pt-3"><a asp-controller="Home" asp-action="Planes" class="btn btn-netofit fw-bold rounded-pill px-5 py-3 shadow">Ver Planes y Membresías →</a></div>
+
+    <div class="text-center mt-5 pt-3">
+
+        <a asp-controller="Home"
+           asp-action="Planes"
+           class="btn btn-netofit fw-bold rounded-pill px-5 py-3 shadow">
+
+            Ver Planes y Membresías →
+
+        </a>
+
+    </div>
+
 </div>

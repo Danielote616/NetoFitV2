@@ -1,4 +1,5 @@
 @model Vista1Danielote.Models.ClienteFormularioAdminModelo
+
 @{
     Layout = "~/Views/Shared/_LayoutOfertaNetoFit.cshtml";
     ViewData["Title"] = Model.Id == 0 ? "Nuevo cliente" : "Editar cliente";
@@ -6,20 +7,106 @@
     ViewData["AdminSeccion"] = "Clientes";
     ViewData["ClaseBody"] = "oferta-body clientes-body";
 }
+
 <section class="clientes-seccion" aria-labelledby="clientes-titulo">
-    <a class="clientes-volver" asp-controller="Clientes" asp-action="Index">← Volver a clientes</a>
-    <div class="clientes-cabecera"><div><h1 id="clientes-titulo">@(Model.Id == 0 ? "Nuevo cliente" : "Editar cliente")</h1><p>Datos del cliente en SQL Server</p></div></div>
-    <form asp-controller="Clientes" asp-action="Formulario" method="post" class="clientes-ficha">
-        <input asp-for="Id" type="hidden" /><div asp-validation-summary="All" style="color:#ef4444;"></div>
+
+    <a class="clientes-volver"
+       asp-controller="Clientes"
+       asp-action="Index">
+        ← Volver a clientes
+    </a>
+
+    <div class="clientes-cabecera">
+        <div>
+            <h1 id="clientes-titulo">
+                @(Model.Id == 0 ? "Nuevo cliente" : "Editar cliente")
+            </h1>
+
+            <p>Datos del cliente en SQL Server</p>
+        </div>
+    </div>
+
+    <form asp-controller="Clientes"
+          asp-action="Formulario"
+          method="post"
+          class="clientes-ficha">
+
+        <input asp-for="Id" type="hidden" />
+
+        <div asp-validation-summary="All"
+             style="color:#ef4444;">
+        </div>
+
         <div class="clientes-formulario-rejilla">
-            <div class="oferta-campo"><label asp-for="Nombre">Nombre completo</label><input asp-for="Nombre" required autocomplete="name" /></div>
-            <div class="oferta-campo"><label asp-for="Correo">Correo electrónico</label><input asp-for="Correo" type="email" required autocomplete="email" /></div>
-            <div class="oferta-campo"><label asp-for="Telefono">Teléfono</label><input asp-for="Telefono" type="tel" required pattern="[0-9]{8}" /></div>
-            <div class="oferta-campo"><label asp-for="FechaNacimiento">Fecha de nacimiento</label><input asp-for="FechaNacimiento" type="date" required /></div>
-            <div class="oferta-campo"><label asp-for="Contrasena">@(Model.Id == 0 ? "Contraseña de prueba" : "Nueva contraseña (opcional)")</label><input asp-for="Contrasena" type="password" autocomplete="new-password" /></div>
+
+            <div class="oferta-campo">
+                <label asp-for="Nombre">Nombre completo</label>
+                <input asp-for="Nombre" required autocomplete="name" />
+            </div>
+
+            <div class="oferta-campo">
+                <label asp-for="Correo">Correo electrónico</label>
+                <input asp-for="Correo" type="email" required autocomplete="email" />
+            </div>
+
+            <div class="oferta-campo">
+                <label asp-for="Telefono">Teléfono</label>
+                <input asp-for="Telefono" type="tel" required pattern="[0-9]{8}" />
+            </div>
+
+            <div class="oferta-campo">
+                <label asp-for="FechaNacimiento">Fecha de nacimiento</label>
+                <input asp-for="FechaNacimiento" type="date" required />
+            </div>
+
+            <div class="oferta-campo">
+                <label asp-for="Contrasena">
+                    @(Model.Id == 0 ? "Contraseña" : "Nueva contraseña (opcional)")
+                </label>
+
+                <input asp-for="Contrasena"
+                       type="password"
+                       autocomplete="new-password" />
+            </div>
+
+            <div class="oferta-campo">
+                <label asp-for="RutaImagen">
+                    Foto del cliente (opcional)
+                </label>
+
+                <input asp-for="RutaImagen"/>
+
+                <span asp-validation-for="RutaImagen"
+                      style="color:#ef4444;">
+                </span>
+            </div>
+
         </div>
-        <div class="clientes-formulario-pie"><p>La membresía se asigna mediante el proceso de contratación del plan.</p>
-            <div class="clientes-formulario-botones"><a class="oferta-boton-cancelar" asp-controller="Clientes" asp-action="Index">Cancelar</a><button class="clientes-boton-nuevo" type="submit">Guardar cliente</button></div>
+
+        <div class="clientes-formulario-pie">
+
+            <p>
+                La membresía se asigna mediante el proceso
+                de contratación del plan.
+            </p>
+
+            <div class="clientes-formulario-botones">
+
+                <a class="oferta-boton-cancelar"
+                   asp-controller="Clientes"
+                   asp-action="Index">
+                    Cancelar
+                </a>
+
+                <button class="clientes-boton-nuevo"
+                        type="submit">
+                    Guardar cliente
+                </button>
+
+            </div>
+
         </div>
+
     </form>
+
 </section>

@@ -54,9 +54,45 @@
                 <a asp-controller="Account" asp-action="Logout" class="sidebar-item"><i class="bi bi-box-arrow-left" aria-hidden="true"></i>Cerrar sesión</a>
             </div>
         </aside>
+
     <div class="nf-contenido-general">
+
+        <header class="nf-admin-barra-superior">
+
+            <div class="nf-admin-ubicacion">
+                <small>Administración</small>
+                <strong>@(string.IsNullOrWhiteSpace(seccion) ? "Panel administrativo" : seccion)</strong>
+            </div>
+
+            <div class="nf-admin-usuario">
+                <div class="nf-admin-usuario-datos">
+                    <strong>@(Context.Session.GetString("NombreUsuario") ?? "Administrador")</strong>
+                    <small>Administrador</small>
+                </div>
+
+                <div class="nf-admin-avatar">
+                    @{
+                        string fotoAdmin = Context.Session.GetString("RutaImagenAdmin") ?? "";
+                    }
+
+                    @if (fotoAdmin.StartsWith("~/Imagenes/Administradores/"))
+                    {
+                        <img src="@Url.Content(fotoAdmin)"
+                             alt="Fotografía del administrador" />
+                    }
+                    else
+                    {
+                        <i class="bi bi-person-fill" aria-hidden="true"></i>
+                    }
+                </div>
+            </div>
+
+        </header>
+
         @RenderBody()
+
     </div>
+
     @if (ViewData["UsarBootstrap"]?.ToString() == "Si")
     {
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

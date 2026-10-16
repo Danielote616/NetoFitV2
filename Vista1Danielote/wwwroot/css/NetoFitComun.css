@@ -1,4 +1,4 @@
-/* Encabezado y pie de página compartidos por todos los layouts de NetoFitV2. */
+
 html { min-height: 100%; }
 body.nf-cuerpo {
     margin: 0;
@@ -81,7 +81,7 @@ body.nf-cuerpo {
     padding: 8px 24px;
     background: #c6ff00 !important;
     color: #000 !important;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 19px;
     font-weight: 700;
     border-radius: 999px;
@@ -156,13 +156,11 @@ body.nf-cuerpo {
 .nf-cuerpo.nf-admin .main-wrapper { min-height: 0; }
 .nf-cuerpo.nf-cliente .nf-contenido-general { background-color: #121212; }
 
-
-/* Colores originales del módulo público de Sucursales y Planes. */
 .nf-cuerpo .btn-netofit { background-color: #c6ff00; color: #121212; border: none; font-weight: 700; }
 .nf-cuerpo .btn-netofit:hover { background-color: #b0e600; color: #121212; }
 .nf-cuerpo .text-netofit { color: #c6ff00 !important; }
 .nf-cuerpo .border-netofit { border-color: #c6ff00 !important; }
-/* El contenido administrativo respeta el ancho reservado para el menú derecho. */
+
 .nf-cuerpo.nf-admin .oferta-principal { width: auto; margin-right: 260px; }
 .nf-cuerpo.nf-admin .main-wrapper { margin-right: 260px; padding: 2rem 2.5rem; }
 .nf-cuerpo.nf-admin .bg-card-dark { background: #121418; border: 1px solid #1e222a; border-radius: 16px; }
@@ -172,7 +170,7 @@ body.nf-cuerpo {
 
 .nf-cuerpo.nf-pago .content-container { font-family: "Inter", Arial, Helvetica, sans-serif; }
 
-/* Los módulos públicos incorporados mantienen sus fondos originales. */
+
 body.nf-cuerpo.inicio-netofit .nf-contenido-general,
 body.nf-cuerpo.cuenta-netofit .nf-contenido-general {
     background-color: #f5f7fa;
@@ -185,7 +183,6 @@ body.nf-cuerpo.cuenta-netofit .login-pagina {
     --acento-oscuro: #166534;
 }
 
-/* Ajustes de altura únicamente para el encabezado y el pie público. */
 .nf-cuerpo:not(.nf-admin) .nf-encabezado {
     min-height: 0;
     padding-inline: 2.3%;
@@ -229,4 +226,130 @@ body.nf-cuerpo.cuenta-netofit .login-pagina {
 .nf-cuerpo:not(.nf-admin) .nf-pie-inferior {
     padding-top: 13px;
     font-size: 12px;
+}
+
+
+body.nf-cuerpo.nf-admin .nf-admin-barra-superior {
+    margin-right: 260px;
+    min-height: 76px;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background-color: #101215;
+    border-bottom: 1px solid #292d32;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body.nf-cuerpo.nf-admin .nf-admin-ubicacion,
+body.nf-cuerpo.nf-admin .nf-admin-usuario-datos {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+    body.nf-cuerpo.nf-admin .nf-admin-ubicacion small,
+    body.nf-cuerpo.nf-admin .nf-admin-usuario-datos small {
+        color: #9ca3af;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 18px;
+    }
+
+    body.nf-cuerpo.nf-admin .nf-admin-ubicacion strong {
+        color: #ffffff;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 22px;
+    }
+
+body.nf-cuerpo.nf-admin .nf-admin-usuario {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+body.nf-cuerpo.nf-admin .nf-admin-usuario-datos {
+    text-align: right;
+}
+
+    body.nf-cuerpo.nf-admin .nf-admin-usuario-datos strong {
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 20px;
+    }
+
+body.nf-cuerpo.nf-admin .nf-admin-avatar {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #30343b;
+    color: #ffffff;
+}
+
+    body.nf-cuerpo.nf-admin .nf-admin-avatar img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+    }
+
+    body.nf-cuerpo.nf-admin .nf-admin-avatar .bi {
+        font-size: 23px;
+        line-height: 1;
+    }
+
+body.nf-cuerpo.nf-admin .sidebar-admin {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+    body.nf-cuerpo.nf-admin .sidebar-admin a.sidebar-item {
+        min-height: 44px;
+        padding: 11px 14px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        body.nf-cuerpo.nf-admin .sidebar-admin a.sidebar-item.active {
+            font-weight: 700;
+        }
+
+        body.nf-cuerpo.nf-admin .sidebar-admin a.sidebar-item .bi {
+            width: 18px;
+            min-width: 18px;
+            font-size: 17px;
+            line-height: 1;
+        }
+
+@media (max-width: 750px) {
+    body.nf-cuerpo.nf-admin .nf-admin-barra-superior {
+        padding: 12px 16px;
+        gap: 10px;
+    }
+
+    body.nf-cuerpo.nf-admin .nf-admin-usuario-datos {
+        display: none;
+    }
+}
+
+body.nf-cuerpo.nf-admin .admin-pagos-contenido,
+body.nf-cuerpo.nf-admin .admin-pagos-contenido input,
+body.nf-cuerpo.nf-admin .admin-pagos-contenido select,
+body.nf-cuerpo.nf-admin .admin-pagos-contenido textarea,
+body.nf-cuerpo.nf-admin .admin-pagos-contenido button {
+    font-family: Arial, Helvetica, sans-serif;
 }

@@ -1,24 +1,92 @@
 @model Vista1Danielote.Models.SucursalAdminModelo
+
 @{
     Layout = "~/Views/Shared/_LayoutAdminCabecera.cshtml";
     ViewData["Title"] = Model.Id == 0 ? "Nueva sucursal" : "Editar sucursal";
     ViewData["Subtitulo"] = "Sucursales";
 }
+
 <div class="container py-4">
     <div class="bg-dark border border-secondary rounded-4 p-4 text-light">
-        <h1 class="fw-bold fs-3 mb-4">@(Model.Id == 0 ? "Nueva sucursal" : "Editar sucursal")</h1>
+
+        <h1 class="fw-bold fs-3 mb-4">
+            @(Model.Id == 0 ? "Nueva sucursal" : "Editar sucursal")
+        </h1>
+
         <form asp-controller="Admin" asp-action="FormularioSucursal" method="post">
+
             <input asp-for="Id" type="hidden" />
+
             <div asp-validation-summary="All" class="text-warning"></div>
+
             <div class="row g-3">
-                <div class="col-md-6"><label asp-for="Nombre" class="form-label">Nombre</label><input asp-for="Nombre" class="form-control bg-dark text-light border-secondary" required /></div>
-                <div class="col-md-6"><label asp-for="Ciudad" class="form-label">Ciudad</label><input asp-for="Ciudad" class="form-control bg-dark text-light border-secondary" required /></div>
-                <div class="col-12"><label asp-for="Direccion" class="form-label">Dirección</label><input asp-for="Direccion" class="form-control bg-dark text-light border-secondary" required /></div>
-                <div class="col-md-4"><label asp-for="Telefono" class="form-label">Teléfono</label><input asp-for="Telefono" class="form-control bg-dark text-light border-secondary" required /></div>
-                <div class="col-md-4"><label asp-for="Apertura" class="form-label">Apertura</label><input asp-for="Apertura" type="time" class="form-control bg-dark text-light border-secondary" required /></div>
-                <div class="col-md-4"><label asp-for="Cierre" class="form-label">Cierre</label><input asp-for="Cierre" type="time" class="form-control bg-dark text-light border-secondary" required /></div>
+
+                <div class="col-md-6">
+                    <label asp-for="Nombre" class="form-label">Nombre</label>
+                    <input asp-for="Nombre" class="form-control bg-dark text-light border-secondary" required />
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Ciudad" class="form-label">Ciudad</label>
+                    <input asp-for="Ciudad" class="form-control bg-dark text-light border-secondary" required />
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Direccion" class="form-label">Dirección</label>
+                    <input asp-for="Direccion" class="form-control bg-dark text-light border-secondary" required />
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Telefono" class="form-label">Teléfono</label>
+                    <input asp-for="Telefono" class="form-control bg-dark text-light border-secondary" required />
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Apertura" class="form-label">Apertura</label>
+                    <input asp-for="Apertura" type="time" class="form-control bg-dark text-light border-secondary" required />
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Cierre" class="form-label">Cierre</label>
+                    <input asp-for="Cierre" type="time" class="form-control bg-dark text-light border-secondary" required />
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="RutaImagen" class="form-label">
+                        Imagen de la sucursal
+                    </label>
+
+                    <input asp-for="RutaImagen"
+                           class="form-control bg-dark text-light border-secondary"/>
+
+                    <span asp-validation-for="RutaImagen" class="text-warning"></span>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(Model.RutaImagen) &&
+                                Model.RutaImagen.StartsWith("~/Imagenes/Sucursales/"))
+                {
+                    <div class="col-12">
+                        <p class="text-light mb-2">Imagen guardada:</p>
+
+                        <img src="@Url.Content(Model.RutaImagen)"
+                             alt="Imagen de la sucursal"
+                             class="img-fluid rounded-3 border border-secondary"
+                             style="max-width: 320px; max-height: 200px; object-fit: cover;" />
+                    </div>
+                }
+
             </div>
-            <div class="d-flex gap-3 mt-4"><button type="submit" class="btn btn-netofit px-4">Guardar sucursal</button><a asp-action="Sucursales" class="btn btn-outline-secondary">Cancelar</a></div>
+
+            <div class="d-flex gap-3 mt-4">
+                <button type="submit" class="btn btn-netofit px-4">
+                    Guardar sucursal
+                </button>
+
+                <a asp-action="Sucursales" class="btn btn-outline-secondary">
+                    Cancelar
+                </a>
+            </div>
+
         </form>
     </div>
 </div>
