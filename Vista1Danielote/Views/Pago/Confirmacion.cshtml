@@ -60,6 +60,7 @@
     .confirm-row {
         display: flex;
         justify-content: space-between;
+        gap: 15px;
         padding: 10px 0;
     }
 
@@ -72,6 +73,7 @@
         color: #ffffff;
         font-weight: 700;
         font-size: 0.95em;
+        text-align: right;
     }
 
     .btn-perfil {
@@ -92,36 +94,102 @@
             opacity: 0.9;
             color: #000000;
         }
+
+    .confirm-aviso {
+        color: #8a8f99;
+        font-size: 0.85em;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
 </style>
 
 <main class="content-container">
-<div class="confirm-container">
 
-    <div class="success-icon-circle">
-        ✓
+    <div class="confirm-container">
+
+        <div class="success-icon-circle">
+            ✓
+        </div>
+
+        <h1 class="confirm-title">
+            ¡Solicitud registrada!
+        </h1>
+
+        <p class="confirm-subtitle">
+            Tu solicitud para la membresía
+            <strong>@Model.NombrePlan</strong>
+            está pendiente de confirmación.
+        </p>
+
+        <div class="confirm-card">
+
+            <div class="confirm-row">
+                <span class="confirm-label">
+                    Plan
+                </span>
+
+                <span class="confirm-value">
+                    @Model.NombrePlan
+                </span>
+            </div>
+
+            <div class="confirm-row">
+                <span class="confirm-label">
+                    Monto pendiente
+                </span>
+
+                <span class="confirm-value">
+                    $@Model.Total.ToString("0.00")
+                </span>
+            </div>
+
+            <div class="confirm-row">
+                <span class="confirm-label">
+                    Estado del pago
+                </span>
+
+                <span class="confirm-value">
+                    @Model.Estado
+                </span>
+            </div>
+
+            <div class="confirm-row">
+                <span class="confirm-label">
+                    Inicio previsto
+                </span>
+
+                <span class="confirm-value">
+                    @Model.FechaInicio.ToString("dd/MM/yyyy")
+                </span>
+            </div>
+
+            <div class="confirm-row">
+                <span class="confirm-label">
+                    Finalización prevista
+                </span>
+
+                <span class="confirm-value">
+                    @Model.FechaFin.ToString("dd/MM/yyyy")
+                </span>
+            </div>
+
+        </div>
+
+        <p class="confirm-aviso">
+            Realiza el pago presencial en la sucursal
+            seleccionada para que el administrador
+            pueda confirmar tu solicitud.
+
+            Las fechas de vigencia son previstas
+            y pueden ajustarse al confirmar el pago.
+        </p>
+
+        <a asp-controller="Perfil"
+           asp-action="Index"
+           class="btn-perfil">
+            Ir a mi perfil
+        </a>
+
     </div>
 
-    <h1 class="confirm-title">¡Solicitud registrada!</h1>
-    <p class="confirm-subtitle">
-        Tu solicitud para la membresía <strong>@Model.NombrePlan</strong> está pendiente. Realiza el pago presencial para activarla.
-    </p>
-
-
-    <div class="confirm-card">
-        <div class="confirm-row">
-            <span class="confirm-label">Plan</span>
-            <span class="confirm-value">@Model.NombrePlan</span>
-        </div>
-        <div class="confirm-row">
-            <span class="confirm-label">Monto pendiente</span>
-            <span class="confirm-value">$@Model.Total</span>
-        </div>
-        <div class="confirm-row">
-            <span class="confirm-label">Vigencia</span>
-            <span class="confirm-value">@Model.FechaFin.ToString("dd/MM/yyyy")</span>
-        </div>
-    </div>
-
-    <a href="/Perfil/Index" class="btn-perfil">Ir a mi perfil</a>
-</div>
 </main>

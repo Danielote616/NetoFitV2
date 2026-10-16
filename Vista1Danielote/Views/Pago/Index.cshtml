@@ -6,6 +6,17 @@
     ViewData["FuenteInter"] = "Si";
     ViewData["CSS"] = "~/css/BeltranNetoFit.css";
     ViewData["Title"] = "Finaliza tu inscripción";
+
+    string titulo = "Finaliza tu inscripción";
+
+    if (Model.TipoOperacion == "renovar")
+    {
+        titulo = "Renovar membresía";
+    }
+    else if (Model.TipoOperacion == "cambiar")
+    {
+        titulo = "Solicitar cambio de plan";
+    }
 }
 
 <style>
@@ -55,9 +66,9 @@
         gap: 20px;
     }
 
-        .form-group-row .form-group {
-            flex: 1;
-        }
+    .form-group-row .form-group {
+        flex: 1;
+    }
 
     .form-label {
         display: block;
@@ -79,13 +90,8 @@
         transition: border-color 0.2s;
     }
 
-        .form-input:focus {
-            border-color: #ccff00;
-        }
-
-    input[type="month"]::-webkit-calendar-picker-indicator {
-        filter: invert(1);
-        cursor: pointer;
+    .form-input:focus {
+        border-color: #ccff00;
     }
 
     .summary-box {
@@ -118,10 +124,10 @@
         margin-bottom: 12px;
     }
 
-        .price-row.promo {
-            color: #22c55e;
-            font-weight: 500;
-        }
+    .price-row.promo {
+        color: #22c55e;
+        font-weight: 500;
+    }
 
     .pago-divider {
         border: 0;
@@ -161,98 +167,248 @@
         transition: opacity 0.2s;
     }
 
-        .btn-pagar:hover {
-            opacity: 0.9;
-        }
+    .btn-pagar:hover {
+        opacity: 0.9;
+    }
 
     .secure-text {
         text-align: center;
         color: #8a8f99;
         font-size: 0.8em;
         margin-top: 14px;
+        line-height: 1.5;
+    }
+
+    .pago-info {
+        color: #a0a5b1;
+        font-size: 0.9em;
+        margin-bottom: 24px;
+        line-height: 1.6;
+    }
+
+    .error-pago {
+        color: #ff6b6b;
+        margin-bottom: 18px;
+    }
+
+    @@media (max-width: 600px) {
+        .pago-card {
+            padding: 18px 14px;
+        }
+
+        .form-group-row {
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .summary-box {
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .pago-title {
+            font-size: 1.6em;
+        }
     }
 </style>
 
 <main class="content-container">
-<div class="pago-container">
-    <div class="breadcrumb">Planes &gt; Pago</div>
-    <h1 class="pago-title">Finaliza tu inscripción</h1>
+    <div class="pago-container">
 
-    <form asp-controller="Pago" asp-action="ProcesarPago" method="post">
-        <input type="hidden" asp-for="IdPlan" />
-        <div asp-validation-summary="All" style="color: #ff4d4d;"></div>
-        <input type="hidden" asp-for="NombrePlan" />
-        <input type="hidden" asp-for="DetallePlan" />
-        <input type="hidden" asp-for="Subtotal" />
-        <input type="hidden" asp-for="NombrePromo" />
-        <input type="hidden" asp-for="DescuentoPromo" />
-        <input type="hidden" asp-for="Total" />
+        <div class="breadcrumb">
+            Planes &gt; Pago
+        </div>
 
-        <div class="pago-card">
-            <h2 class="pago-card-title">Datos de facturación</h2>
-            <div class="form-group-row">
+        <h1 class="pago-title">@titulo</h1>
+
+        @if (Model.TipoOperacion == "renovar" ||
+                Model.TipoOperacion == "cambiar")
+        {
+            <p class="pago-info">
+                Si tienes una membresía vigente, el nuevo período
+                comenzará después de finalizar tu membresía actual.
+                La solicitud necesitará confirmación del pago presencial.
+            </p>
+        }
+
+        <form asp-controller="Pago"
+              asp-action="ProcesarPago"
+              method="post">
+
+            <input type="hidden" asp-for="IdPlan" />
+            <input type="hidden" asp-for="TipoOperacion" />
+
+            <div asp-validation-summary="All"
+                 class="error-pago">
+            </div>
+
+            <div class="pago-card">
+
+                <h2 class="pago-card-title">
+                    Datos de facturación
+                </h2>
+
+                <div class="form-group-row">
+
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="form-label">
+                            Nombre
+                        </label>
+
+                        <input asp-for="Nombre"
+                               class="form-input"
+                               readonly />
+
+                        <span asp-validation-for="Nombre"
+                              class="error-pago">
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Correo" class="form-label">
+                            Correo
+                        </label>
+
+                        <input asp-for="Correo"
+                               class="form-input"
+                               readonly />
+
+                        <span asp-validation-for="Correo"
+                              class="error-pago">
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="pago-card">
+
+                <h2 class="pago-card-title">
+                    Método de pago
+                </h2>
 
                 <div class="form-group">
-                    <label class="form-label">Nombre</label>
-                    <input asp-for="Nombre" class="form-input" readonly />
-                    <span asp-validation-for="Nombre" style="color: #ff4d4d; font-size: 0.8em; display: block; margin-top: 4px;"></span>
+
+                    <label asp-for="IdSucursal"
+                           class="form-label">
+                        Pago presencial en una sucursal
+                    </label>
+
+                    <select asp-for="IdSucursal"
+                            class="form-input"
+                            required>
+
+                        <option value="0">
+                            Selecciona la sucursal
+                        </option>
+
+                        @foreach (var sucursal in
+                                                (List<Vista1Danielote.Models.SucursalAdminModelo>)
+                                                ViewBag.Sucursales)
+                        {
+                            <option value="@sucursal.Id">
+                                @sucursal.Nombre
+                            </option>
+                        }
+
+                    </select>
+
+                    <span asp-validation-for="IdSucursal"
+                          class="error-pago">
+                    </span>
+
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Correo</label>
-                    <input asp-for="Correo" class="form-input" readonly />
-                    <span asp-validation-for="Correo" style="color: #ff4d4d; font-size: 0.8em; display: block; margin-top: 4px;"></span>
+                <p class="secure-text">
+                    La solicitud se registrará como pendiente.
+                    No se solicitarán datos de tarjeta ni se
+                    realizará ningún cargo bancario.
+                </p>
+
+            </div>
+
+            <div class="pago-card">
+
+                <h2 class="pago-card-title">
+                    Resumen de tu membresía
+                </h2>
+
+                <div class="summary-box">
+
+                    <div>
+                        <div class="summary-item-title">
+                            @Model.NombrePlan
+                        </div>
+
+                        <div class="summary-item-sub">
+                            @Model.DetallePlan
+                        </div>
+                    </div>
+
+                    <div style="font-weight:700;
+                                font-size:1.1em;
+                                color:#ffffff;">
+                        $@Model.Subtotal.ToString("0.00")
+                    </div>
+
                 </div>
-            </div>
-        </div>
 
-        <div class="pago-card">
-            <h2 class="pago-card-title">Método de pago</h2>
-            <div class="form-group">
-                <label class="form-label">Pago presencial en una sucursal</label>
-                <select asp-for="IdSucursal" class="form-input" required>
-                    <option value="0">Selecciona la sucursal</option>
-                    @foreach (var sucursal in (List<Vista1Danielote.Models.SucursalAdminModelo>)ViewBag.Sucursales)
-                    {
-                        <option value="@sucursal.Id">@sucursal.Nombre</option>
-                    }
-                </select>
-                <span asp-validation-for="IdSucursal" style="color: #ff4d4d; font-size: 0.8em;"></span>
-            </div>
-            <p class="secure-text">La solicitud se registrará como pendiente. No se solicitarán datos de tarjeta ni se hará ningún cargo bancario.</p>
-        </div>
+                <div class="price-row">
+                    <span>Subtotal</span>
 
-        <div class="pago-card">
-            <h2 class="pago-card-title">Resumen</h2>
-
-            <div class="summary-box">
-                <div>
-                    <div class="summary-item-title">@Model.NombrePlan</div>
-                    <div class="summary-item-sub">@Model.DetallePlan</div>
+                    <span>
+                        $@Model.Subtotal.ToString("0.00")
+                    </span>
                 </div>
-                <div style="font-weight: 700; font-size: 1.1em;">$@Model.Subtotal</div>
+
+                @if (Model.DescuentoPromo > 0)
+                {
+                    <div class="price-row promo">
+                        <span>@Model.NombrePromo</span>
+
+                        <span>
+                            -$@Model.DescuentoPromo.ToString("0.00")
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    <div class="price-row">
+                        <span>Promoción</span>
+                        <span>Sin promoción</span>
+                    </div>
+                }
+
+                <hr class="pago-divider" />
+
+                <div class="total-row">
+
+                    <span class="total-label">
+                        Total
+                    </span>
+
+                    <span class="total-amount">
+                        $@Model.Total.ToString("0.00")
+                    </span>
+
+                </div>
+
+                <button type="submit"
+                        class="btn-pagar">
+                    Solicitar pago presencial de
+                    $@Model.Total.ToString("0.00")
+                </button>
+
+                <p class="secure-text">
+                    Tu pago quedará pendiente hasta
+                    que el administrador confirme
+                    el pago presencial.
+                </p>
+
             </div>
 
-            <div class="price-row">
-                <span>Subtotal</span>
-                <span>$@Model.Subtotal</span>
-            </div>
+        </form>
 
-            <div class="price-row promo">
-                <span>@Model.NombrePromo</span>
-                <span>-$@Model.DescuentoPromo</span>
-            </div>
-
-            <hr class="pago-divider" />
-
-            <div class="total-row">
-                <span class="total-label">Total</span>
-                <span class="total-amount">$@Model.Total</span>
-            </div>
-
-            <button type="submit" class="btn-pagar">Solicitar pago presencial de $@Model.Total</button>
-            <p class="secure-text">Pago pendiente de confirmación en sucursal</p>
-        </div>
-    </form>
-</div>
+    </div>
 </main>

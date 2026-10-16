@@ -13,7 +13,6 @@
         margin-top: -10px;
     }
 
-
     .admin-main-content {
         flex: 1;
     }
@@ -46,7 +45,6 @@
         padding: 24px;
         margin-bottom: 25px;
     }
-
 
     .custom-table {
         width: 100%;
@@ -146,84 +144,241 @@
 <div class="admin-container">
 
     <section class="admin-main-content">
+
         <div class="admin-header-row">
+
             <div>
-                <span style="color: #8a8f99; font-size: 0.8em; text-transform: uppercase;">Administración</span>
-                <h1 style="font-size: 1.8em; font-weight: 700; margin-top: 2px;">Pagos y promociones</h1>
-                <p style="color: #8a8f99; font-size: 0.9em; margin-top: 4px;">Transacciones recientes y campañas activas</p>
+
+                <span style="color:#8a8f99;font-size:0.8em;text-transform:uppercase;">
+                    Administración
+                </span>
+
+                <h1 style="font-size:1.8em;font-weight:700;margin-top:2px;">
+                    Pagos y promociones
+                </h1>
+
+                <p style="color:#8a8f99;font-size:0.9em;margin-top:4px;">
+                    Transacciones recientes y campañas activas
+                </p>
+
             </div>
-            <a class="btn-export" asp-controller="AdminPagos" asp-action="Index" style="text-decoration:none;">Actualizar</a>
+
+            <a class="btn-export"
+               asp-controller="AdminPagos"
+               asp-action="Index"
+               style="text-decoration:none;">
+                Actualizar
+            </a>
+
         </div>
 
+        @if (TempData["Error"] != null)
+        {
+            <p role="alert"
+               style="color:#ff7676;padding:12px;">
+                @TempData["Error"]
+            </p>
+        }
+
         <div class="admin-card">
-            <h3 style="font-size: 1em; font-weight: 600; margin-bottom: 18px;">Pagos recientes</h3>
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>CLIENTE</th>
-                        <th>MEMBRESÍA</th>
-                        <th>MÉTODO</th>
-                        <th>FECHA</th>
-                        <th style="text-align: right;">MONTO</th>
-                        <th>ESTADO / ACCIÓN</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var pago in Model.PagosRecientes)
-                    {
+
+            <h3 style="font-size:1em;font-weight:600;margin-bottom:18px;">
+                Pagos recientes
+            </h3>
+
+            <div style="overflow-x:auto;">
+
+                <table class="custom-table">
+
+                    <thead>
                         <tr>
-                            <td class="td-id">@pago.Id</td>
-                            <td class="td-client">@pago.Cliente</td>
-                            <td style="color: #d0d5dd;">@pago.Membresia</td>
-                            <td style="color: #8a8f99;">@pago.Metodo</td>
-                            <td style="color: #8a8f99;">@pago.Fecha</td>
-                            <td class="td-monto">$@pago.Monto</td>
-                            <td>@pago.Estado
-                                @if (pago.Estado == "Pendiente")
-                                {
-                                    <form asp-controller="AdminPagos" asp-action="Confirmar" method="post" style="margin-top:5px;"><input type="hidden" name="id" value="@pago.IdPago" /><button class="btn-nueva-promo" type="submit">Confirmar pago recibido</button></form>
-                                }
-                            </td>
+                            <th scope="col">ID</th>
+                            <th scope="col">CLIENTE</th>
+                            <th scope="col">MEMBRESÍA</th>
+                            <th scope="col">MÉTODO</th>
+                            <th scope="col">FECHA</th>
+                            <th scope="col" style="text-align:right;">MONTO</th>
+                            <th scope="col">ESTADO / ACCIÓN</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var pago in Model.PagosRecientes)
+                        {
+                            <tr>
+
+                                <td class="td-id">
+                                    @pago.Id
+                                </td>
+
+                                <td class="td-client">
+                                    @pago.Cliente
+                                </td>
+
+                                <td style="color:#d0d5dd;">
+                                    @pago.Membresia
+                                </td>
+
+                                <td style="color:#8a8f99;">
+                                    @pago.Metodo
+                                </td>
+
+                                <td style="color:#8a8f99;">
+                                    @pago.Fecha
+                                </td>
+
+                                <td class="td-monto">
+                                    $@pago.Monto.ToString("0.00")
+                                </td>
+
+                                <td>
+
+                                    @pago.Estado
+
+                                    @if (pago.Estado == "Pendiente")
+                                    {
+                                        <form asp-controller="AdminPagos"
+                                              asp-action="Confirmar"
+                                              method="post"
+                                              style="margin-top:5px;">
+
+                                            <input type="hidden"
+                                                   name="id"
+                                                   value="@pago.IdPago" />
+
+                                            <button class="btn-nueva-promo"
+                                                    type="submit">
+                                                Confirmar pago recibido
+                                            </button>
+
+                                        </form>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+
+                        @if (Model.PagosRecientes.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="7">
+                                    No hay pagos registrados.
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
         </div>
 
         <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                <h3 style="font-size: 1em; font-weight: 600;">Promociones activas</h3>
-                <a class="btn-nueva-promo" asp-controller="AdminPagos" asp-action="Promocion" style="text-decoration:none;">+ Nueva</a>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+
+                <h3 style="font-size:1em;font-weight:600;">
+                    Promociones
+                </h3>
+
+                <a class="btn-nueva-promo"
+                   asp-controller="AdminPagos"
+                   asp-action="Promocion"
+                   style="text-decoration:none;">
+                    + Nueva
+                </a>
+
             </div>
 
             @foreach (var promo in Model.PromocionesActivas)
             {
                 <div class="promo-card">
-                    <div style="display: flex; align-items: center; gap: 16px;">
-                        <div class="promo-icon-box">%</div>
-                        <div>
-                            <strong style="display: block; font-size: 0.95em;">@promo.Nombre</strong>
-                            <span style="color: #8a8f99; font-size: 0.8em;">@promo.PlanAplicable</span>
-                            <div style="color: #22c55e; font-weight: 700; font-size: 0.9em; margin-top: 2px;">@promo.Porcentaje</div>
+
+                    <div style="display:flex;align-items:center;gap:16px;">
+
+                        <div class="promo-icon-box">
+                            %
                         </div>
+
+                        <div>
+
+                            <strong style="display:block;font-size:0.95em;">
+                                @promo.Nombre
+                            </strong>
+
+                            <span style="color:#8a8f99;font-size:0.8em;">
+                                @promo.PlanAplicable
+                            </span>
+
+                            <div style="color:#22c55e;font-weight:700;font-size:0.9em;margin-top:2px;">
+                                @promo.Porcentaje
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <div style="text-align: right;">
+                    <div style="text-align:right;">
+
                         @if (promo.Estado == "Activa")
                         {
-                            <span class="badge-activa">● Activa</span>
+                            <span class="badge-activa">
+                                ● Activa
+                            </span>
                         }
                         else
                         {
-                            <span class="badge-finalizada">● Finalizada</span>
+                            <span class="badge-finalizada">
+                                ● Finalizada
+                            </span>
                         }
-                        <div style="color: #8a8f99; font-size: 0.8em; margin-top: 8px;">@promo.RangoFechas</div>
-                        <a asp-controller="AdminPagos" asp-action="Promocion" asp-route-id="@promo.Id" style="color:#ccff00; text-decoration:none; font-size:0.8em;">Editar</a>
-                        <form asp-controller="AdminPagos" asp-action="EliminarPromocion" method="post"><input type="hidden" name="id" value="@promo.Id" /><button type="submit" class="btn-export" style="padding:4px 9px; font-size:0.75em;" onclick="return confirm('¿Eliminar promoción?')">Eliminar</button></form>
+
+                        <div style="color:#8a8f99;font-size:0.8em;margin-top:8px;">
+                            @promo.RangoFechas
+                        </div>
+
+                        <a asp-controller="AdminPagos"
+                           asp-action="Promocion"
+                           asp-route-id="@promo.Id"
+                           style="color:#ccff00;text-decoration:none;font-size:0.8em;">
+                            Editar
+                        </a>
+
+                        <form asp-controller="AdminPagos"
+                              asp-action="EliminarPromocion"
+                              method="post">
+
+                            <input type="hidden"
+                                   name="id"
+                                   value="@promo.Id" />
+
+                            <button type="submit"
+                                    class="btn-export"
+                                    style="padding:4px 9px;font-size:0.75em;"
+                                    onclick="return confirm('¿Eliminar promoción?')">
+                                Eliminar
+                            </button>
+
+                        </form>
+
                     </div>
+
                 </div>
             }
+
+            @if (Model.PromocionesActivas.Count == 0)
+            {
+                <p style="color:#8a8f99;">
+                    No hay promociones registradas.
+                </p>
+            }
+
         </div>
+
     </section>
+
 </div>

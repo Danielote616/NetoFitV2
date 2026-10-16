@@ -1,52 +1,277 @@
+@model Vista1Danielote.Models.DashboardAdminModelo
 @using System.Globalization
+
 @{
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+
     ViewData["Title"] = "Dashboard";
     ViewData["Titulo"] = "Dashboard";
-    var sucursales = (List<(string Nombre, decimal Ingresos, int Asistencias)>)ViewBag.Sucursales;
-    var proximas = (List<(string Cliente, string Plan, string Sucursal, DateTime Fecha)>)ViewBag.Proximas;
-    decimal maximo = sucursales.Count == 0 ? 1 : Math.Max(1, sucursales.Max(x => x.Ingresos));
-    int asistenciaTotal = sucursales.Sum(x => x.Asistencias);
-}
-<div class="dashboard-encabezado">
-    <div><h2>Dashboard</h2><p class="dashboard-subtitulo">Resumen del desempeño · @DateTime.Today.ToString("MMMM yyyy", CultureInfo.GetCultureInfo("es-SV"))</p></div>
-    <span class="dashboard-select">Todas las sucursales</span>
-</div>
-<div class="tarjetas-stats">
-    <div class="tarjeta-stat"><div class="stat-encabezado"><span class="stat-icono">$</span></div><p class="stat-numero">@(((decimal)ViewBag.Ingresos).ToString("C", CultureInfo.GetCultureInfo("en-US")))</p><p class="stat-etiqueta">Ingresos confirmados</p></div>
-    <div class="tarjeta-stat"><div class="stat-encabezado"><span class="stat-icono">👤</span></div><p class="stat-numero">@ViewBag.Clientes</p><p class="stat-etiqueta">Clientes registrados</p></div>
-    <div class="tarjeta-stat"><div class="stat-encabezado"><span class="stat-icono">✓</span></div><p class="stat-numero">@ViewBag.Asistencias</p><p class="stat-etiqueta">Asistencias registradas</p></div>
-    <div class="tarjeta-stat"><div class="stat-encabezado"><span class="stat-icono">▣</span></div><p class="stat-numero">@ViewBag.PorVencer</p><p class="stat-etiqueta">Membresías por vencer</p></div>
-</div>
-<div class="panel-grafico">
-    <div class="panel-encabezado"><h3>Ingresos por sucursal</h3><span class="panel-nota">USD · pagos confirmados</span></div>
-    <div class="grafico-barras">
-        @foreach (var sucursal in sucursales)
-        {
-            int altura = (int)Math.Round(sucursal.Ingresos / maximo * 220);
-            <div class="barra-item"><div class="barra" style="height:@(Math.Max(4, altura))px" title="@sucursal.Ingresos.ToString("C", CultureInfo.GetCultureInfo("en-US"))"></div><span>@sucursal.Nombre</span></div>
-        }
-        @if (sucursales.Count == 0) { <p>No hay sucursales registradas.</p> }
-    </div>
-</div>
-<div class="panel-asistencia">
-    <h3>Asistencia por sucursal</h3>
-    @foreach (var sucursal in sucursales)
+
+    decimal maximo = 1;
+    int asistenciaTotal = 0;
+
+    foreach (ReporteSucursalModelo sucursal in Model.Sucursales)
     {
-        int proporcion = asistenciaTotal == 0 ? 0 : (int)Math.Round(sucursal.Asistencias * 100.0 / asistenciaTotal);
-        <div class="progreso-fila"><span class="progreso-nombre">@sucursal.Nombre</span><div class="progreso-barra"><div class="progreso-relleno" style="width:@proporcion%"></div></div><span class="progreso-porcentaje">@sucursal.Asistencias</span></div>
-    }
-    @if (sucursales.Count == 0) { <p>No hay sucursales registradas.</p> }
-</div>
-<div class="panel-tabla">
-    <div class="panel-encabezado"><h3>Membresías por vencer (próximos 15 días)</h3><a asp-controller="Clientes" asp-action="Index">Ver todas</a></div>
-    <table class="tabla-membresias"><thead><tr><th>Cliente</th><th>Plan</th><th>Sucursal</th><th>Vence</th><th>Estado</th></tr></thead>
-        <tbody>
-        @foreach (var m in proximas)
+        if (sucursal.Ingresos > maximo)
         {
-            <tr><td class="celda-cliente">@m.Cliente</td><td>@m.Plan</td><td>@m.Sucursal</td><td>@m.Fecha.ToString("dd MMM yyyy", CultureInfo.GetCultureInfo("es-SV"))</td><td><span class="badge-estado ambar">Por vencer</span></td></tr>
+            maximo = sucursal.Ingresos;
         }
-        @if (proximas.Count == 0) { <tr><td colspan="5">No hay membresías próximas a vencer.</td></tr> }
+
+        asistenciaTotal += sucursal.Asistencias;
+    }
+
+    int asistenciasGenerales = ViewBag.Asistencias;
+    int asistenciasSinSucursal =
+        asistenciasGenerales - asistenciaTotal;
+
+    if (asistenciasSinSucursal < 0)
+    {
+        asistenciasSinSucursal = 0;
+    }
+}
+
+<div class="dashboard-encabezado">
+
+    <div>
+        <h2>Dashboard</h2>
+
+        <p class="dashboard-subtitulo">
+            Resumen del desempeño ·
+            @DateTime.Today.ToString(
+            "MMMM yyyy",
+                        CultureInfo.GetCultureInfo("es-SV"))
+        </p>
+    </div>
+
+    <span class="dashboard-select">
+        Todas las sucursales
+    </span>
+
+</div>
+
+<div class="tarjetas-stats">
+
+    <div class="tarjeta-stat">
+        <div class="stat-encabezado">
+            <span class="stat-icono">$</span>
+        </div>
+
+        <p class="stat-numero">
+            @(((decimal)ViewBag.Ingresos).ToString(
+                        "C",
+                        CultureInfo.GetCultureInfo("en-US")))
+        </p>
+
+        <p class="stat-etiqueta">
+            Ingresos confirmados
+        </p>
+    </div>
+
+    <div class="tarjeta-stat">
+        <div class="stat-encabezado">
+            <span class="stat-icono">●</span>
+        </div>
+
+        <p class="stat-numero">
+            @ViewBag.Clientes
+        </p>
+
+        <p class="stat-etiqueta">
+            Clientes registrados
+        </p>
+    </div>
+
+    <div class="tarjeta-stat">
+        <div class="stat-encabezado">
+            <span class="stat-icono">✓</span>
+        </div>
+
+        <p class="stat-numero">
+            @ViewBag.Asistencias
+        </p>
+
+        <p class="stat-etiqueta">
+            Asistencias registradas
+        </p>
+    </div>
+
+    <div class="tarjeta-stat">
+        <div class="stat-encabezado">
+            <span class="stat-icono">▣</span>
+        </div>
+
+        <p class="stat-numero">
+            @ViewBag.PorVencer
+        </p>
+
+        <p class="stat-etiqueta">
+            Membresías por vencer
+        </p>
+    </div>
+
+</div>
+
+<div class="panel-grafico">
+
+    <div class="panel-encabezado">
+
+        <h3>Ingresos por sucursal</h3>
+
+        <span class="panel-nota">
+            USD · pagos confirmados
+        </span>
+
+    </div>
+
+    <div class="grafico-barras">
+
+        @foreach (ReporteSucursalModelo sucursal in Model.Sucursales)
+        {
+            int altura = (int)(sucursal.Ingresos * 220 / maximo);
+
+            if (altura < 4)
+            {
+                altura = 4;
+            }
+
+            <div class="barra-item">
+
+                <div class="barra"
+                     style="height:@(altura)px"
+                     title="@sucursal.Ingresos.ToString("C", CultureInfo.GetCultureInfo("en-US"))">
+                </div>
+
+                <span>@sucursal.Nombre</span>
+
+            </div>
+        }
+
+        @if (Model.Sucursales.Count == 0)
+        {
+            <p>No hay sucursales registradas.</p>
+        }
+
+    </div>
+
+</div>
+
+<div class="panel-asistencia">
+
+    <h3>Asistencia por sucursal</h3>
+
+    @foreach (ReporteSucursalModelo sucursal in Model.Sucursales)
+    {
+        int proporcion = 0;
+
+        if (asistenciaTotal > 0)
+        {
+            proporcion = sucursal.Asistencias * 100 / asistenciaTotal;
+        }
+
+        <div class="progreso-fila">
+
+            <span class="progreso-nombre">
+                @sucursal.Nombre
+            </span>
+
+            <div class="progreso-barra">
+                <div class="progreso-relleno"
+                     style="width:@(proporcion)%">
+                </div>
+            </div>
+
+            <span class="progreso-porcentaje">
+                @sucursal.Asistencias
+            </span>
+
+        </div>
+    }
+
+    @if (Model.Sucursales.Count == 0)
+    {
+        <p>No hay sucursales registradas.</p>
+    }
+
+    @if (asistenciasSinSucursal > 0)
+    {
+        <p class="text-secondary"
+           style="margin-top:15px;">
+
+            @asistenciasSinSucursal asistencia(s) no pueden
+            asociarse a una sucursal mediante una reserva.
+
+        </p>
+    }
+
+</div>
+
+<div class="panel-tabla">
+
+    <div class="panel-encabezado">
+
+        <h3>
+            Membresías por vencer (próximos 15 días)
+        </h3>
+
+        <a asp-controller="Clientes"
+           asp-action="Index">
+            Ver todas
+        </a>
+
+    </div>
+
+    <table class="tabla-membresias">
+
+        <thead>
+            <tr>
+                <th scope="col">Cliente</th>
+                <th scope="col">Plan</th>
+                <th scope="col">Sucursal</th>
+                <th scope="col">Vence</th>
+                <th scope="col">Estado</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (ProximaMembresiaModelo membresia in Model.Proximas)
+            {
+                <tr>
+
+                    <td class="celda-cliente">
+                        @membresia.Cliente
+                    </td>
+
+                    <td>@membresia.Plan</td>
+
+                    <td>@membresia.Sucursal</td>
+
+                    <td>
+                        @membresia.Fecha.ToString(
+                        "dd MMM yyyy",
+                                        CultureInfo.GetCultureInfo("es-SV"))
+                </td>
+
+                <td>
+                    <span class="badge-estado ambar">
+                        Por vencer
+                    </span>
+                </td>
+
+            </tr>
+                        }
+
+            @if (Model.Proximas.Count == 0)
+            {
+                <tr>
+                    <td colspan="5">
+                        No hay membresías próximas a vencer.
+                    </td>
+                </tr>
+            }
+
         </tbody>
+
     </table>
+
 </div>

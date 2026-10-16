@@ -2,13 +2,15 @@
     ViewData["Title"] = "Inicio";
     ViewData["CSS"] = "~/css/estilo.css";
     ViewData["ClaseBody"] = "inicio-netofit";
+
+    int? rol = Context.Session.GetInt32("Rol");
 }
 
 <section class="hero">
     <img src="~/images/hero.png" alt="Gimnasio" class="hero-imagen" />
     <div class="hero-overlay"></div>
     <div class="contenedor hero-texto">
-        <span class="badge-lima">🔥 Nueva temporada · Inscripción abierta</span>
+        <span class="badge-lima"> Nueva temporada · Inscripción abierta</span>
         <h1 class="hero-titulo">
             ENTRENA<br />SIN<br /><span class="texto-lima">LÍMITES.</span>
         </h1>
@@ -119,7 +121,37 @@
 
 <section class="cta-banner">
     <div class="contenedor cta-interno">
-        <p>♡ Tu primera semana es gratis. Empieza hoy.</p>
-        <a asp-controller="Account" asp-action="Registro" class="boton boton-blanco">Comenzar ahora</a>
+
+        @if (rol == 2)
+        {
+            <p>♡ Continúa avanzando en tus objetivos.</p>
+
+            <a asp-controller="Perfil"
+               asp-action="Index"
+               class="boton boton-blanco">
+                Mi perfil
+            </a>
+        }
+        else if (rol == 1)
+        {
+            <p>♡ Administra tu gimnasio desde un solo lugar.</p>
+
+            <a asp-controller="Admin"
+               asp-action="Dashboard"
+               class="boton boton-blanco">
+                Ir al panel
+            </a>
+        }
+        else
+        {
+            <p>♡ Tu primera semana es gratis. Empieza hoy.</p>
+
+            <a asp-controller="Account"
+               asp-action="Registro"
+               class="boton boton-blanco">
+                Comenzar ahora
+            </a>
+        }
+
     </div>
 </section>

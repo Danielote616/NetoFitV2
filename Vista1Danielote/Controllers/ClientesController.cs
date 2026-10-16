@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Vista1Danielote.DAL;
@@ -8,52 +9,82 @@ namespace Vista1Danielote.Controllers;
 public class ClientesController : Controller
 {
     [HttpGet]
-    public IActionResult Index(string? busqueda, string estado = "Todos")
+    public IActionResult Index(
+        string? busqueda,
+        string estado = "Todos")
     {
         if (HttpContext.Session.GetInt32("Rol") != 1)
+        {
             return RedirectToAction("Login", "Account");
+        }
+
         ClientesDAL datos = new ClientesDAL();
+
         List<ClienteModelo> todos = datos.ObtenerClientes();
         List<ClienteModelo> clientes = new List<ClienteModelo>();
+
         int totalClientes = todos.Count;
 
         busqueda = busqueda?.Trim() ?? "";
-        if (!string.Equals(estado, "Activa", StringComparison.OrdinalIgnoreCase)
-            && !string.Equals(estado, "Por vencer", StringComparison.OrdinalIgnoreCase)
-            && !string.Equals(estado, "Vencida", StringComparison.OrdinalIgnoreCase))
-        {
-            estado = "Todos";
-        }
-        else if (string.Equals(estado, "Activa", StringComparison.OrdinalIgnoreCase))
+
+        if (string.Equals(estado, "Activa",
+            StringComparison.OrdinalIgnoreCase))
         {
             estado = "Activa";
         }
-        else if (string.Equals(estado, "Por vencer", StringComparison.OrdinalIgnoreCase))
+        else if (string.Equals(estado, "Por vencer",
+            StringComparison.OrdinalIgnoreCase))
         {
             estado = "Por vencer";
         }
-        else
+        else if (string.Equals(estado, "Vencida",
+            StringComparison.OrdinalIgnoreCase))
         {
             estado = "Vencida";
+        }
+        else if (string.Equals(estado, "Pendiente",
+            StringComparison.OrdinalIgnoreCase))
+        {
+            estado = "Pendiente";
+        }
+        else if (string.Equals(estado, "Programada",
+            StringComparison.OrdinalIgnoreCase))
+        {
+            estado = "Programada";
+        }
+        else
+        {
+            estado = "Todos";
         }
 
         foreach (ClienteModelo cliente in todos)
         {
-            bool coincideBusqueda = busqueda == ""
-                || cliente.Nombre.Contains(busqueda, StringComparison.OrdinalIgnoreCase)
-                || cliente.Correo.Contains(busqueda, StringComparison.OrdinalIgnoreCase)
-                || cliente.Telefono.Contains(busqueda, StringComparison.OrdinalIgnoreCase)
-                || cliente.Plan.Contains(busqueda, StringComparison.OrdinalIgnoreCase)
-                || cliente.Sucursal.Contains(busqueda, StringComparison.OrdinalIgnoreCase);
-            bool coincideEstado = estado == "Todos" || cliente.Estado == estado;
+            bool coincideBusqueda =
+                busqueda == "" ||
+                cliente.Nombre.Contains(
+                    busqueda, StringComparison.OrdinalIgnoreCase) ||
+                cliente.Correo.Contains(
+                    busqueda, StringComparison.OrdinalIgnoreCase) ||
+                cliente.Telefono.Contains(
+                    busqueda, StringComparison.OrdinalIgnoreCase) ||
+                cliente.Plan.Contains(
+                    busqueda, StringComparison.OrdinalIgnoreCase) ||
+                cliente.Sucursal.Contains(
+                    busqueda, StringComparison.OrdinalIgnoreCase);
+
+            bool coincideEstado =
+                estado == "Todos" || cliente.Estado == estado;
+
             if (coincideBusqueda && coincideEstado)
             {
                 clientes.Add(cliente);
             }
         }
+
         ViewBag.Busqueda = busqueda;
         ViewBag.Estado = estado;
         ViewBag.TotalClientes = totalClientes;
+
         return View(clientes);
     }
 
@@ -62,12 +93,14 @@ public class ClientesController : Controller
     {
         if (HttpContext.Session.GetInt32("Rol") != 1)
             return RedirectToAction("Login", "Account");
+
         ClientesDAL datos = new ClientesDAL();
         ClienteModelo? cliente = datos.ObtenerPorId(id);
+
         if (cliente == null) { return NotFound(); }
+
         return View(cliente);
     }
-
 
     [HttpGet]
     public IActionResult Formulario(int? id)
@@ -96,7 +129,7 @@ public class ClientesController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
+    
     public IActionResult Formulario(ClienteFormularioAdminModelo modelo)
     {
         if (HttpContext.Session.GetInt32("Rol") != 1) return RedirectToAction("Login", "Account");
@@ -139,7 +172,7 @@ public class ClientesController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
+    
     public IActionResult Eliminar(int id)
     {
         if (HttpContext.Session.GetInt32("Rol") != 1) return RedirectToAction("Login", "Account");

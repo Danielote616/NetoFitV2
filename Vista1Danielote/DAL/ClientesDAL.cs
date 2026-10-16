@@ -1,82 +1,187 @@
+
 using Microsoft.Data.SqlClient;
 using Vista1Danielote.Models;
 
-namespace Vista1Danielote.DAL;
-
-public class ClientesDAL
+namespace Vista1Danielote.DAL
 {
-    private readonly Conexion conexion = new Conexion();
-
-    public List<ClienteModelo> ObtenerClientes()
+    public class ClientesDAL
     {
-        return ConsultarClientes(null);
-    }
+        private readonly Conexion conexion = new Conexion();
 
-    public ClienteModelo? ObtenerPorId(int id)
-    {
-        List<ClienteModelo> clientes = ConsultarClientes(id);
-        if (clientes.Count == 0)
-            return null;
-        return clientes[0];
-    }
-
-    private List<ClienteModelo> ConsultarClientes(int? id)
-    {
-        List<ClienteModelo> clientes = new List<ClienteModelo>();
-        string sql = @"
-            SELECT c.id_cliente, c.nombre, c.email, c.telefono,
-                   m.fecha_fin, m.estado,
-                   p.nombre AS plan_nombre, s.nombre AS sucursal_nombre
-            FROM Cliente c
-            OUTER APPLY (
-                SELECT TOP 1 mm.fecha_fin, mm.estado, mm.id_plan, mm.id_sucursal
-                FROM Membresias mm
-                WHERE mm.id_cliente = c.id_cliente
-                ORDER BY mm.fecha_fin DESC, mm.id_membresia DESC
-            ) m
-            LEFT JOIN Planes p ON m.id_plan = p.id_plan
-            LEFT JOIN Sucursal s ON m.id_sucursal = s.id_sucursal
-            WHERE (@IdCliente IS NULL OR c.id_cliente = @IdCliente)
-            ORDER BY c.nombre";
-
-        using (SqlConnection con = conexion.GetConnection())
+        public List<ClienteModelo> ObtenerClientes()
         {
-            con.Open();
-            using (SqlCommand cmd = new SqlCommand(sql, con))
-            {
-                cmd.Parameters.AddWithValue("@IdCliente", id.HasValue ? (object)id.Value : DBNull.Value);
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        bool tieneMembresia = reader["fecha_fin"] != DBNull.Value;
-                        DateTime vencimiento = tieneMembresia ? Convert.ToDateTime(reader["fecha_fin"]) : DateTime.MinValue;
-                        string estado = "Sin membresía";
-                        if (tieneMembresia)
-                        {
-                            if (vencimiento.Date < DateTime.Today)
-                                estado = "Vencida";
-                            else if (vencimiento.Date <= DateTime.Today.AddDays(7))
-                                estado = "Por vencer";
-                            else
-                                estado = "Activa";
-                        }
+            return ConsultarClientes(null);
+        }
 
-                        clientes.Add(new ClienteModelo
+        public ClienteModelo? ObtenerPorId(int id)
+        {
+            List<ClienteModelo> clientes = ConsultarClientes(id);
+
+            if (clientes.Count == 0)
+            {
+                return null;
+            }
+
+            return clientes[0];
+        }
+
+        private List<ClienteModelo> ConsultarClientes(int? id)
+        {
+            List<ClienteModelo> clientes =
+                new List<ClienteModelo>();
+
+            using (SqlConnection con = conexion.GetConnection())
+            {
+                con.Open();
+
+                string sqlClientes = @"
+                    SELECT id_cliente, nombre, email, telefono
+                    FROM Cliente";
+
+                if (id.HasValue)
+                {
+                    sqlClientes += " WHERE id_cliente = @Id";
+                }
+
+                sqlClientes += " ORDER BY nombre";
+
+                using (SqlCommand cmd =
+                    new SqlCommand(sqlClientes, con))
+                {
+                    if (id.HasValue)
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@Id", id.Value);
+                    }
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
                         {
-                            Id = Convert.ToInt32(reader["id_cliente"]),
-                            Nombre = reader["nombre"].ToString() ?? "",
-                            Correo = reader["email"].ToString() ?? "",
-                            Telefono = reader["telefono"] == DBNull.Value ? "Sin teléfono" : reader["telefono"].ToString() ?? "",
-                            Plan = reader["plan_nombre"] == DBNull.Value ? "Sin plan" : reader["plan_nombre"].ToString() ?? "",
-                            Sucursal = reader["sucursal_nombre"] == DBNull.Value ? "Sin asignar" : reader["sucursal_nombre"].ToString() ?? "",
-                            FechaVencimiento = vencimiento,
-                            Estado = estado
-                        });
+                            ClienteModelo cliente = new ClienteModelo();
+
+                            cliente.Id = reader.GetInt32(0);
+                            cliente.Nombre = reader.GetString(1);
+                            cliente.Correo = reader.GetString(2);
+
+                            cliente.Telefono = reader[3] == DBNull.Value
+                                ? "Sin teléfono"
+                                : reader[3]?.ToString() ?? "Sin teléfono";
+
+                            cliente.Plan = "Sin plan";
+                            cliente.Sucursal = "Sin asignar";
+                            cliente.Estado = "Sin membresía";
+                            cliente.FechaVencimiento = DateTime.MinValue;
+
+                            clientes.Add(cliente);
+                        }
+                    }
+                }
+
+                foreach (ClienteModelo cliente in clientes)
+                {
+                    string sqlMembresias = @"
+                        SELECT m.fecha_inicio,
+                               m.fecha_fin,
+                               m.estado,
+                               p.nombre,
+                               s.nombre
+                        FROM Membresias m
+                        LEFT JOIN Planes p
+                            ON p.id_plan = m.id_plan
+                        LEFT JOIN Sucursal s
+                            ON s.id_sucursal = m.id_sucursal
+                        WHERE m.id_cliente = @Cliente
+                        ORDER BY m.fecha_fin DESC";
+
+                    using (SqlCommand cmd =
+                        new SqlCommand(sqlMembresias, con))
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@Cliente", cliente.Id);
+
+                        int mejorPrioridad = 100;
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                DateTime inicio =
+                                    reader.GetDateTime(0);
+
+                                DateTime fin =
+                                    reader.GetDateTime(1);
+
+                                string estadoBD =
+                                    reader[2]?.ToString() ?? "";
+
+                                int prioridad = 3;
+
+                                if (estadoBD == "Activa" &&
+                                    inicio.Date <= DateTime.Today &&
+                                    fin.Date >= DateTime.Today)
+                                {
+                                    prioridad = 0;
+                                }
+                                else if (estadoBD == "Pendiente")
+                                {
+                                    prioridad = 1;
+                                }
+                                else if (estadoBD == "Activa" &&
+                                         inicio.Date > DateTime.Today)
+                                {
+                                    prioridad = 2;
+                                }
+
+                                if (prioridad < mejorPrioridad)
+                                {
+                                    mejorPrioridad = prioridad;
+
+                                    cliente.FechaVencimiento = fin;
+
+                                    cliente.Plan = reader[3] == DBNull.Value
+                                        ? "Sin plan"
+                                        : reader[3]?.ToString() ?? "Sin plan";
+
+                                    cliente.Sucursal = reader[4] == DBNull.Value
+                                        ? "Sin asignar"
+                                        : reader[4]?.ToString() ?? "Sin asignar";
+
+                                    if (estadoBD == "Pendiente")
+                                    {
+                                        cliente.Estado = "Pendiente";
+                                    }
+                                    else if (estadoBD == "Activa" &&
+                                             inicio.Date > DateTime.Today)
+                                    {
+                                        cliente.Estado = "Programada";
+                                    }
+                                    else if (estadoBD == "Activa" &&
+                                             fin.Date < DateTime.Today)
+                                    {
+                                        cliente.Estado = "Vencida";
+                                    }
+                                    else if (estadoBD == "Activa" &&
+                                             fin.Date <= DateTime.Today.AddDays(7))
+                                    {
+                                        cliente.Estado = "Por vencer";
+                                    }
+                                    else if (estadoBD == "Activa")
+                                    {
+                                        cliente.Estado = "Activa";
+                                    }
+                                    else
+                                    {
+                                        cliente.Estado = estadoBD;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
+
+            return clientes;
         }
-        return clientes;
     }
 }

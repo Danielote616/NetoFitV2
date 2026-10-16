@@ -17,7 +17,7 @@ namespace Vista1Danielote.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -89,7 +89,7 @@ namespace Vista1Danielote.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult Registro(RegistroViewModel model)
         {
             string correo = (model.Email ?? "").Trim().ToLowerInvariant();

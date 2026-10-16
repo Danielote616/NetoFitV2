@@ -1,46 +1,202 @@
 @model Vista1Danielote.Models.FormularioOfertaViewModel
+
 @{
     Layout = "~/Views/Shared/_LayoutOfertaNetoFit.cshtml";
     ViewData["Title"] = Model.Id.HasValue ? "Editar " + Model.Seccion.ToLower() : "Agregar " + Model.Seccion.ToLower();
     ViewData["CSS"] = "~/css/OfertaNetoFit.css";
-    var sucursales = (List<(int Id, string Nombre)>)ViewBag.Sucursales;
-    var clases = (List<(int Id, string Nombre)>)ViewBag.Clases;
-    var entrenadores = (List<(int Id, string Nombre)>)ViewBag.Entrenadores;
+
+    List<Vista1Danielote.Models.OpcionModelo> sucursales =
+        (List<Vista1Danielote.Models.OpcionModelo>)ViewBag.Sucursales;
+
+    List<Vista1Danielote.Models.OpcionModelo> clases =
+        (List<Vista1Danielote.Models.OpcionModelo>)ViewBag.Clases;
+
+    List<Vista1Danielote.Models.OpcionModelo> entrenadores =
+        (List<Vista1Danielote.Models.OpcionModelo>)ViewBag.Entrenadores;
 }
-<section class="oferta-seccion oferta-seccion-formulario" aria-labelledby="oferta-formulario-titulo">
-    <a class="oferta-volver" asp-controller="OfertaDeportiva" asp-action="Index" asp-route-seccion="@Model.Seccion">← Volver a @Model.Seccion.ToLower()</a>
-    <div class="oferta-cabecera-seccion"><div><h1 id="oferta-formulario-titulo">@(Model.Id.HasValue ? "Editar" : "Agregar") @Model.Seccion.ToLower()</h1><p>Registro conectado a SQL Server</p></div></div>
-    <form asp-controller="OfertaDeportiva" asp-action="Formulario" method="post" class="oferta-formulario-marco">
-        <input asp-for="Id" type="hidden" /><input asp-for="Seccion" type="hidden" />
-        <div asp-validation-summary="All" style="color:#ef4444; margin-bottom:15px;"></div>
+
+<section class="oferta-seccion oferta-seccion-formulario"
+         aria-labelledby="oferta-formulario-titulo">
+
+    <a class="oferta-volver"
+       asp-controller="OfertaDeportiva"
+       asp-action="Index"
+       asp-route-seccion="@Model.Seccion">
+        ← Volver a @Model.Seccion.ToLower()
+    </a>
+
+    <div class="oferta-cabecera-seccion">
+        <div>
+            <h1 id="oferta-formulario-titulo">
+                @(Model.Id.HasValue ? "Editar" : "Agregar")
+                @Model.Seccion.ToLower()
+            </h1>
+            <p>Registro conectado a SQL Server</p>
+        </div>
+    </div>
+
+    <form asp-controller="OfertaDeportiva"
+          asp-action="Formulario"
+          method="post"
+          class="oferta-formulario-marco">
+
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="Seccion" type="hidden" />
+
+        <div asp-validation-summary="All"
+             style="color:#ef4444; margin-bottom:15px;">
+        </div>
+
         <div class="oferta-formulario-rejilla">
+
             @if (Model.Seccion == "Entrenadores")
             {
-                <div class="oferta-campo"><label asp-for="Nombre">Nombre del entrenador</label><input asp-for="Nombre" required /></div>
-                <div class="oferta-campo"><label asp-for="Especialidad">Especialidad</label><input asp-for="Especialidad" /></div>
-                <div class="oferta-campo"><label asp-for="Email">Correo electrónico</label><input asp-for="Email" type="email" /></div>
-                <div class="oferta-campo"><label asp-for="Certificaciones">Certificaciones</label><input asp-for="Certificaciones" /></div>
-                <div class="oferta-campo"><label asp-for="IdSucursal">Sucursal</label><select asp-for="IdSucursal" required><option value="0">Seleccionar sucursal</option>@foreach (var item in sucursales) { <option value="@item.Id">@item.Nombre</option> }</select></div>
+                <div class="oferta-campo">
+                    <label asp-for="Nombre">Nombre del entrenador</label>
+                    <input asp-for="Nombre" required />
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="Especialidad">Especialidad</label>
+                    <input asp-for="Especialidad" />
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="Email">Correo electrónico</label>
+                    <input asp-for="Email" type="email" />
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="Certificaciones">Certificaciones</label>
+                    <input asp-for="Certificaciones" />
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="IdSucursal">Sucursal</label>
+
+                    <select asp-for="IdSucursal" required>
+                        <option value="0">Seleccionar sucursal</option>
+
+                        @foreach (var item in sucursales)
+                        {
+                            <option value="@item.Id">@item.Nombre</option>
+                        }
+                    </select>
+                </div>
             }
             else if (Model.Seccion == "Clases")
             {
-                <div class="oferta-campo"><label asp-for="Nombre">Nombre de la clase</label><input asp-for="Nombre" required /></div>
-                <div class="oferta-campo"><label asp-for="Tipo">Tipo de clase</label><input asp-for="Tipo" /></div>
-                <div class="oferta-campo"><label asp-for="IdSucursal">Sucursal</label><select asp-for="IdSucursal" required><option value="0">Seleccionar sucursal</option>@foreach (var item in sucursales) { <option value="@item.Id">@item.Nombre</option> }</select></div>
-                <div class="oferta-campo"><label asp-for="DuracionMinutos">Duración (minutos)</label><input asp-for="DuracionMinutos" type="number" min="1" required /></div>
-                <div class="oferta-campo"><label asp-for="Cupos">Cupos totales</label><input asp-for="Cupos" type="number" min="1" required /></div>
+                <div class="oferta-campo">
+                    <label asp-for="Nombre">Nombre de la clase</label>
+                    <input asp-for="Nombre" required />
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="Tipo">Tipo de clase</label>
+                    <input asp-for="Tipo" />
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="IdSucursal">Sucursal</label>
+
+                    <select asp-for="IdSucursal" required>
+                        <option value="0">Seleccionar sucursal</option>
+
+                        @foreach (var item in sucursales)
+                        {
+                            <option value="@item.Id">@item.Nombre</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="DuracionMinutos">Duración (minutos)</label>
+                    <input asp-for="DuracionMinutos"
+                           type="number"
+                           min="1"
+                           required />
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="Cupos">Cupos totales</label>
+                    <input asp-for="Cupos"
+                           type="number"
+                           min="1"
+                           required />
+                </div>
             }
             else
             {
-                <div class="oferta-campo"><label asp-for="IdClase">Clase</label><select asp-for="IdClase" required><option value="0">Seleccionar clase</option>@foreach (var item in clases) { <option value="@item.Id">@item.Nombre</option> }</select></div>
-                <div class="oferta-campo"><label asp-for="IdEntrenador">Entrenador</label><select asp-for="IdEntrenador" required><option value="0">Seleccionar entrenador</option>@foreach (var item in entrenadores) { <option value="@item.Id">@item.Nombre</option> }</select></div>
-                <div class="oferta-campo"><label asp-for="Fecha">Fecha</label><input asp-for="Fecha" type="date" required /></div>
-                <div class="oferta-campo"><label asp-for="HoraInicio">Hora de inicio</label><input asp-for="HoraInicio" type="time" required /></div>
-                <div class="oferta-campo"><label asp-for="HoraFin">Hora de finalización</label><input asp-for="HoraFin" type="time" required /></div>
+                <div class="oferta-campo">
+                    <label asp-for="IdClase">Clase</label>
+
+                    <select asp-for="IdClase" required>
+                        <option value="0">Seleccionar clase</option>
+
+                        @foreach (var item in clases)
+                        {
+                            <option value="@item.Id">@item.Nombre</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="IdEntrenador">Entrenador</label>
+
+                    <select asp-for="IdEntrenador" required>
+                        <option value="0">Seleccionar entrenador</option>
+
+                        @foreach (var item in entrenadores)
+                        {
+                            <option value="@item.Id">@item.Nombre</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="Fecha">Fecha</label>
+                    <input asp-for="Fecha"
+                           type="date"
+                           required />
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="HoraInicio">Hora de inicio</label>
+                    <input asp-for="HoraInicio"
+                           type="time"
+                           required />
+                </div>
+
+                <div class="oferta-campo">
+                    <label asp-for="HoraFin">Hora de finalización</label>
+                    <input asp-for="HoraFin"
+                           type="time"
+                           required />
+                </div>
             }
+
         </div>
-        <div class="oferta-formulario-acciones"><p>Los datos se guardarán en la base de datos NetoFitV2.</p>
-            <div><a class="oferta-boton-cancelar" asp-controller="OfertaDeportiva" asp-action="Index" asp-route-seccion="@Model.Seccion">Cancelar</a><button type="submit" class="oferta-boton-agregar">Guardar cambios</button></div>
+
+        <div class="oferta-formulario-acciones">
+
+            <p>Los datos se guardarán en la base de datos NetoFitV2.</p>
+
+            <div>
+                <a class="oferta-boton-cancelar"
+                   asp-controller="OfertaDeportiva"
+                   asp-action="Index"
+                   asp-route-seccion="@Model.Seccion">
+                    Cancelar
+                </a>
+
+                <button type="submit"
+                        class="oferta-boton-agregar">
+                    Guardar cambios
+                </button>
+            </div>
+
         </div>
+
     </form>
+
 </section>
